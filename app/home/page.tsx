@@ -1,10 +1,11 @@
-import HomeNavbar from "./ui/navbar";
-import WelcomeNote from "./ui/section";
-import LeadingBrand from "./ui/brand";
-import OurSolutions from "./ui/oursolutions";
-import CommunityEngagement from "./ui/community";
-import Cta from "./ui/cta";
-import Footer from "./ui/footer";
+import { WelcomeNote } from "../ui/section";
+import LeadingBrand from "../ui/brand";
+import {OurSolutions} from "../ui/oursolutions";
+import CommunityEngagement from "../ui/community";
+import {Cta} from "../ui/cta";
+import HomeNavbar from "../ui/navbar";
+import Footer from "../ui/footer";
+
 
 export default function HomePage() {
   return (

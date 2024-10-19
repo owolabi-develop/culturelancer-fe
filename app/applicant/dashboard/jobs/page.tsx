@@ -1,7 +1,9 @@
-export default function DashBoard() {
+import { ApplicantJobs} from "@/app/ui/applicant/dashboard/jobs";
+
+export default function ApplicantDashboardJobs() {
     return (
       <>
-      <h1>jobs</h1>
+      <ApplicantJobs/>
       </>
     
     );

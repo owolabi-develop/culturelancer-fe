@@ -273,7 +273,7 @@ export function WorkCta(){
 
             {/* third */}
 
-            <div className="rounded py-5 p-6 border shadow-lg">
+            <div className="rounded py-5  border shadow-lg">
                     <h1 className="font-bold text-xl mb-3">Enterprise</h1>
                     <div className="flex flex-row flex-nowrap space-x-3  p-4">
                     <ul className="list-disc [&>*]:p-1">

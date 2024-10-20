@@ -8,7 +8,7 @@ function HomeNavbar() {
   const pathname = usePathname();
 
   const linkPaths = [
-    { path: "/home", title: "Home" },
+    { path: "/", title: "Home" },
     // { path: "/about", title: "About" },
     // { path: "/contact", title: "Contact" },
     { path: "/signup/options", title: "Sign up", hideOn: ['/signup/options', '/signup/employer', '/signup/applicant'] },

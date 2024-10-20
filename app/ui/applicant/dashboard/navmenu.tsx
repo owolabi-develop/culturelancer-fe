@@ -99,7 +99,7 @@ function DashboardNavbar() {
         <div className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block z-10`}>
         <ul className='list-none cursor-pointer mt-10 inline [&>*]:p-3'>
           <li>
-            <Link href="/settings" className="text-slate-700 hover:bg-[black]">
+            <Link href="/applicant/settings/profile-details-skills" className="text-slate-700 hover:bg-[black]">
               <div className='flex text-center space-x-2'>
                 <CiSettings className='text-3xl' />
                 <span>Setting</span>

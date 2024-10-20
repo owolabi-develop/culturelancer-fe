@@ -96,7 +96,7 @@ function DashboardNavbar() {
 
     {/* dropdown */}
     {isOpen && (
-        <div className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block`}>
+        <div className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block z-10`}>
         <ul className='list-none cursor-pointer mt-10 inline [&>*]:p-3'>
           <li>
             <Link href="/settings" className="text-slate-700 hover:bg-[black]">

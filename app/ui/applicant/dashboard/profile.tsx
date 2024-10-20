@@ -31,9 +31,12 @@ export  function ApplicantUserProfile(){
                             <p className='font-semibold text-xl'>Seniorsoftware Engineer</p>
                             <p className='font-semibold text-base'>San Francisco, CA</p>
 
+                            {/* progress bar */}
+
                         <div className="w-[17rem] xl:w-[40rem] md:w-[20rem] bg-gray-200 rounded-full h-2.5 ">
                             <div className={`bg-[gray] h-2.5 rounded-full w-[70%]`}></div>
                         </div>
+                        {/* progress bar */}
                         <p>Add Work Experience to reach 80%</p>
 
                         </div>

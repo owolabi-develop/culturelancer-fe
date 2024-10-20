@@ -58,15 +58,9 @@ export  function ApplicantCoursePage(){
 
 {/* details 2 */}
 
-<div className='w-full flex flex-row'>
-            <div className='w-2/3 flex items-center '>
+<div className='w-full'>
             <button className="py-1 rounded-full bg-[#afaeae] px-1">Cerification Avaliable</button>
-            </div>
-
-            <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full'>
-            <button className='bg-[#1a1919] text-[lightgray] py-2 px-5 rounded'>Enroll Now</button>
-            </div>
-
+            <button className='bg-[#1a1919] text-[lightgray] py-2 px-5 rounded mt-3 md:ml-52'>Enroll Now</button>
     </div>
 
 {/* details 2 */}

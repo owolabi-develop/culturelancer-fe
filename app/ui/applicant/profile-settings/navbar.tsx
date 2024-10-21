@@ -22,10 +22,12 @@ function SettingsNavbar() {
 
   return (
     <nav className=' px-20 items-center w-full flex justify-between font-semibold'>
+      <Link  href='/'>
       <div className='grid grid-cols-2 p-4 items-center justify-center gap-5'>
         <div className='bg-[#cccbc8] rounded-full w-11 h-11'></div>
         <div className='logo-text w-11 h-11'><h1 className='leading-10 font-bold'>CultureLancer</h1></div>
       </div>
+      </Link>
 
       <div className='md:flex basis-[85%]'>
         <div className="navtext basis-[70%] order-1 p-2"></div>

@@ -14,7 +14,7 @@ function HomeNavbar() {
     { path: "/signup/options", title: "Sign up", hideOn: ['/signup/options', '/signup/employer', '/signup/applicant'] },
   ];
 
-  const renderLink = ({ path, title, hideOn }:any) => {
+  const renderLink = ({ path, title, hideOn }:{path:string,title:string,hideOn:string[]}) => {
     if (hideOn && hideOn.includes(pathname)) {
       return null;
     }

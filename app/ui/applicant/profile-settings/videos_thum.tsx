@@ -17,13 +17,13 @@ const VideoThumbnail = ({source_url}:any) => {
 
    
     return (
-        <div className="relative w-full max-w-2xl mx-auto rounded-lg overflow-hidden shadow-lg cursor-pointer">
-            <video ref={videoRef} className="w-full" >
+        <div>
+            <video ref={videoRef} className=" bg-slate-300" >
       <source src={source_url} type="video/mp4"/> 
       Your browser does not support the video tag.
       </video>
             
-            <div className="absolute inset-0 bg-black opacity-30"></div>
+            <div className="absolute inset-0 bg-black opacity-30 w-[50%]"></div>
             <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
                 {playing?"":<button ref={playbtn} onClick={handlePlay} >
                 <FaPlay className='h-14 w-10 cursor-pointer'/>

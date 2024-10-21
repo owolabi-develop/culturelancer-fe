@@ -98,7 +98,7 @@ export  function ApplicantUserProfile(){
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Senior UX Designer</h3>
             <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">TechCorp Inc.</p>
             <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">February 2022</time>
-            <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">Led the redesing of the company's flagship product, resulting in 40% increase in user engagement</p>
+            <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">Led the redesing of the companys flagship product, resulting in 40% increase in user engagement</p>
         </li>
 
         <li className="mb-10 ms-4">
@@ -106,7 +106,7 @@ export  function ApplicantUserProfile(){
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Senior UX Designer</h3>
             <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">TechCorp Inc.</p>
             <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">February 2022</time>
-            <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">Led the redesing of the company's flagship product, resulting in 40% increase in user engagement</p>
+            <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">Led the redesing of the companys flagship product, resulting in 40% increase in user engagement</p>
         </li>
 
 
@@ -141,7 +141,7 @@ export  function ApplicantUserProfile(){
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Master of Designer</h3>
                     <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Design Institute</p>
                     <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">February 2022</time>
-                    <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">Led the redesing of the company's flagship product, resulting in 40% increase in user engagement</p>
+                    <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">Led the redesing of the companys flagship product, resulting in 40% increase in user engagement</p>
                 </li>
 
                 <li className="mb-10 ms-4">
@@ -149,7 +149,7 @@ export  function ApplicantUserProfile(){
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Bachelor of Arts in Grapic Design</h3>
                     <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Design Institute</p>
                     <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">February 2022</time>
-                    <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">Led the redesing of the company's flagship product, resulting in 40% increase in user engagement</p>
+                    <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">Led the redesing of the companys flagship product, resulting in 40% increase in user engagement</p>
                 </li>
 
 

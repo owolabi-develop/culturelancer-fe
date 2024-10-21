@@ -14,7 +14,7 @@ export default function SideBar(){
 
     return (
         <div className="">
-        <div className="w-full bg-white drop-shadow-lg h-screen px-5 py-5 text-center">
+        <div className="w-full h-dvh px-5 py-5 text-center">
             
             <ul className='list-none my-4 [&>*]:my-2'>
 

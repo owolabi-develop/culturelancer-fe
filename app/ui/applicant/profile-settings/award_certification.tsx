@@ -1,0 +1,114 @@
+import { RiDeleteBin6Line } from "react-icons/ri";
+
+
+export default function AwardCertification(){
+
+    return (
+        <section className="w-full ">
+            <div className="md:grid grid-cols-1 py-5 px-5">
+                {/* progress bar */}
+
+                <div className="md:w-full bg-gray-200 rounded-full h-2.5 my-3">
+                            <div className={`bg-[gray] h-2.5 rounded-full w-[55%]`}></div>
+                        </div>
+                        {/* progress bar */}
+
+                <p className="font-semibold text-[gray]">Profle Completion: 55%</p>
+
+                <h1 className="my-3 font-extrabold text-2xl"> Award & Certifications</h1>
+
+
+                {/* form container */}
+                <form>
+                <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
+                    <p className="text-xl font-semibold my-2">Add New</p>
+
+                    {/* forms input */}
+                    
+
+                    {/*  */}
+                    <div className="mb-6">
+                        <div>
+                        <label htmlFor="Title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                        <input type="text" name="title" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required />
+
+                        </div>
+
+
+                        <div>
+                        <label htmlFor="IssuingOrganization" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issuing Organization</label>
+                        <input type="text" name="issuing_organization" id="Issuing Organization" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required />
+
+                        </div>
+
+
+                        <div>
+                        <label htmlFor="" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issuing Organization</label>
+                        <input type="date" name="title" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required />
+
+                        </div>
+
+                        <div className="my-5">
+
+                        <button type="submit" className="w-full bg-[#7e7d7d] rounded py-3 text-white">Add Award</button>
+                        </div>
+                      
+                      
+                    </div> 
+                    
+                    {/* form input */}
+
+                </div>
+                
+                </form>
+                {/* forn container */}
+
+
+                
+
+
+
+                 {/* Your Awards & Certifications   */}
+                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-5 [&>*]:my-4">
+                <p className="text-xl font-semibold my-2">Your Awards & Certifications</p>
+
+                 {/* awards */}
+
+                <div className="bg-[lightgray] w-full rounded py-3 px-3">
+
+                    <div className="">
+
+                    <h1 className="font-bold text-base">Best Employee Of the</h1>
+                    
+                    <div className="flex">
+
+                    <div> 
+                    <p className="text-sm">TechCorp Inc.</p>
+                    <p className="text-sm">Recieved: Date</p>
+                    </div>
+
+                    <div className="w-full flex flex-col items-end">
+                    <div className="border rounded py-1 px-1 mx-2">
+                <RiDeleteBin6Line className="text-2xl cursor-pointer" />
+                </div>
+                   </div>
+                   </div>
+
+                    </div>
+                  
+                </div>
+                {/* awards */}
+
+    
+                </div>
+
+
+                {/* Your Awards & Certifications */}
+
+
+ 
+            </div>
+
+        </section>
+    )
+}

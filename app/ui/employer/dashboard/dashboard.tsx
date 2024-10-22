@@ -134,7 +134,7 @@ export function WelcomeHeader(){
 
                                 </div>
 
-                                 <div className="w-full md:w-[45%] flex justify-between">
+                                 <div className="w-full flex justify-between">
                                  <button className="bg-gray-200 py-2 px-4 rounded">View Profile</button>
                                  <button className="bg-black py-2 px-4 rounded text-white">Message</button>
                                 </div>
@@ -175,7 +175,7 @@ export function WelcomeHeader(){
 
                                 </div>
 
-                                 <div className="w-full md:w-[45%] flex justify-between">
+                                 <div className="w-full flex justify-between">
                                     <button className="bg-gray-200 py-2 px-4 rounded">View Profile</button>
                                     <button className="bg-black py-2 px-4 rounded text-white">Message</button>
                                 </div>

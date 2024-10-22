@@ -1,4 +1,4 @@
-
+import Link from "next/link"
 export function WelcomeHeader(){
 
     return(
@@ -135,7 +135,7 @@ export function WelcomeHeader(){
                                 </div>
 
                                  <div className="w-full flex justify-between">
-                                 <button className="bg-gray-200 py-2 px-4 rounded">View Profile</button>
+                                 <button className="bg-gray-200 py-2 px-4 rounded"><Link href="/employer/dashboard/candidate-profile">View Profile</Link></button>
                                  <button className="bg-black py-2 px-4 rounded text-white">Message</button>
                                 </div>
 
@@ -176,7 +176,7 @@ export function WelcomeHeader(){
                                 </div>
 
                                  <div className="w-full flex justify-between">
-                                    <button className="bg-gray-200 py-2 px-4 rounded">View Profile</button>
+                                    <button className="bg-gray-200 py-2 px-4 rounded"><Link href="/employer/dashboard/candidate-profile">View Profile</Link></button>
                                     <button className="bg-black py-2 px-4 rounded text-white">Message</button>
                                 </div>
 

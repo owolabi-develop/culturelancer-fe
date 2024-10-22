@@ -1,3 +1,4 @@
+import Link from "next/link"
 
 export function Candidate(){
 
@@ -105,7 +106,7 @@ export function Candidate(){
 
                             {/* controls */}
                             <div className="w-full md:flex space-x-3">
-                                 <button className="bg-gray-200 py-2 px-4 rounded">View Profile</button>
+                                 <button className="bg-gray-200 py-2 px-4 rounded"><Link href="/employer/dashboard/candidate-profile">View Profile</Link></button>
                                  <button className="border py-2 px-4 rounded">Message</button>
                                  <button className="border py-2 px-4 rounded">Shortlist</button>
                                  

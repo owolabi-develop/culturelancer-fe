@@ -1,6 +1,7 @@
 import { FaRegCalendarMinus } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsExclamationCircle } from "react-icons/bs";
+import Link from "next/link";
 export function Jobs(){
 
     return(
@@ -90,7 +91,7 @@ export function Jobs(){
 
                         <div className="[&>*]:my-2 [&>*]:mr-2 md:[&>*]:my-0">
                             <button className="border py-1 px-3 rounded">Edit</button>
-                            <button className="border py-1 px-3 rounded">View Applications</button>
+                            <button className="border py-1 px-3 rounded"><Link href="/employer/dashboard/job-details">View Applications</Link></button>
                             <button className="bg-slate-100 rounded py-1 px-3">Close Job</button>
 
                         </div>
@@ -130,7 +131,7 @@ export function Jobs(){
                         <div>
                             <h1 className="font-bold">James Bond</h1>
                             <p>8 year Experience | New York, NY</p>
-                        </div>
+                    </div>
 
                     </div>
                       {/* candidate profile */}

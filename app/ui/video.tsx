@@ -10,7 +10,6 @@ const VideoThumbnail = ({source_url}:{source_url:string}) => {
 
     const handlePlay = () => {
         if (videoRef.current) {
-            videoRef.current.play();
             setPlaying(true)
         }
     };

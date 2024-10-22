@@ -111,7 +111,7 @@ export default function AIResume(){
 
         <div className="w-full px-10 bg-[#eceaea] drop-shadow-lg rounded py-16 my-10">
         <h1 className='text-2xl font-bold md:text-2xl block text-black my-3'>What Our Users Say</h1>
-        <p>"Culturelancer AI-powered resume tool help me land my dream job. The recommendations were spot-on"</p>
+        <p>Culturelancer AI-powered resume tool help me land my dream job. The recommendations were spot-on</p>
 
         <h1 className='text-xl font-bold md:text-xl block text-black my-2'>- Sarah J. Software Engineer</h1>
         </div>

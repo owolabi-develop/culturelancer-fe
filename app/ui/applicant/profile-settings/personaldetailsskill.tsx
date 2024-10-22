@@ -259,7 +259,7 @@ export default function PersonalDetailAndSkills(){
 
                 <div className="w-full md:w-[70%] rounded px-5  bg-white drop-shadow-lg mt-10 [&>*]:my-4 m-auto md:flex justify-between ">
                     <div className="">
-                    <p className="text-sm leading-[3rem]">Save your changes by clicking the 'Save & Update'button.</p>
+                    <p className="text-sm leading-[3rem]">Save your changes by clicking the Save & Update button.</p>
                     </div>
                
                     <div className="">

@@ -1,4 +1,3 @@
-import VideoThumbnail from "./video"
 export default function CommunityEngagement(){
  
  

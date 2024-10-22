@@ -3,7 +3,7 @@ import React, { useRef,useState } from 'react';
 import { FaPlay } from "react-icons/fa";
 
 
-const VideoThumbnail = ({source_url}:any) => {
+const VideoThumbnail = ({source_url}:{source_url:string}) => {
     const videoRef = useRef(null);
     const playbtn = useRef(null);
     const [playing,setPlaying] = useState(false)

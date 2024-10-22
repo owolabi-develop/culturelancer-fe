@@ -1,4 +1,3 @@
-import VideoThumbnail from "./videos_thum"
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdEdit } from "react-icons/md";
 

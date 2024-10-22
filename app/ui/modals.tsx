@@ -1,14 +1,12 @@
 "use client";
-import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
+import { Button, Modal, } from "flowbite-react";
 import { useState } from "react";
 
 export function EducationModal() {
   const [openModal, setOpenModal] = useState(false);
-  const [email, setEmail] = useState('');
-
+  
   function onCloseModal() {
     setOpenModal(false);
-    setEmail('');
   }
 
   return (
@@ -94,11 +92,11 @@ export function EducationModal() {
 
 export function ExperienceModal() {
     const [openModal, setOpenModal] = useState(false);
-    const [email, setEmail] = useState('');
+  
   
     function onCloseModal() {
       setOpenModal(false);
-      setEmail('');
+    
     }
   
     return (

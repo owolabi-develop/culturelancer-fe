@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link';
 import { useState } from 'react';
-import { usePathname } from 'next/navigation'
+// import { usePathname } from 'next/navigation'
 import { VscBell } from "react-icons/vsc";
 import { FaRegMessage } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa6";
@@ -10,8 +10,8 @@ import { CiSettings } from "react-icons/ci";
 import { HiMiniPower } from "react-icons/hi2";
 
 function DashboardNavbar() {
-  const pathname = usePathname();
-  const [openNav,setIOpenNav] = useState(false)
+  // const pathname = usePathname();
+  // const [openNav,setIOpenNav] = useState(false)
 
   const [isOpen, setIsOpen] = useState(false);
 

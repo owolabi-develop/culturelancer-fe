@@ -1,8 +1,4 @@
 import React from 'react'
-import { RiTwitterXLine } from "react-icons/ri";
-import { FaLinkedinIn } from "react-icons/fa6";
-import { FaInstagram } from "react-icons/fa6";
-import { FaFacebookF } from "react-icons/fa6";
 
 function Footer() {
  

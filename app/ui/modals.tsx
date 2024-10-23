@@ -177,3 +177,38 @@ export function ExperienceModal() {
     );
   }
   
+
+
+  // ai description modal
+
+  export function AijobDescription() {
+    const [openModal, setOpenModal] = useState(false);
+  
+  
+    function onCloseModal() {
+      setOpenModal(false);
+    
+    }
+  
+    return (
+      <>
+        <span color=""  onClick={() => setOpenModal(true)} className="py-1 px-2 rounded bg-white drop-shadow-lg h-8 mr-2 cursor-pointer">Use AI</span>
+        <Modal show={openModal} size="md" onClose={onCloseModal} popup>
+          <Modal.Header />
+          <Modal.Body>
+            <div className="w-full">
+
+            <label htmlFor="Description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+            <textarea id="Description" name="description" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 " placeholder="Enter a detail description of the role, including required skills and responsibilities"></textarea>
+
+            <button className="py-3 px-4 rounded border bg-white drop-shadow-lg my-3">Suggest</button>
+
+           
+
+            </div>
+          </Modal.Body>
+        </Modal>
+      </>
+    );
+  }
+  

@@ -14,7 +14,7 @@ export  function WelcomeNote(){
 
         <div className="text-center space-x-4 py-8">
            <Link href="/hire"> <button className=" bg-black text-white rounded py-3 px-5">I want to Hire</button></Link>
-           <Link href="/work"><button className="rounded py-3 px-5 text-black bg-white border border-current"> I want to Work</button></Link>
+           <Link href="/assessment"><button className="rounded py-3 px-5 text-black bg-white border border-current"> I want to Work</button></Link>
         </div>
 
         <div className="rounded bg-[#cccbc8] text-center py-20 w-full"> main-visual-placeholder</div>

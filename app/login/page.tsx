@@ -34,9 +34,9 @@ export default function Login(){
         </div>
 
         <div className="mb-4">
-          <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
+          <Link href="/forgot-password" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
               </div>
-            <button type="submit" className="w-full text-white  rounded-lg text-sm px-5 py-2.5 text-center bg-[#1877F2] mb-4">Login in</button>
+            <button type="submit" className="w-full  text-white  rounded-lg text-sm px-5 py-2.5 text-center bg-gray-600 mb-4">Login in</button>
           
 
         </form>

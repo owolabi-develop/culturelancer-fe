@@ -1,9 +1,28 @@
+"use client"
 import HomeNavbar from "@/app/ui/navbar";
 import Footer from "@/app/ui/footer"
 import { FaApple } from "react-icons/fa";
 import Link from 'next/link'
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { createAccount } from "@/app/libs/shemas";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-export default function Login(){
+type Inputs = z.infer<typeof createAccount>
+
+
+export default function SignUp(){
+
+  const { register, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(createAccount)});
+  
+  //  submit from to server
+  const processForm: SubmitHandler<Inputs> = data => {
+    console.log(data);
+  }
+ 
+
+
+
 
     return (
     <div className={`w-full mx-auto`}>
@@ -34,17 +53,19 @@ export default function Login(){
         
     <div className="bg-white rounded py-2 px-7 md:w-[35rem] drop-shadow-lg  cursor-pointer border">
       <div className="text-left">
-        <form action={`#`}>
+        <form onSubmit={handleSubmit(processForm)}>
 
 
         <div className="p-4">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
-            <input type="text" name="first_name" id="firstName" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Enter your Email "/>
+            <input type="text" {...register("first_name")} id="firstName" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="First Name"/>
+            <p className="text-sm text-red-500">{errors.first_name?.message}</p>
         </div>
 
         <div className="p-2">
             <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
-            <input type="text" name="last_name" id="lastName" placeholder="Enter your LastName" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+            <input type="text"  {...register("last_name")} id="lastName" placeholder="Enter your Last Name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+            <p className="text-sm text-red-500">{errors.last_name?.message}</p>
         </div>
           
 
@@ -52,13 +73,19 @@ export default function Login(){
         <div className="p-4">
 
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Address</label>
-            <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Enter your Email "/>
+            <input type="email"  {...register("email")} id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Enter your Email "/>
+            <p className="text-sm text-red-500">{errors.email?.message}</p>
         </div>
 
         <div className="p-2">
             <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-            <input type="password" name="password" id="password" placeholder="Enter your password" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+            <input type="password"  {...register("password")} id="password" placeholder="Enter your password" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+            <p className="text-sm text-red-500">{errors.password?.message}</p>
+            <input type="text" hidden={true}  {...register("role")} value={"employer"} />
+            
         </div>
+
+
 
         <div className="mb-4">
           <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>

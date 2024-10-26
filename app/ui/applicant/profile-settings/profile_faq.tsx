@@ -1,7 +1,17 @@
+"use client"
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdEdit } from "react-icons/md";
 
+import * as z from 'zod';
+import { profileFaq } from "@/app/libs/shemas";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+
+type Inputs = z.infer<typeof profileFaq >
+
 export default function ProfileFaq(){
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>({resolver:zodResolver( profileFaq)});
+  const onSubmit: SubmitHandler<Inputs> = data => {console.log(data)};
 
     return (
         <section className="w-full ">
@@ -11,7 +21,7 @@ export default function ProfileFaq(){
                 <h1 className="my-3 font-extrabold text-2xl"> Profile FAQ</h1>
 
                 {/* form container */}
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="w-full rounded px-5 py-5">
                    
 
@@ -22,8 +32,9 @@ export default function ProfileFaq(){
                     <div className="mb-6">
                   
                         <div>
-                        <label htmlFor="Language" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add a new FAQ</label>
-                        <textarea id="language" name="language" rows={8} className="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 drop-shadow-lg " placeholder="Enter your questions and answer here ..."></textarea>
+                        <label htmlFor="faq" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add a new FAQ</label>
+                        <textarea id="faq" {...register('faq')} rows={8} className="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 drop-shadow-lg " placeholder="Enter your questions and answer here ..."></textarea>
+                        <p className="text-sm text-red-500">{errors.faq?.message}</p>
                         </div>
 
                     <p className="text-sm my-2">Add common question and answer that highlight your experties or unique skills</p>

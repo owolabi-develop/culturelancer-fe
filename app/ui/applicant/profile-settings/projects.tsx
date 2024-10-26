@@ -1,6 +1,19 @@
+"use client"
+import * as z from 'zod';
+import { projectShema } from "@/app/libs/shemas";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useState } from "react";
+import { TagsInput } from "react-tag-input-component";
+import { read } from 'node:fs';
 
+
+type Inputs = z.infer<typeof projectShema >
 
 export default function Projects(){
+    const [selected, setSelected] = useState([""]);
+    const { register,setValue, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(projectShema)});
+  const onSubmit: SubmitHandler<Inputs> = data => {console.log(data)};
 
     return (
         <section className="w-full ">
@@ -18,7 +31,7 @@ export default function Projects(){
 
 
                 {/* form container */}
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
                     <p className="text-xl font-semibold my-2">Project Details</p>
 
@@ -28,22 +41,26 @@ export default function Projects(){
 
                         <div>
                             <label htmlFor="Title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project Title</label>
-                            <input type="text" id="Title" name="project_title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" required />
+                            <input type="text" id="Title" {...register('projectTitle')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" />
+                            <p className="text-sm text-red-500">{errors.projectTitle?.message}</p>
                         </div>
 
                         <div>
                             <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
-                            <input type="text" id="role" name="role" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 " required />
+                            <input type="text" id="role" {...register('role')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "/>
+                            <p className="text-sm text-red-500">{errors.role?.message}</p>
                         </div>
 
                         <div>
                             <label htmlFor="StartDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Date</label>
-                            <input type="date" id="StartDate" name="start_date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "  required />
+                            <input type="date" id="StartDate" {...register('start_date')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "/>
+                            <p className="text-sm text-red-500">{errors.start_date?.message}</p>
                         </div> 
 
                         <div>
                             <label htmlFor="EndDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Date</label>
-                            <input type="date" id="EndDate" name="end_date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5" required />
+                            <input type="date" id="EndDate" {...register('end_date')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
+                            <p className="text-sm text-red-500">{errors.end_date?.message}</p>
                         </div>
 
 
@@ -57,34 +74,20 @@ export default function Projects(){
 
                     <div className="my-5">
                         <p className="text-sm my-2">Technology Used</p>
+                        <TagsInput
+                            value={selected}
+                            onChange={(tags) => {
+                                setSelected(tags); 
+                                setValue('technologies_used', tags); 
+                            }}
+                            placeHolder='E.g Javascript, python'
+                            classNames={{
+                                tag: "bg-[#2f2f2f] rounded-full px-4 py-1 mr-1 mb-2 inline-flex items-center",
+                                input: "border-0 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 w-full",
+                            }}
+                        />
 
-
-                    <ul className="flex flex-col sm:flex-row">
-                        <li className="inline-flex items-center gap-x-2.5 py-3 px-4 text-sm font-medium bg-white border text-gray-600 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ml-px sm:mt-0 sm:first:rounded-tr-none sm:first:rounded-bl-lg sm:last:rounded-bl-none sm:last:rounded-tr-lg ">
-                        <div className="relative flex items-start w-full">
-                        <div className="flex items-center h-5">
-                        <input id="list-group-item-checkbox-4" name="tech_python" type="checkbox" className="w-5 cursor-pointer h-5 appearance-none border border-gray-300  rounded-md checked:bg-no-repeat checked:bg-center checked:border-[black] checked:bg-indigo-100"/>
-                        </div>
-                        <label htmlFor="list-group-item-checkbox-4" className="ml-3.5 block text-sm font-normal text-gray-600 cursor-pointer "> Python </label>
-                        </div>
-                        </li>
-                        <li className="inline-flex items-center gap-x-2.5 py-3 px-4 text-sm font-medium bg-white border text-gray-600 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ml-px sm:mt-0 sm:first:rounded-tr-none sm:first:rounded-bl-lg sm:last:rounded-bl-none sm:last:rounded-tr-lg ">
-                        <div className="relative flex items-start w-full">
-                        <div className="flex items-center h-5">
-                        <input id="list-group-item-checkbox-5" name="tech_javascript" type="checkbox" className="w-5 cursor-pointer h-5 appearance-none border border-gray-300  rounded-md checked:bg-no-repeat checked:bg-center checked:border-[black] checked:bg-indigo-100"/>
-                        </div>
-                        <label htmlFor="list-group-item-checkbox-5" className="ml-3.5 block text-sm font-normal text-gray-600 cursor-pointer "> Javascript </label>
-                        </div>
-                        </li>
-                        <li className="inline-flex items-center gap-x-2.5 py-3 px-4 text-sm font-medium bg-white border text-gray-600 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ml-px sm:mt-0 sm:first:rounded-tr-none sm:first:rounded-bl-lg sm:last:rounded-bl-none sm:last:rounded-tr-lg ">
-                        <div className="relative flex items-start w-full">
-                        <div className="flex items-center h-5">
-                        <input id="list-group-item-checkbox-6" name="tech_NextJs" type="checkbox" className="w-5 cursor-pointer h-5 appearance-none border border-gray-300  rounded-md checked:bg-no-repeat checked:bg-center checked:border-[black] checked:bg-indigo-100"/>
-                        </div>
-                        <label htmlFor="list-group-item-checkbox-6" className="ml-3.5 block text-sm font-normal text-gray-600 cursor-pointer "> Nextjs </label>
-                        </div>
-                        </li>
-                    </ul>
+                    <p className="text-sm text-red-500">{errors.technologies_used?.message}</p>
 
                     </div>
 
@@ -96,8 +99,9 @@ export default function Projects(){
 
                 <div>
                 <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add Description</label>
-                <textarea id="description" name="description" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300" placeholder=""></textarea>
+                <textarea id="description" {...register('description')} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300" placeholder=""></textarea>
                 </div>
+                <p className="text-sm text-red-500">{errors.description?.message}</p>
 
                 </div>
 
@@ -105,6 +109,7 @@ export default function Projects(){
                 {/*profile media  */}
                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-5">
                 <p className="text-xl font-semibold my-2">Projects Media</p>
+               
 
                 <div className="grid gap-6 mb-6 md:grid-cols-1">
 
@@ -122,7 +127,7 @@ export default function Projects(){
                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
                             <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG or GIF up to 10MB</p>
                         </div>
-                        <input id="dropzone-file" name="profile" type="file" className="hidden" />
+                        <input id="dropzone-file" {...register('projectphoto')} type="file" className='hidden' />
                     </label>
                 </div> 
                 
@@ -145,18 +150,21 @@ export default function Projects(){
 
                 <div>
                     <label htmlFor="Github" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Github</label>
-                    <input type="url" id="Github" name="project_link_github" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"required />
+                    <input type="url" id="Github" {...register('github')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
+                    <p className="text-sm text-red-500">{errors.github?.message}</p>
                 </div>
 
                 <div>
                 <label htmlFor="LiveDemo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Live Demo</label>
-                <input type="url" id="LiveDemo" name="project_liveDemo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"required />
+                <input type="url" id="LiveDemo" {...register('liveDemo')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
+                <p className="text-sm text-red-500">{errors.liveDemo?.message}</p>
                 </div>
 
 
                 <div>
                 <label htmlFor="PortfolioLink" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Portfolio Link</label>
-                <input type="url" id="PortfolioLink" name="project_portfolio_link" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"required />
+                <input type="url" id="PortfolioLink" {...register('portfolio')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
+                <p className="text-sm text-red-500">{errors.portfolio?.message}</p>
                 </div>
 
 

@@ -1,7 +1,18 @@
+"use client"
 import { RiDeleteBin6Line } from "react-icons/ri";
+import * as z from 'zod';
+import { AwardCertificationSchema } from "@/app/libs/shemas";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+
+type Inputs = z.infer<typeof AwardCertificationSchema>
 
 
 export default function AwardCertification(){
+    const { register, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(AwardCertificationSchema)});
+    const onSubmit: SubmitHandler<Inputs> = data => {
+        console.log(data)
+    };
 
     return (
         <section className="w-full ">
@@ -19,7 +30,7 @@ export default function AwardCertification(){
 
 
                 {/* form container */}
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
                     <p className="text-xl font-semibold my-2">Add New</p>
 
@@ -30,21 +41,23 @@ export default function AwardCertification(){
                     <div className="mb-6">
                         <div>
                         <label htmlFor="Title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                        <input type="text" name="title" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required />
+                        <input type="text" {...register('title')} id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required />
+                        <p className="text-sm text-red-500">{errors.title?.message}</p>
 
                         </div>
 
 
                         <div>
                         <label htmlFor="IssuingOrganization" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issuing Organization</label>
-                        <input type="text" name="issuing_organization" id="Issuing Organization" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required />
+                        <input type="text" {...register('inssuing_organization')} id="Issuing Organization" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required />
+                        <p className="text-sm text-red-500">{errors.inssuing_organization?.message}</p>
 
                         </div>
 
 
                         <div>
-                        <label htmlFor="" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issuing Organization</label>
-                        <input type="date" name="title" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required />
+                        <label htmlFor="" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Recieved</label>
+                        <input type="date" {...register('date_recieved')} id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required />
 
                         </div>
 

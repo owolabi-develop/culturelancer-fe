@@ -1,7 +1,17 @@
-
+"use client"
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdEdit } from "react-icons/md";
+
+import * as z from 'zod';
+import { specializationSchema } from "@/app/libs/shemas";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+
+type Inputs = z.infer<typeof specializationSchema >
+
 export default function Specializations(){
+    const { register, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(specializationSchema)});
+  const onSubmit: SubmitHandler<Inputs> = data => {console.log(data)};
 
     return (
         <section className="w-full ">
@@ -19,25 +29,26 @@ export default function Specializations(){
 
 
                 {/* form container */}
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
 
                     {/* forms input */}
 
                     <div className="my-2">
-                    <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Specialization</label>
-                        <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ">
+                    <label htmlFor="Specialization" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Specialization</label>
+                        <select id="Specialization" {...register('specialization')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ">
                         <option value="Web Developement">Web Developement</option>
                         <option value="Graphic Design">Graphic Design</option>
-                    
                         </select>
+                        <p className="text-sm text-red-500">{errors.specialization?.message}</p>
                     </div>
                   
 
                     {/*  */}
                     <div className="mb-6">
-                        <label htmlFor="Activities" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Proficiencys(%)</label>
-                        <input type="number" name="activities" id="Activities" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required  placeholder="Enter Proficiency level"/>
+                        <label htmlFor="proficiency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Proficiencys(%)</label>
+                        <input type="text" {...register('proficiency',{valueAsNumber:true})} id="proficiency" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"placeholder="Enter Proficiency level"/>
+                        <p className="text-sm text-red-500">{errors.proficiency?.message}</p>
                     </div> 
                     
                     {/* form input */}

@@ -1,10 +1,9 @@
 
 import { EducationModal } from "../../modals";
-
 import {  ExperienceModal } from "../../modals";
 
 export default function ExperienceEducation(){
-
+  
     return (
         <section className="w-full ">
             <div className="md:grid grid-cols-1 py-5 px-5">

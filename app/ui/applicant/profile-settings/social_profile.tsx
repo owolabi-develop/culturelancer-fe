@@ -1,8 +1,18 @@
+"use client"
 import { FaFacebook } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 
+import * as z from 'zod';
+import { socialProfile } from "@/app/libs/shemas";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+
+type Inputs = z.infer<typeof socialProfile >
+
 export default function SocialProfile(){
+    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = data => {console.log(data)};
 
     return (
         <section className="w-full ">
@@ -20,7 +30,7 @@ export default function SocialProfile(){
 
 
                 {/* form container */}
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
                     <p className="text-sm font-semibold my-5">Connect your social profiles to showcase your online presence</p>
 
@@ -30,18 +40,21 @@ export default function SocialProfile(){
                     <div className="mb-6">
                     <div className="relative mb-4 flex w-full flex-wrap items-stretch justify-between">
                     <FaFacebook  className="text-4xl" />
-                        <input type="url" id="Title" name="facebook" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5" required />
+                        <input type="url" id="facebook" {...register('facebook')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5"/>
                     </div>
+                    <p className="text-sm text-red-500">{errors.facebook?.message}</p>
 
                     <div className="relative mb-4 flex w-full flex-wrap items-stretch justify-between">
                     <FaTwitter className="text-4xl" />
-                        <input type="url" id="Title" name="twitter_x" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5" required />
+                        <input type="url" id="tiitter" {...register('twitter_x')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5"/>
                     </div>
+                    <p className="text-sm text-red-500">{errors.twitter_x?.message}</p>
 
                     <div className="relative mb-4 flex w-full flex-wrap items-stretch justify-between">
                     <FaLinkedin className="text-4xl" />
-                        <input type="url" id="Title" name="linkedin" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5" required />
+                        <input type="url" id="linkedin" {...register('linkedIn')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5"/>
                     </div>
+                    <p className="text-sm text-red-500">{errors.linkedIn?.message}</p>
                        
                     </div> 
                     

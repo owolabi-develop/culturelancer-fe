@@ -21,8 +21,8 @@ export default function OtpVerification(){
         <IoMdCheckmarkCircleOutline className="text-[100px]" />
         </div>
         <div className="my-5 text-center">
-            <h1 className="text-2xl">Account created successfully!</h1>
-        <p>Congratulations your account has been createds. please check your inbox to Verify your account</p>
+            <h1 className="text-2xl">Password Reset email Sent</h1>
+        <p> Password reset instructions has been to your email follow the instructions to reset your password </p>
         </div>
      
 

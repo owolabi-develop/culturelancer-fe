@@ -10,7 +10,7 @@ type Inputs = z.infer<typeof profileVideo>
 
 
 export default function ProfileVideo(){
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>({resolver:zodResolver(profileVideo)});
+    const { register, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(profileVideo)});
   const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
 
     return (

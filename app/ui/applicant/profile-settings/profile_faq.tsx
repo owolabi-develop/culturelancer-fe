@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 type Inputs = z.infer<typeof profileFaq >
 
 export default function ProfileFaq(){
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>({resolver:zodResolver( profileFaq)});
+    const { register, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver( profileFaq)});
   const onSubmit: SubmitHandler<Inputs> = data => {console.log(data)};
 
     return (

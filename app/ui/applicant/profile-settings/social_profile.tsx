@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 type Inputs = z.infer<typeof socialProfile >
 
 export default function SocialProfile(){
-    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({resolver:zodResolver(socialProfile)});
   const onSubmit: SubmitHandler<Inputs> = data => {console.log(data)};
 
     return (

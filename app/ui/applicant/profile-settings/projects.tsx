@@ -5,7 +5,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from "react";
 import { TagsInput } from "react-tag-input-component";
-import { read } from 'node:fs';
 
 
 type Inputs = z.infer<typeof projectShema >

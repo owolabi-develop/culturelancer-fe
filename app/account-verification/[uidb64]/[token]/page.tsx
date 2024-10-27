@@ -25,7 +25,7 @@ const VerificationPage: React.FC<VerificationProps> = ({ params: { uidb64, token
         }
       } catch (error) {
         console.error('Account verification failed', error);
-        router.push('/verification-error');
+        router.push('/login');
       }
     };
 

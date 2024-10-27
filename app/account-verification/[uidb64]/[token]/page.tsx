@@ -14,7 +14,7 @@ const VerificationPage: React.FC<VerificationProps> = ({ params: { uidb64, token
     const verifyAccount = async () => {
       try {
         const response = await fetch(`${http_endpoints}careerportal/verify-email/${uidb64}/${token}/`, {
-          method: 'GET',
+          method: 'POST',
           headers: { 'Content-Type': 'application/json' },
         });
 

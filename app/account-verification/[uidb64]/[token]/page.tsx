@@ -1,19 +1,19 @@
 "use client";
+import { useRouter, useParams } from "next/navigation";
+// import { useState } from "react";
 
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { http_endpoints } from '@/app/libs/definations';
-interface VerificationProps {
-  params: { uidb64: string; token: string };
-}
 
-const VerificationPage: React.FC<VerificationProps> = ({ params: { uidb64, token } }) => {
+// // import { http_endpoints } from '@/app/libs/definations';
+// interface VerificationProps {
+//   params: { uidb64: string; token: string };
+// }
+
+const VerificationPage = () => {
   const router = useRouter();
-
-  useEffect(() => {
+  const { uidb64, token } = useParams();
     const verifyAccount = async () => {
       try {
-        const response = await fetch(`${http_endpoints}careerportal/verify-email/${uidb64}/${token}/`, {
+        const response = await fetch(`/api/account-verify/${uidb64}/${token}/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
         });
@@ -30,7 +30,7 @@ const VerificationPage: React.FC<VerificationProps> = ({ params: { uidb64, token
     };
 
     verifyAccount();
-  }, [router, uidb64, token]);
+  
 
   return null;
 };

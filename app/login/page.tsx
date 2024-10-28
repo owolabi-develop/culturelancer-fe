@@ -13,56 +13,54 @@ import { useRouter } from 'next/navigation'
 import { useState } from "react";
 
 
-type Inputs = z.infer<typeof loginFormSchema>
+type Inputs = z.infer<typeof loginFormSchema>;
 
+export default function Login() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>("");
 
-export default function Login(){
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [status, setStatus] = useState<boolean>(true)
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
+    resolver: zodResolver(loginFormSchema),
+  });
 
-  const { register, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(loginFormSchema)});
-  
-  // handle login
-  const onLogin: SubmitHandler<Inputs> = async data => {
-    console.log(data);
-    try{
-    setIsLoading(true)
-      const response = await fetch('/api/login',{
+  const onLogin: SubmitHandler<Inputs> = async (data) => {
+    setIsLoading(true);
+    setStatus(""); // Clear previous status
+
+    try {
+      const response = await fetch("/api/login", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
-
       });
-       if(response.ok){
+
       const responseData = await response.json();
-      // console.log("Response Data:", responseData);
-      const {token, role, is_active,non_field_errors } = responseData;
-      
-      console.log("token",token)
-      //  in the main time not for productions
-      localStorage.setItem('authToken', token);
 
-      if (is_active === true && role === 'employer'){
-        router.push('/employer/dashboard')
+      if (response.ok) {
+        const { role, is_active } = responseData;
 
-      } else if (is_active === true && role === 'applicant'){
-        router.push('/applicant/dashboard')
-
-      } else  {
-        setStatus(non_field_errors[0])
-        setIsLoading(false)
-      }    
-       }
-      if (!response.ok) {
-        console.log(response.json())
+        if (is_active && role === "employer") {
+          router.push("/employer/dashboard");
+        } else if (is_active && role === "applicant") {
+          router.push("/applicant/dashboard");
+        } else {
+          setStatus("Account not active. Please contact support.");
+        }
+      } else {
+        // Handle errors returned by the API
+        setStatus(responseData.error || "Invalid login credentials");
       }
-      
-    } catch (error){
-      console.error("login fialed",error)
+    } catch (error) {
+      console.error("Login failed:", error);
+      setStatus("Server error. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
-   
   };
-  // login
+
 
     return (
     <div className={`w-full mx-auto`}>

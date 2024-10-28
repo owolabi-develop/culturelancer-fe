@@ -1,11 +1,11 @@
 import Link from "next/link"
-export function WelcomeHeader(){
-
+export function WelcomeHeader({headerTest}:{headerTest:string}){
+ 
     return(
         <section className="md:grid grid-cols-1 p-20 w-full justify-around">
 
             <div className="text-center m-auto [&>*]:my-4">
-                <h1 className="text-4xl font-bold w-full">Welcome, Owolabi Akintan!</h1>
+                <h1 className="text-4xl font-bold w-full">Welcome, {headerTest}</h1>
                 <p className="text-xl">Manage your job postings, review applications and connect with top Freelancers</p>
 
                 {/* search input */}

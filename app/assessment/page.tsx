@@ -4,7 +4,8 @@ import Footer from "../ui/footer";
 import ApplicantAssessment from "../ui/assessment";
 
 
-export default function HomePage() {
+export  default async function HomePage() {
+
   return (
     <div className={`w-full mx-auto`}>
       {/* navbar component */}

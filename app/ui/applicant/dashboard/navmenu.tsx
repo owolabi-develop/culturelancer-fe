@@ -8,10 +8,29 @@ import { FaRegMessage } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa6";
 import { CiSettings } from "react-icons/ci";
 import { HiMiniPower } from "react-icons/hi2";
+import { useRouter } from 'next/navigation'
 
-function DashboardNavbar() {
-  // const pathname = usePathname();
-  // const [openNav,setIOpenNav] = useState(false)
+function DashboardNavbar({applicantprofileName}:{applicantprofileName:string}) {
+  const  router = useRouter()
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/logout', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        router.push('/login')
+      
+      } else {
+        console.error('Failed to log out');
+      }
+    } catch (error) {
+      console.error('An error occurred during logout:', error);
+    }
+
+  };
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -80,7 +99,7 @@ function DashboardNavbar() {
             <div className='profil-icon flex space-x-3 cursor-pointer'>
             <div className='bg-[#cccbc8] rounded-full w-11 h-11'></div>
             <Link href="/applicant/dashboard/profile">
-            <div className='logo-text'><p className='leading-10 text-xs'>Owolabi Akintan</p></div>
+            <div className='logo-text'><p className='leading-10 text-xs'>{applicantprofileName}</p></div>
             </Link>
             <div className='logo-text p-2'><FaChevronDown  className='text-2xl' onClick={handleDisplay}/></div>
             </div>
@@ -107,12 +126,12 @@ function DashboardNavbar() {
             </Link>
           </li>
           <li>
-            <Link href="/logout" className="text-slate-700">
-              <div className='flex text-center space-x-2'>
+            {/* <Link href="/logout" className="text-slate-700"> */}
+              <div className='flex text-center space-x-2' onClick={handleLogout}>
                 <HiMiniPower className='text-3xl' />
                 <span>Logout</span>
               </div>
-            </Link>
+            {/* </Link> */}
           </li>
         </ul>
       </div>

@@ -90,7 +90,7 @@ function HomeNavbar() {
 
           {pathname === '/signup/employer' && (
             <li className="mr-5">
-              <Link href="/signup/applicant" className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100">
+              <Link href="/assessment" className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100">
                 Join as A Job Seeker
               </Link>
             </li>

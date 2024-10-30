@@ -29,7 +29,7 @@ export default function SignUp(){
     console.log(data);
     try{
     setIsLoading(true)
-      const response = await fetch('/api/register',{
+      const response = await fetch('/api/register/applicant',{
         method: "POST",
         body: JSON.stringify(data),
 

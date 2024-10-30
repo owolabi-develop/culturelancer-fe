@@ -274,4 +274,71 @@ export const verificationCode = z.object({
 })
 
 
+// asssesement 
+
+ export const AssessmentSchema = z.object({
+  
+// 1. School or work motivation
+  motivation: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  success_definition: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  group_project_feeling:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  relationship_building: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+  // 2. Career success definition
+  preferred_project_situation:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  problem_solving: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+  enjoyable_activity:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+  // 4. Cultural background group project
+ learning_approach: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+ handling_criticism: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+
+
+  // 5. Group project preferences
+  traits_description: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+  task_management: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+  learning_preference: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+  // 6. Problem-solving passion
+  appealing_task:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+  // 7. Enjoyable activities
+  values_importance: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+
+
+ thriving_role: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+ career_path_preference: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+ skill_eagerness: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+ event_organization: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+
+  // 12. Handling feedback
+  career_challenges:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+
+  // Demographic questions
+  University_enrolled_at:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  College_type:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  Institution_Type:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  current_year_in_school:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  field_of_study: z.string({required_error:'is required',invalid_type_error:'invalid type input'}).min(10,'Title must be 20 character long'),
+  currently_employed_in_college: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  currently_employed:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  age_range:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  gender:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  racial_background:z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  first_generation_college_student: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+  areas_of_experience: z.string({required_error:'This field is required',invalid_type_error:'invalid type input'}).min(10,'Select an option'),
+});
+
+
+
+
+
+
 

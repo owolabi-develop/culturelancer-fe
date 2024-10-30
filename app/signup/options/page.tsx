@@ -31,7 +31,7 @@ export default function SignUpOptions(){
 
    
     <div className="bg-white rounded py-7 px-7 md:w-72 drop-shadow-lg text-center cursor-pointer border">
-    <Link href="/signup/applicant">
+    <Link href="/assessment">
         <div className="bg-[#cccbc8] rounded-full w-20 h-20 mx-auto flex items-center justify-center">Icon</div>
         <div className="solutions-content text-black mt-3">
             <h1 className="font-semibold">Job Seeker</h1>

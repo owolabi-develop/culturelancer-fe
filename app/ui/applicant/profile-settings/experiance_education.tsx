@@ -1,11 +1,14 @@
 
 import { EducationModal } from "../../modals";
 import {  ExperienceModal } from "../../modals";
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ExperienceEducation(){
   
     return (
         <section className="w-full ">
+            <ToastContainer/>
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
 
@@ -23,7 +26,7 @@ export default function ExperienceEducation(){
                     
                    
                     <div className="">
-                        <EducationModal/>
+                        <EducationModal notifytest="Education Added!"/>
                     </div>
 
 
@@ -41,7 +44,7 @@ export default function ExperienceEducation(){
 
                     
                     <div className="">
-                        <ExperienceModal/>
+                        <ExperienceModal notifytest="Experience Added!"/>
                     </div>
 
 

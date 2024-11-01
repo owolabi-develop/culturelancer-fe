@@ -56,7 +56,7 @@ export const createAccount = z.object({
 
 
 // applicant Personal Details & Skills schema
-const MAX_FILE_SIZE = 500000; const ACCEPTED_IMAGE_TYPES = [ 
+const MAX_FILE_SIZE = 1000000; const ACCEPTED_IMAGE_TYPES = [ 
   "image/jpeg", "image/jpg", "image/png", "image/webp", 
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   "application/msword", 
@@ -67,8 +67,6 @@ const MAX_FILE_SIZE = 500000; const ACCEPTED_IMAGE_TYPES = [
 export const personalDatailSkill = z.object({
 
     title: z.string({required_error:'title is required',invalid_type_error:'invalid type input for title'}).min(4,'title must be 4 character long'),
-    firstName: z.string({required_error:'FirstName is required',invalid_type_error:'invalid type input for firstName'}).min(4,'FirstName must be 4 character long'),
-    lastName: z.string({required_error:'LastName is required',invalid_type_error:'invalid type input for LastName'}).min(4,'LastName must be 4 character long'),
     displayName: z.string({required_error:'Display Name is required',invalid_type_error:'invalid type input for Display Name'}).min(4,'Display Name must be 4 character long'),
     phoneNumber: z.string().min(1, { message: "Phone number is required" }).regex(/^\+?[1-9]\d{1,14}$/, { message: "Invalid phone number" }),
     tagline: z.string({required_error:'tagline is required',invalid_type_error:'invalid type input for tagline'}).min(4,'tagline must be 4 character long'),
@@ -123,7 +121,7 @@ export const specializationSchema = z.object({
 export const urlSchema = z
 
       .string()
-      .min(1, { message: "Website URL is required" })
+      .min(1, { message: "URL is required" })
       .url({ message: "Invalid URL format" })
       .refine((url) => {
         return url.startsWith("http://") || url.startsWith("https://");
@@ -150,7 +148,7 @@ export const socialProfile = z.object({
 
 export const profileFaq = z.object({
 
-    faq:  z.string({required_error:'Faq is required',invalid_type_error:'invalid type input for Faq'}).min(4,'Faq must be 4 character long'),
+    description:  z.string({required_error:'Faq is required',invalid_type_error:'invalid type input for Faq'}).min(4,'Faq must be 4 character long'),
 })
 
 //  AwardCertificationSchema
@@ -180,13 +178,13 @@ export const exprienceSchame = z.object({
 
     title: z.string({required_error:'Title is required',invalid_type_error:'invalid type input for Title'}).min(4,'Title name must be 4 character long'),
     company_name: z.string({required_error:'Company Name required',invalid_type_error:'invalid type input for Company Name'}).min(4,'Company Name must be 4 character long'),
-    location: z.string({required_error:'Location is required',invalid_type_error:'invalid type input for field of location'}).min(4,'location must be 4 character long'),
+    location_type: z.string({required_error:'Location is required',invalid_type_error:'invalid type input for field of location'}).min(4,'location must be 4 character long'),
     start_date: z.string().date(),
     end_date: z.string().date(),
-    status:z.boolean({
+    present:z.boolean({
       required_error: "Please select Yes or No",
     }),
-    description: z.string({required_error:'Description is required',invalid_type_error:'invalid type input for Description'}).min(4,'Description must be 4 character long'),
+    description: z.string({required_error:'Description is required',invalid_type_error:'invalid type input for Description'}).min(100,'Description must be 100 character long'),
 })
 
 
@@ -195,13 +193,13 @@ export const exprienceSchame = z.object({
 
 export const projectShema = z.object({
 
-    projectTitle: z.string({required_error:'Project Title is required',invalid_type_error:'invalid type input for Project Title'}).min(4,'Project Title must be 4 character long'),
+    project_title: z.string({required_error:'Project Title is required',invalid_type_error:'invalid type input for Project Title'}).min(5,'Project Title must be 5 character long'),
     technologies_used: z.array(z.string()).min(1, "At least one technology is required"),
-    description: z.string({required_error:'Description is required',invalid_type_error:'invalid type input for Description'}).min(4,'Description must be 4 character long'),
+    description: z.string({required_error:'Description is required',invalid_type_error:'invalid type input for Description'}).min(300,'Description must be 300 character long'),
     start_date: z.string().date(),
     end_date: z.string().date(),
     role: z.string({required_error:'role is required',invalid_type_error:'invalid type input for role'}).min(4,'role must be 4 character long'),
-    projectphoto:  z
+    logo:z
     .any()
     .refine((files) => files?.length >= 1, { message: 'Image is required.' })
     .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type), {
@@ -210,9 +208,9 @@ export const projectShema = z.object({
     .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, {
       message: `Max file size is 5MB.`,
      }),
-    github: urlSchema,
-    liveDemo:  urlSchema,
-    portfolio: urlSchema
+    project_links_github: urlSchema,
+    project_links_live_demo:  urlSchema,
+    project_link_portfolio: urlSchema
 })
 
 

@@ -1,27 +1,52 @@
+"use client"
 
-import { EducationModal } from "../../modals";
+import { EducationModal, Skill } from "../../modals";
 import {  ExperienceModal } from "../../modals";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import React, { useState,useEffect } from 'react'
+import { fetchProfileDetails } from '@/app/libs/utils';
+import ProgressBar from "@ramonak/react-progress-bar";
+
+import { ApplicantDndResume } from "./dnd/applicant_resume_dnd";
 
 export default function ExperienceEducation(){
-  
+    const [completionPercent,setCompletionPercent] = useState<number>()
+
+    useEffect(() => {
+        const handleprofiledetails = async () => {
+        const completion = await fetchProfileDetails();
+        if (completion !== null) {
+                setCompletionPercent(completion);
+            }
+       
+    }
+    handleprofiledetails();
+    },[completionPercent])
+   
     return (
         <section className="w-full ">
             <ToastContainer/>
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
+                <ProgressBar 
+                        completed={completionPercent ?? 0} maxCompleted={100}
+                         animateOnRender={true} 
+                         transitionDuration='3s'
+                         height='12px'
+                         labelAlignment='outside'
+                         bgColor='#354656'
 
-                <div className="md:w-full bg-gray-200 rounded-full h-2.5 my-3">
-                            <div className={`bg-[gray] h-2.5 rounded-full w-[30%]`}></div>
-                        </div>
+                          />
+
+                
                         {/* progress bar */}
-                <p className="font-semibold text-[gray]">Profle Completion: 35%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {completionPercent}%</p>
 
 
              {/* education */}
                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
-                    <p className="text-xl font-semibold my-2">Add YourEducation</p>
+                    <p className="text-xl font-semibold my-2">Add Your Education</p>
 
                     
                    
@@ -38,7 +63,7 @@ export default function ExperienceEducation(){
 
 
 
-               {/* education */}
+               {/* experience */}
                <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-5 ">
                     <p className="text-xl font-semibold my-2">Add Your Experience</p>
 
@@ -48,20 +73,57 @@ export default function ExperienceEducation(){
                     </div>
 
 
-                    {/* model education */}
+                </div>
+
+                
+             {/* experience */}
 
 
-                    {/* modal education */}
+
+
+
+             {/* skills */}
+
+             <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
+                    <p className="text-xl font-semibold my-2">Add Your Skill</p>
+
+                    
+                   
+                    <div className="">
+                        <Skill notifytest="Skill Added!"/>
+                    </div>
+
 
 
                 </div>
 
-                
-             {/* education */}
+             
 
 
-    
-                
+             {/* skills */}
+
+
+
+
+
+
+
+              {/* resume */}
+             
+
+              <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-4">
+
+                    <p className="text-xl font-semibold my-2">Add Your resume</p>
+             
+                        <ApplicantDndResume notifytest="Resume Uploaded" name="resume" className={`border-dashed border-2 text-center py-8 hover:border-blue-300 cursor-pointer`}/>
+
+          
+                </div>
+               
+          
+             {/* resume */}
+
+            
             </div>
 
         </section>

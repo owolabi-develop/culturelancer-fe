@@ -147,6 +147,115 @@ export const initialTraitScores = {
 }
 
 
+
+
+export const fetchProfileDetails = async () => {
+  try {
+      const Profileresponse = await fetch(`/api/get-ap-profile-details`, {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+          },
+      });
+      
+      if (Profileresponse.ok) {
+          const data = await Profileresponse.json();
+          return data[0].completion_percent; 
+      } else {
+          console.error("Failed to fetch profile details");
+          return null;
+      }
+  } catch (error) {
+      console.error("Error fetching profile details:", error);
+      return null;
+  }
+};
+
+
+
+export const fetchawardCertificate = async () => {
+    try {
+        const response = await fetch(`/api/award-certificate/get-certificate-data`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            return data
+        } else {
+            console.error("Failed to fetch profile details");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching profile details:", error);
+        return null;
+    }
+  };
+  
+
+
+//   get specializations
+
+export const fetchspecialization = async () => {
+    try {
+        const response = await fetch(`/api/specialization/get-specialization`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            return data
+        } else {
+            console.error("Failed to fetch profile details");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching profile details:", error);
+        return null;
+    }
+  };
+
+
+
+
+
+//   get projects 
+
+//   get specializations
+
+export const fetchprojects = async () => {
+    try {
+        const response = await fetch(`/api/projects/get-projects`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            return data
+        } else {
+            console.error("Failed to fetch profile details");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching profile details:", error);
+        return null;
+    }
+  };
+  
+
+
+
+ 
+
   
 
 

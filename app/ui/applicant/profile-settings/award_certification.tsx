@@ -4,16 +4,88 @@ import * as z from 'zod';
 import { AwardCertificationSchema } from "@/app/libs/shemas";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { fetchProfileDetails,fetchawardCertificate} from '@/app/libs/utils';
+import ProgressBar from "@ramonak/react-progress-bar";
 
 type Inputs = z.infer<typeof AwardCertificationSchema>
 
+type certificate = {
+    id:string,
+    title:string,
+    issuing_organization:string,
+    date_recieved: string
+
+
+} 
 
 export default function AwardCertification(){
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register,reset,handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(AwardCertificationSchema)});
+    const [completionPercent,setCompletionPercent] = useState<number>()
+    const [certificateDetails,setCertificateDetails] = useState<certificate[]>([])
+
+     //  retrive  profle completion percent
+
+     useEffect(() => {
+        const handleprofiledetails = async () => {
+        const completion = await  fetchProfileDetails();
+        if (completion !== null) {
+                setCompletionPercent(completion);
+            }
+       
+    }
+    handleprofiledetails();
+    },[completionPercent])
+
+
+
+    // fetch all certificate data
+    useEffect(() => {
+        const handlecertificatedetails = async () => {
+        const data = await fetchawardCertificate();
+        if (data !== null) {
+            setCertificateDetails(data)
+               console.log("certificate data",data)
+            }
+       
+    }
+    handlecertificatedetails();
+    },[])
+
+ // delete certificate 
+
+ const notifydelete = () => {
+    toast.success("Certification Deleted");
+}
+
+ const deleteCertificate = async (id: string) => {
+    try {
+        const response = await fetch(`/api/award-certificate/delete-certificate?id=${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            setCertificateDetails((prevCertificates) =>
+                prevCertificates.filter(certificate => certificate.id !== id)
+            );
+            notifydelete()
+            console.log("Certificate deleted:", data);
+        } else {
+            console.error("Failed to delete certificate:", data.error);
+        }
+    } catch (error) {
+        console.error("Error deleting certificate:", error);
+    }
+};
+
+ 
 
     // handle toast bar
     const notify = () => {
@@ -33,7 +105,10 @@ export default function AwardCertification(){
 });
  
 if (response.ok){
-    console.log("certification award added")
+   const data = await response.json()
+   console.log("certification award added",data)
+   setCertificateDetails((prevCertificates) => [...prevCertificates, data]);
+   
     reset()
     setIsLoading(false)
     notify()
@@ -49,12 +124,18 @@ if (response.ok){
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
 
-                <div className="md:w-full bg-gray-200 rounded-full h-2.5 my-3">
-                            <div className={`bg-[gray] h-2.5 rounded-full w-[55%]`}></div>
-                        </div>
+                <ProgressBar 
+                        completed={completionPercent ?? 0} maxCompleted={100}
+                         animateOnRender={true} 
+                         transitionDuration='3s'
+                         height='12px'
+                         labelAlignment='outside'
+                         bgColor='#354656'
+
+                          />
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: 55%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {completionPercent}%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Award & Certifications</h1>
 
@@ -79,8 +160,8 @@ if (response.ok){
 
                         <div>
                         <label htmlFor="IssuingOrganization" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issuing Organization</label>
-                        <input type="text" {...register('inssuing_organization')} id="Issuing Organization" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
-                        <p className="text-sm text-red-500">{errors.inssuing_organization?.message}</p>
+                        <input type="text" {...register('issuing_organization')} id="Issuing Organization" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+                        <p className="text-sm text-red-500">{errors.issuing_organization?.message}</p>
 
                         </div>
 
@@ -127,22 +208,24 @@ if (response.ok){
 
                  {/* awards */}
 
-                <div className="bg-[lightgray] w-full rounded py-3 px-3">
+                 {certificateDetails.map((certi)=>(
+
+                <div key={certi.id} className="bg-[lightgray] w-full rounded py-3 px-3">
 
                     <div className="">
 
-                    <h1 className="font-bold text-base">Best Employee Of the</h1>
+                    <h1 className="font-bold text-base">{certi.title}</h1>
                     
                     <div className="flex">
 
                     <div> 
-                    <p className="text-sm">TechCorp Inc.</p>
-                    <p className="text-sm">Recieved: Date</p>
+                    <p className="text-sm">{certi.issuing_organization}</p>
+                    <p className="text-sm">{certi.date_recieved}</p>
                     </div>
 
                     <div className="w-full flex flex-col items-end">
                     <div className="border rounded py-1 px-1 mx-2">
-                <RiDeleteBin6Line className="text-2xl cursor-pointer" />
+                <RiDeleteBin6Line className="text-2xl cursor-pointer"  onClick={ async () => deleteCertificate(certi.id)}/>
                 </div>
                    </div>
                    </div>
@@ -150,7 +233,10 @@ if (response.ok){
                     </div>
                   
                 </div>
+                ))}
                 {/* awards */}
+
+
 
     
                 </div>

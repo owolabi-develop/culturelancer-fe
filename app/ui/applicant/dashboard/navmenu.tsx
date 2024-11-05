@@ -1,7 +1,8 @@
 "use client"
 import React from 'react'
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import Image from 'next/image'
 // import { usePathname } from 'next/navigation'
 import { VscBell } from "react-icons/vsc";
 import { FaRegMessage } from "react-icons/fa6";
@@ -10,8 +11,38 @@ import { CiSettings } from "react-icons/ci";
 import { HiMiniPower } from "react-icons/hi2";
 import { useRouter } from 'next/navigation'
 
+
 function DashboardNavbar({applicantprofileName}:{applicantprofileName:string}) {
+  const [Id,setId] = useState<string|number>()
+  const [profilepicture,Setprofilepicture] = useState<string>("")
+
+  const handleApplicantProfile = async ()=>{
+    // get token and userid
+    const response = await fetch('/api/get-ap-profile-details', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if(response.ok){
+      // const {id} = await response.json() 
+      const data = await response.json() 
+      console.log("datas",data)
+      setId(data[0].id)
+      console.log("id ", data[0].id,"userid:")
+    }
+
+
+
+
+
+  }
+  handleApplicantProfile()
+
+  //  get applicant profile
+
   const  router = useRouter()
+  
   const handleLogout = async () => {
     try {
       const response = await fetch('/api/logout', {
@@ -39,6 +70,34 @@ function DashboardNavbar({applicantprofileName}:{applicantprofileName:string}) {
     console.log("open")
   };
 
+
+  
+///  load all profile details
+useEffect(() => {
+  const handleprofiledetails = async () => {
+
+  try{
+      const Profileresponse = await fetch(`/api/get-ap-profile-details`,{
+          method: "GET",
+          headers: {
+          "Content-Type": "application/json",
+          },
+      })
+      if(Profileresponse.ok){
+          const data = await Profileresponse.json()
+  
+        
+          const {profile_image} = data[0]
+          Setprofilepicture(profile_image)
+         
+      }
+
+  } catch (error){
+      console.log("errors:",error)
+  }
+}
+handleprofiledetails();
+},[])
   return (
     <div className='relative'>
     <nav className='px-20 items-center w-full flex justify-between font-semibold'>
@@ -97,7 +156,28 @@ function DashboardNavbar({applicantprofileName}:{applicantprofileName:string}) {
 
            
             <div className='profil-icon flex space-x-3 cursor-pointer'>
-            <div className='bg-[#cccbc8] rounded-full w-11 h-11'></div>
+            <div className='border rounded-full w-11 h-11'>
+              {profilepicture ?(
+                  <Image
+                  src={profilepicture}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className='rounded-full w-11 h-11'
+                  
+                  />
+              ):(
+                <Image
+                src="/default_profile.jpeg"
+                alt=""
+                width={40}
+                height={40}
+                className='rounded-full w-11 h-11'
+                
+                />
+              )}
+          
+            </div>
             <Link href="/applicant/dashboard/profile">
             <div className='logo-text'><p className='leading-10 text-xs'>{applicantprofileName}</p></div>
             </Link>
@@ -118,7 +198,7 @@ function DashboardNavbar({applicantprofileName}:{applicantprofileName:string}) {
         <div className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block z-10`}>
         <ul className='list-none cursor-pointer mt-10 inline [&>*]:p-3'>
           <li>
-            <Link href="/applicant/settings/profile-details-skills" className="text-slate-700 hover:bg-[black]">
+            <Link href={`/applicant/settings/profile-details/${Id}`} className="text-slate-700 hover:bg-[black]">
               <div className='flex text-center space-x-2'>
                 <CiSettings className='text-3xl' />
                 <span>Setting</span>

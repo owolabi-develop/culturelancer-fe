@@ -5,19 +5,37 @@ import * as z from 'zod';
 import { profileVideo } from "@/app/libs/shemas";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { fetchProfileDetails } from '@/app/libs/utils';
+import ProgressBar from "@ramonak/react-progress-bar";
+
 
 type Inputs = z.infer<typeof profileVideo>
 
 
 export default function ProfileVideo(){
+    const [completionPercent,setCompletionPercent] = useState<number>()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register,reset, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(profileVideo)});
     const notify = () => {
         toast.success("Profile Video  Added!");
     }
+
+     //  retrive  profle completion percent
+
+     useEffect(() => {
+        const handleprofiledetails = async () => {
+        const completion = await fetchProfileDetails();
+        if (completion !== null) {
+                setCompletionPercent(completion);
+            }
+       
+    }
+    handleprofiledetails();
+    },[completionPercent])
+    
     // handle form submition
   const onSubmit: SubmitHandler<Inputs> =  async data => {
     console.log(data)
@@ -49,12 +67,18 @@ if (response.ok){
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
 
-                <div className="md:w-full bg-gray-200 rounded-full h-2.5 my-3">
-                            <div className={`bg-[gray] h-2.5 rounded-full w-[65%]`}></div>
-                        </div>
+                <ProgressBar 
+                        completed={completionPercent ?? 0} maxCompleted={100}
+                         animateOnRender={true} 
+                         transitionDuration='3s'
+                         height='12px'
+                         labelAlignment='outside'
+                         bgColor='#354656'
+
+                          />
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: 65%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {completionPercent}%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Profile Videos</h1>
 

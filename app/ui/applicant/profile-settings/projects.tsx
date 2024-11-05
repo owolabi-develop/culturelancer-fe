@@ -1,11 +1,25 @@
 "use client"
 
-import React, { useState, FormEvent } from 'react'
+import React, { useState,useEffect,FormEvent,useRef } from 'react'
 import { TagsInput } from "react-tag-input-component";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { http_endpoints } from "@/app/libs/definations";
+import {useDropzone} from 'react-dropzone';
+import { IoCloudUploadOutline } from "react-icons/io5";
+import { fetchProfileDetails } from '@/app/libs/utils';
+import ProgressBar from "@ramonak/react-progress-bar";
+import { fetchprojects} from '@/app/libs/utils';
+import { RiDeleteBin6Line } from "react-icons/ri";
+
+
+type projectsSchema = {
+    id:string,
+    project_title:string,
+    description:string,
+} 
+
 
 
 
@@ -13,6 +27,97 @@ import { http_endpoints } from "@/app/libs/definations";
 export default function Projects(){
     const [selected, setSelected] = useState([""]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const dndstyle =`border-dashed border-2 text-center py-8 hover:border-blue-300 cursor-pointer`
+    const [completionPercent,setCompletionPercent] = useState<number>()
+    const [projects,Setporjects] = useState<projectsSchema[]>([])
+
+
+
+
+    
+    // fetch all certificate data
+    useEffect(() => {
+        const handlecertificatedetails = async () => {
+        const data = await fetchprojects();
+        if (data !== null) {
+            Setporjects(data)
+               console.log("certificate data",data)
+            }
+       
+    }
+    handlecertificatedetails();
+    },[])
+
+ // delete certificate 
+
+ const notifydelete = () => {
+    toast.success("project Deleted");
+}
+
+ const deleteProject = async (id: string) => {
+    try {
+        const response = await fetch(`/api/projects/delete-project?id=${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            Setporjects((prevProjects) =>
+                prevProjects.filter(project => project.id !== id)
+            );
+            notifydelete()
+            console.log("projects deleted:", data);
+        } else {
+            console.error("Failed to delete certificate:", data.error);
+        }
+    } catch (error) {
+        console.error("Error deleting projects", error);
+    }
+};
+   
+
+    // dnd
+    const hiddenInputRef =  useRef<HTMLInputElement | null>(null);
+    
+    const {acceptedFiles,fileRejections, getRootProps, getInputProps} = useDropzone(
+        {
+            onDrop: (incomingFiles) => {
+              if (hiddenInputRef.current) {
+                const dataTransfer = new DataTransfer();
+                incomingFiles.forEach((v) => {
+                  dataTransfer.items.add(v);
+                });
+                hiddenInputRef.current.files = dataTransfer.files;
+              }
+            },
+            maxFiles:1,
+            accept: {
+                'image/jpeg': [],
+                'image/png': []
+              },
+
+          }
+    );
+    const fileRejectionItems = fileRejections.map(({ file, errors }) => (
+        <div key={file.path}>
+        
+            {errors.map(e => (
+              <p className='text-sm text-red-500' key={e.code}>File type must be image format </p>
+            ))}
+          
+        </div>
+      ));
+
+    const files = acceptedFiles.map(file =>(
+        <p key={file.path} className=''>{file.path} - {file.size} byte</p>
+    ))
+
+
+
+    // dnd
 
     const notify = () => {
         toast.success("Project Added!");
@@ -69,6 +174,17 @@ export default function Projects(){
 
     }
     
+    useEffect(() => {
+        const handleprofiledetails = async () => {
+        const completion = await fetchProfileDetails();
+        if (completion !== null) {
+                setCompletionPercent(completion);
+            }
+       
+    }
+    handleprofiledetails();
+    },[completionPercent])
+    
    
     
 
@@ -79,12 +195,18 @@ export default function Projects(){
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
 
-                <div className="md:w-full bg-gray-200 rounded-full h-2.5 my-3">
-                            <div className={`bg-[gray] h-2.5 rounded-full w-[45%]`}></div>
-                        </div>
+                <ProgressBar 
+                        completed={completionPercent ?? 0} maxCompleted={100}
+                         animateOnRender={true} 
+                         transitionDuration='3s'
+                         height='12px'
+                         labelAlignment='outside'
+                         bgColor='#354656'
+
+                          />
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: 45%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {completionPercent}%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Projects</h1>
 
@@ -175,19 +297,19 @@ export default function Projects(){
                     
                 <div>
                 <h1 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project Photo</h1>
-                
-                <div className="flex items-center justify-center w-full">
-                    <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full  border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                            <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                            </svg>
-                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG or GIF up to 10MB</p>
-                        </div>
-                        <input id="dropzone-file" name='logo' type="file"  className='hidden' />
-                    </label>
-                </div> 
+
+                <input type ="file" name="project_image" required style ={{opacity: 0}} ref={hiddenInputRef}/>
+                <div {...getRootProps({ className:dndstyle})}>
+                <input {...getInputProps()} />
+                <div className='flex justify-center'>
+                <IoCloudUploadOutline className='text-4xl'/>
+                </div>
+
+                <p>Click to Upload or Drag and drop</p>
+                {files}
+                {fileRejectionItems}
+
+                </div>
                 
                 </div>
                   {/* profile photo */}
@@ -240,17 +362,19 @@ export default function Projects(){
                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-5 [&>*]:my-4">
                 <p className="text-xl font-semibold my-2">My Projects</p>
 
-                <div className="w-full bg-gray-100 flex rounded">
+                 {projects.map((projd)=>(
+                <div key={projd.id} className="w-full bg-gray-100 flex rounded">
 
                     <div className="w-full py-5 px-3">
-                        <h1 className="text-sm font-semibold">Project 1</h1>
+                        <h1 className="text-xl font-bold">{projd.project_title}</h1>
+                        <p className="text-sm font-semibold">{projd.description}</p>
                     </div>
 
-                    <div className="flex w-full justify-end px-2">
-                        <button className="rounded mr-5">Edit</button>
-                        <button className="rounded ">Delete</button>
+                    <div className="flex w-full justify-end px-4 py-6">
+                    <RiDeleteBin6Line className="text-2xl cursor-pointer hover:text-gray-700"  onClick={ async () => deleteProject(projd.id)}/>
                     </div>
                 </div>
+                ))}
 
                
 

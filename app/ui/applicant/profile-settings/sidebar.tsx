@@ -1,3 +1,4 @@
+"use client"
 import Link from 'next/link';
 import { FaRegUser } from "react-icons/fa6";
 import { PiSuitcaseSimpleLight } from "react-icons/pi";
@@ -7,10 +8,33 @@ import { TbAward } from "react-icons/tb";
 import { BsPatchQuestion } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import { HiOutlineLightBulb } from "react-icons/hi";
+import { useState } from 'react';
+
 
 export default function SideBar(){
 
+    const [Id,setId] = useState<string|number>(3)
 
+  const handleApplicantProfile = async ()=>{
+    // get token and userid
+    const response = await fetch('/api/get-userid-token', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if(response.ok){
+      const {token,userId} = await response.json() 
+      setId(userId)
+      console.log("token: ", token,"userid:")
+    }
+
+
+
+
+
+  }
+  handleApplicantProfile()
 
     return (
         <div className="">
@@ -19,8 +43,8 @@ export default function SideBar(){
             <ul className='list-none my-4 [&>*]:my-2'>
 
             <li className=''>
-                <Link href='/applicant/settings/profile-details-skills' className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
-                <FaRegUser className='text-xl mr-2' />Personal Details & Skill
+                <Link href={`/applicant/settings/profile-details/${Id}`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
+                <FaRegUser className='text-xl mr-2' />Personal Details
                 </Link>
             </li>
 

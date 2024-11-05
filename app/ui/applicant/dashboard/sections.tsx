@@ -1,6 +1,27 @@
+"use client"
 import Link from 'next/link'
+import React, { useState,useEffect } from 'react'
+import { fetchProfileDetails } from '@/app/libs/utils';
+import ProgressBar from "@ramonak/react-progress-bar";
+import ApplicantProfileViewChart from '../../chart/applicantprofilechart';
+import ClientRatingSummaryChart from '../../chart/applicantprofilelineChart';
 
 export  function SkillTraits(){
+    const [completionPercent,setCompletionPercent] = useState<number>()
+
+     //  retrive  profle completion percent
+
+     useEffect(() => {
+        const handleprofiledetails = async () => {
+        const completion = await fetchProfileDetails();
+        if (completion !== null) {
+                setCompletionPercent(completion);
+            }
+       
+    }
+    handleprofiledetails();
+    },[completionPercent])
+
 
     return (
         <section className="md:grid grid-cols-1 p-20 w-full justify-around">
@@ -23,20 +44,34 @@ export  function SkillTraits(){
 
                 <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
                     <h1 className='text-2xl font-bold md:text-2xl block text-black'>Profile Completion</h1>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 my-3">
-                    <div className={`bg-[gray] h-2.5 rounded-full w-[80%]`}></div>
-                    </div>
+                    <ProgressBar 
+                        completed={completionPercent ?? 0} maxCompleted={100}
+                         animateOnRender={true} 
+                         transitionDuration='3s'
+                         height='15px'
+                         bgColor='#354656'
+                         
+
+                          />
+                          <div className='my-4'>
                     <Link href="/hire"> <button className=" bg-black text-white rounded py-3 px-5">Update Resume with AI</button></Link>
+                    </div>
                 </div>
 
 {/* charts */}
                 <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
                     <h1 className='text-2xl font-bold md:text-2xl block text-black'>Analytics</h1>
                     <p className='font-bold text-black py-2'>Profile View (Last 7 Days)</p>
-                    <div className='w-full bg-[lightgray] text-center py-20'><p> interactive Line Chart</p></div>
+                    <div className='w-full '>
+
+                       <ApplicantProfileViewChart/>
+                        
+                        </div>
 
                     <p className='font-bold text-black py-2'>Client Rating Summary</p>
-                    <div className='w-full bg-[lightgray] text-center py-20'><p> interactive Bar Chart</p></div>
+                    <div className='w-full'>
+                        <ClientRatingSummaryChart/>
+                    </div>
                 </div>
 {/* charts */}
 
@@ -100,15 +135,32 @@ export  function SkillTraits(){
                 <div className='bg-white drop-shadow-lg w-full p-3 rounded flex-none'>
                     <h1 className='text-2xl font-bold md:text-2xl block text-black'>Pending Actions</h1>
 
+                  
+                    <div>
                     <p className='my-3'> Complete Skill Assesment</p>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                    <div className={`bg-[gray] h-2.5 rounded-full w-[60%]`}></div>
-                </div>
-
-                    <p className='my-3'>Update Profile</p>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                    <div className={`bg-[gray] h-2.5 rounded-full w-[80%]`}></div>
+                    <ProgressBar
+                        completed={40} 
+                        maxCompleted={100}
+                        animateOnRender={true}
+                        transitionDuration="3s"
+                        height="12px"
+                        bgColor='#354656'
+                    
+                        />
                     </div>
+               
+                    <p className='my-3'>Update Profile</p>
+                        <ProgressBar
+                        completed={Number(completionPercent) || 0} 
+                        maxCompleted={100}
+                        animateOnRender={true}
+                        transitionDuration="3s"
+                        height="12px"
+                        bgColor='#354656'
+                    
+                        />
+                       
+                    
                 </div>
 
                 <div className='bg-white drop-shadow-lg w-full p-3 rounded'>

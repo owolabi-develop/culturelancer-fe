@@ -1,24 +1,96 @@
 "use client"
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { MdEdit } from "react-icons/md";
 
 import * as z from 'zod';
 import { specializationSchema } from "@/app/libs/shemas";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from "react";
+import { useState,useEffect} from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { fetchProfileDetails } from '@/app/libs/utils';
+import ProgressBar from "@ramonak/react-progress-bar";
+import { fetchspecialization} from '@/app/libs/utils';
+
 
 type Inputs = z.infer<typeof specializationSchema >
 
+type specializationstype = {
+    id:string
+    specialization:string,
+    proficiency:number
+}
 export default function Specializations(){
+    const [completionPercent,setCompletionPercent] = useState<number>()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register, reset, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(specializationSchema)});
+    const [specializationDetails,setspecializationDetails] = useState<specializationstype[]>([])
     // handle toast bar
     const notify = () => {
         toast.success("Specialization Added!");
     }
+
+    
+    //  retrive  profle completion percent
+
+    useEffect(() => {
+        const handleprofiledetails = async () => {
+        const completion = await fetchProfileDetails();
+        if (completion !== null) {
+                setCompletionPercent(completion);
+            }
+       
+    }
+    handleprofiledetails();
+    },[completionPercent])
+
+
+    // retrive specializations
+
+    
+    useEffect(() => {
+        const handlespecialization = async () => {
+        const data = await fetchspecialization();
+        if (data !== null) {
+            setspecializationDetails(data);
+            }
+       
+    }
+    handlespecialization();
+    },[specializationDetails])
+
+
+    // delete specializations
+     // delete certificate 
+
+ const notifydelete = () => {
+    toast.success("Specialization Deleted");
+}
+
+ const deletespecializations = async (id: string) => {
+    try {
+        const response = await fetch(`/api/specialization/delete-specialization?id=${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            setspecializationDetails((prevspecializations) =>
+                prevspecializations.filter(specialization => specialization.id !== id)
+            );
+            notifydelete()
+            console.log("Certificate deleted:", data);
+        } else {
+            console.error("Failed to delete certificate:", data.error);
+        }
+    } catch (error) {
+        console.error("Error deleting certificate:", error);
+    }
+};
+
     // handle form submition
   const onSubmit: SubmitHandler<Inputs> =  async data => {
     console.log(data)
@@ -34,6 +106,9 @@ export default function Specializations(){
  
 if (response.ok){
     console.log("Social profiles added")
+    const data = await response.json()
+    console.log("certification award added",data)
+    setspecializationDetails((setspecialization) => [...setspecialization, data]);
     reset()
     setIsLoading(false)
     notify()
@@ -51,12 +126,18 @@ if (response.ok){
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
 
-                <div className="md:w-full bg-gray-200 rounded-full h-2.5 my-3">
-                            <div className={`bg-[gray] h-2.5 rounded-full w-[75%]`}></div>
-                        </div>
+                <ProgressBar 
+                        completed={completionPercent ?? 0} maxCompleted={100}
+                         animateOnRender={true} 
+                         transitionDuration='3s'
+                         height='12px'
+                         labelAlignment='outside'
+                          bgColor='#354656'
+
+                          />
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: 75%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {completionPercent}%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Specialization</h1>
 
@@ -124,21 +205,20 @@ if (response.ok){
 
                 {/* Specializations */}
 
-                <div className="md:flex">
+               
+               {specializationDetails.map((spec)=>(
+                <div key={spec.id} className="md:flex">
                         <div className="w-full">
-                       <h1 className="font-semibold">Web Developement</h1>
-                       <p>Proficiency: 70%</p>
+                       <h1 className="font-semibold">{spec.specialization}</h1>
+                       <p>Proficiency: {spec.proficiency}%</p>
                         </div>
                                
                 {/* control */}
 
                 <div className="md:flex md:w-full md:my-4 md:justify-end">
-                 <div className="border rounded md:py-1 md:px-1">
-                 <MdEdit  className="text-2xl cursor-pointer" />
-                 </div>
-
+                
                 <div className="border w-10 rounded md:py-1 md:px-1 mx-2">
-                <RiDeleteBin6Line className="text-2xl cursor-pointer" />
+                <RiDeleteBin6Line className="text-2xl cursor-pointer"  onClick={ async () => deletespecializations(spec.id) }/>
                 </div>
                
                 </div>
@@ -146,8 +226,14 @@ if (response.ok){
                  {/* control */}
                      
                 </div>
-                <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
-                   {/* Specializations */}
+                
+                // <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
+                 
+                ))}
+                  {/* Specializations */}
+
+
+
 
                 <div>
               

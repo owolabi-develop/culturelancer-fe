@@ -133,9 +133,9 @@ export  function AssesmentResult(){
     <div className="rounded bg-[lightgray] p-10 w-full mt-5"> 
             <h1 className='text-2xl font-bold md:text-2xl block text-black'>Skill Analysis</h1>
             <div className='p-3'>
-                <h1>Your performance in skill category 1 is stronger. Consider advance coures to futher Excel</h1>
-                <h1>Your performance in skill category 1 is stronger. Consider advance coures to futher Excel</h1>
-                <h1>Your performance in skill category 1 is stronger. Consider advance coures to futher Excel</h1>
+                <h1>Your performance in skill category 1 is stronger. Consider advance course to further excel</h1>
+                <h1>Your performance in skill category 1 is stronger. Consider advance course to further excel</h1>
+                <h1>Your performance in skill category 1 is stronger. Consider advance course to further excel</h1>
 
             </div>
         </div>

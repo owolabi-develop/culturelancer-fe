@@ -1,14 +1,15 @@
 "use client"
 import Link from 'next/link'
 // import { http_endpoints } from "@/app/libs/definations";
-import { useState } from 'react';
+import { useState,useEffect} from 'react';
 
 export  function AssesmentResult(){
     const [assessemtScore,setassessemtScore] = useState<number>(0)
 
-    const  get_assessment_result_details = async () =>{
 
-      const response_token = await fetch(`/api/get-token`, {
+useEffect(()=>{
+    const  get_assessment_result_details = async () =>{
+      const response_token = await fetch(`/api/getToken/`, {
             method: "GET",
       })
       if(response_token.ok){
@@ -30,19 +31,12 @@ export  function AssesmentResult(){
         console.log(assessment_score)
         setassessemtScore(assessment_score)
       } 
-
            //  get assessment dateil
-
       }
 
-
-     
-   
-
     }
-
-
     get_assessment_result_details()
+  })
 
 
     return (

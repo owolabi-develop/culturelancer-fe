@@ -6,10 +6,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import "react-toastify/dist/ReactToastify.css";
 import * as z from 'zod';
-import { fetchProfileDetails } from '@/app/libs/utils';
+import { fetchProfileDetails,fetchProfile } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 
 type Inputs = z.infer<typeof personalDatailSkill>
+
+
 
 export default function PersonalDetailAndSkills({id}:{ id:string }){
     // console.log("id",id)
@@ -17,6 +19,7 @@ export default function PersonalDetailAndSkills({id}:{ id:string }){
  
     const { register,reset,handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(personalDatailSkill)});
     const [completionPercent,setCompletionPercent] = useState<number>()
+    const [profile,setProfile] = useState<Inputs | null>(null)
     
     //  retrive  profle completion percent
 
@@ -36,6 +39,22 @@ export default function PersonalDetailAndSkills({id}:{ id:string }){
     const notify = () => {
         toast.success("Personal Details updated!");
     }
+
+    /// profil update change
+
+    useEffect(() => {
+        const handleprofile = async () => {
+        const completion = await fetchProfile();
+        if (completion !== null) {
+                setProfile(completion);
+            }
+       
+    }
+    handleprofile();
+    },[completionPercent])
+    
+    //  handle for update field
+    
 
 
     
@@ -61,6 +80,8 @@ if (applicantProfileresponse.ok){
     const {completion_percent} =  applicantData[0]
      setCompletionPercent(completion_percent)
 
+     
+
    
     const response =  await fetch(`/api/update-ap-profile-details`,{
         method: "PATCH",
@@ -70,11 +91,15 @@ if (applicantProfileresponse.ok){
         body: JSON.stringify({Data:data,Id:id}),
 });
 if (response.ok){
+   
     console.log("personal added")
     reset()
     setIsLoading(false)
     notify()
+   
 }
+const applicantformData = await applicantProfileresponse.json()
+setProfile(applicantformData)
 }
     }catch (error){
         console.log("server Error: ",error)
@@ -116,7 +141,7 @@ if (response.ok){
 
                         <div>
                             <label htmlFor="Title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                            <input type="text" id="Title" {...register('title')}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"/>
+                            <input type="text" defaultValue={profile?.title}  id="Title"  {...register('title')}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"/>
                             <p className='text-sm text-red-500'>{errors.title?.message}</p>
                         </div>
                     
@@ -126,27 +151,27 @@ if (response.ok){
 
                         <div>
                             <label htmlFor="PhoneNumber" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-                            <input type="text" id="PhoneNumber" {...register('phone_number')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 " />
+                            <input type="text" id="PhoneNumber" defaultValue={profile?.phone_number} {...register('phone_number')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 " />
                             <p className='text-sm text-red-500'>{errors.phone_number?.message}</p>
                             
                         </div>
 
                         <div>
                             <label htmlFor="Tagline" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tagline</label>
-                            <input type="text" id="Tagline" {...register('tagline')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "/>
+                            <input type="text" id="Tagline" defaultValue={profile?.tagline} {...register('tagline')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "/>
                             <p className='text-sm text-red-500'>{errors.tagline?.message}</p>
                         </div>
 
 
                         <div>
-                            <label htmlFor="CurrentMayor" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Mayor</label>
-                            <input type="text" id="CurrentMayor" {...register('current_major')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
+                            <label htmlFor="CurrentMayor" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Major</label>
+                            <input type="text" id="CurrentMayor" defaultValue={profile?.current_major} {...register('current_major')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
                             <p className='text-sm text-red-500'>{errors.current_major?.message}</p>
                         </div>
 
                         <div>
                             <label htmlFor="DreamCareer" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dream Career</label>
-                            <input type="text" id="DreamCareer" {...register('dream_carerr')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:text-white"/>
+                            <input type="text" id="DreamCareer" defaultValue={profile?.dream_carerr} {...register('dream_carerr')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:text-white"/>
                             <p className='text-sm text-red-500'>{errors.dream_carerr?.message}</p>
                         </div>
 
@@ -154,7 +179,7 @@ if (response.ok){
                         
                         <div>
                             <label htmlFor="country" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
-                            <select id="state" {...register('country')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:text-white">
+                            <select id="country" defaultValue={profile?.country} {...register('country')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:text-white">
                                 <option disabled value="">Select Country</option>
                                 <option value="nigeria">nigeria</option>
                              </select>
@@ -165,8 +190,8 @@ if (response.ok){
 
                            
                         <div>
-                            <label htmlFor="country" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">state</label>
-                            <select id="state" {...register('state')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:text-white">
+                            <label htmlFor="state" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
+                            <select id="state" defaultValue={profile?.state} {...register('state')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:text-white">
                                 <option disabled value="">Select State</option>
                                 <option value="lagos">lagos</option>
                              </select>
@@ -180,13 +205,13 @@ if (response.ok){
                     <div className="my-6 w-full grid grid-cols-2 gap-3">
                         <div>
                         <label htmlFor="Activities" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Activities</label>
-                        <input type="text" {...register('activities')} id="Activities" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
+                        <input type="text" defaultValue={profile?.activities} {...register('activities')} id="Activities" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
                         <p className='text-sm text-red-500'>{errors.activities?.message}</p>
                         </div>
 
                         <div>
                         <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                        <input type="text"  id="Address" {...register('address')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
+                        <input type="text" defaultValue={profile?.address}  id="Address" {...register('address')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
                         <p className='text-sm text-red-500'>{errors.address?.message}</p>
                         </div>
                     </div> 
@@ -198,13 +223,13 @@ if (response.ok){
                     <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                     <div className="flex items-center ps-3">
-                    <input id="horizontal-list-radio-license" type="radio" value="male" {...register('gender')} className="w-4 h-4  bg-gray-100 border-gray-300 "/>
+                    <input id="horizontal-list-radio-license" defaultValue={profile?.gender} type="radio" value="male" {...register('gender')} className="w-4 h-4  bg-gray-100 border-gray-300 "/>
                     <label htmlFor="horizontal-list-radio-license" className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Male</label>
                     </div>
                     </li>
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                     <div className="flex items-center ps-3">
-                    <input id="horizontal-list-radio-id" type="radio" value="female" {...register('gender')}  className="w-4 h-4 bg-gray-100 border-gray-300 "/>
+                    <input id="horizontal-list-radio-id" type="radio" defaultValue={profile?.gender} value="female" {...register('gender')}  className="w-4 h-4 bg-gray-100 border-gray-300 "/>
                     <label htmlFor="horizontal-list-radio-id" className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Female</label>
                     </div>
                     </li>
@@ -218,49 +243,7 @@ if (response.ok){
 
                     {/* gender */}
                     
-                    {/* form input */}
-{/* 
-                    <div className="w-full grid grid-cols-3 gap-3">
-                    <div>
-                    <label htmlFor="event_organization" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Country
-                    </label>
-                    <select id="event_organization"  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                    <option value=""></option>
-                    
-                    </select>  
-                  
-                    </div>
-
-                    
-                    <div>
-                    <label htmlFor="learning_preference" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                   State
-                    </label>
-                    <select id="learning_preference" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                    <option value=""></option>
-                    
-                    </select>   
                    
-                    </div>
-
-                    <div>
-                    <label htmlFor="learning_preference" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                   City
-                    </label>
-                    <select id="learning_preference" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                    <option value=""></option>
-                    
-                    </select>   
-                   
-                    </div>
-
-
-
-
-
-
-                </div> */}
 
                 </div>
 
@@ -271,27 +254,27 @@ if (response.ok){
 
                 <div>
                     <label htmlFor="Quote" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word to Live ByQuote</label>
-                    <input type="text" id="quote"  {...register('quote')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
+                    <input type="text" id="quote" defaultValue={profile?.quote}  {...register('quote')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
                     <p className='text-sm text-red-500'>{errors.quote?.message}</p>
                 </div>
 
                 <div>
                 <label htmlFor="Highlights" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">A Fun Fact or Somethng That Highlights Your Personality</label>
-                <input type="text" id="Highlights" {...register('personality')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
+                <input type="text" id="Highlights" defaultValue={profile?.personality} {...register('personality')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
                 <p className='text-sm text-red-500'>{errors.personality?.message}</p>
                 </div>
 
 
                 <div>
                 <label htmlFor="HBCU" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">HBCU</label>
-                <input type="text" id="HBCU"  {...register('hbcq')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
+                <input type="text" id="HBCU" defaultValue={profile?.hbcq}  {...register('hbcq')} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"/>
                 <p className='text-sm text-red-500'>{errors.hbcq?.message}</p>
                 </div>
 
 
                 <div>
                 <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add Description</label>
-                <textarea id="description" {...register('bio')} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300" placeholder="Tell us more about your self"></textarea>
+                <textarea id="description" defaultValue={profile?.bio} {...register('bio')} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300" placeholder="Tell us more about your self"></textarea>
                 <p className='text-sm text-red-500'>{errors.bio?.message}</p>
                 </div>
 
@@ -313,7 +296,7 @@ if (response.ok){
 
                 <div>
                 <label htmlFor="Language" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Language You Can Speak</label>
-                <textarea id="language" {...register('language_skills')} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 "></textarea>
+                <textarea id="language" defaultValue={profile?.language_skills} {...register('language_skills')} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 "></textarea>
                 <p className='text-sm text-red-500'>{errors.language_skills?.message}</p>
                 </div>
 

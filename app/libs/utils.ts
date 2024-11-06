@@ -173,6 +173,30 @@ export const fetchProfileDetails = async () => {
 
 
 
+export const fetchProfile = async () => {
+    try {
+        const Profileresponse = await fetch(`/api/get-ap-profile-details`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        
+        if (Profileresponse.ok) {
+            const data = await Profileresponse.json();
+            return data[0] 
+        } else {
+            console.error("Failed to fetch profile details");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching profile details:", error);
+        return null;
+    }
+  };
+
+
+
 export const fetchawardCertificate = async () => {
     try {
         const response = await fetch(`/api/award-certificate/get-certificate-data`, {

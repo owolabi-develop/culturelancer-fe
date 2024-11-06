@@ -4,10 +4,10 @@ const nextConfig = {
         domains: ['127.0.0.1'],
       remotePatterns: [
         {
-          protocol: 'http',
-          hostname: '127.0.0.1',
+          protocol: 'https',
+          hostname: 'career-app-vopqo.ondigitalocean.app',
           port: '',
-          pathname: '',
+          pathname: '**',
         },
       ],
     },

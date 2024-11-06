@@ -1,12 +1,11 @@
 import { NextRequest,NextResponse } from "next/server";
-import { http_endpoints } from "@/app/libs/definations";
-//  register applicant
+// import { http_endpoints } from "@/app/libs/definations";
 export async function POST(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
     try{
         const data = await request.json()
         console.log(data)
-        const profileresponse =  await fetch(`${http_endpoints}careerportal/applicant-skills/`,{
+        const profileresponse =  await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-skills/`,{
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",

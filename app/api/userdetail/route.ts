@@ -1,5 +1,5 @@
 import { NextResponse,NextRequest } from 'next/server'
-import { http_endpoints } from '@/app/libs/definations'
+// import { http_endpoints } from '@/app/libs/definations'
 
 
 
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const response = await fetch(`${http_endpoints}careerportal/account/${userID}/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/account/${userID}/`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`

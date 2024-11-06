@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { http_endpoints } from "@/app/libs/definations";
+// import { http_endpoints } from "@/app/libs/definations";
 
 export async function POST(request: NextRequest, { params }: { params: { uidb64: string, token: string } }) {
     try {
         const { uidb64, token } = params;
         const data = await request.json();
         
-        const response = await fetch(`${http_endpoints}careerportal/reset-password/${uidb64}/${token}/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/reset-password/${uidb64}/${token}/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

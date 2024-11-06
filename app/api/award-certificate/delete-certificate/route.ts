@@ -1,5 +1,5 @@
 import { NextRequest,NextResponse } from "next/server";
-import { http_endpoints } from "@/app/libs/definations";
+// import { http_endpoints } from "@/app/libs/definations";
 //  delete certificate
 export async function DELETE(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
@@ -7,7 +7,7 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get("id");
     console.log(id)
     try{
-        const profileresponse =  await fetch(`${http_endpoints}careerportal/applicant-award-certifications/${id}/`,{
+        const profileresponse =  await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-award-certifications/${id}/`,{
                 method: "DELETE",
                 headers: {
                 "Content-Type": "application/json",

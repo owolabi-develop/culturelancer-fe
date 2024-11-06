@@ -7,7 +7,7 @@ import { useState,useEffect } from 'react';
 import * as z from 'zod';
 import Image from 'next/image'
 import axios from "axios";
-import { http_endpoints } from "@/app/libs/definations";
+// import { http_endpoints } from "@/app/libs/definations";
 import { useRouter } from 'next/navigation'
 
 import { AwardCertificationSchema,
@@ -107,7 +107,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
         const token = await response_token.json()
         console.log("upload tolen",token)
         
-        const response = await axios.patch(`${http_endpoints}careerportal/profile-applicant/${Id}/`,  formData, {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/profile-applicant/${Id}/`,  formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                   "Authorization":`Bearer ${token}`

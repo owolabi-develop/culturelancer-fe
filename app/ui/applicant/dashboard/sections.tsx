@@ -8,19 +8,16 @@ import ClientRatingSummaryChart from '../../chart/applicantprofilelineChart';
 
 export  function SkillTraits(){
     const [completionPercent,setCompletionPercent] = useState<number>()
-
      //  retrive  profle completion percent
-
      useEffect(() => {
         const handleprofiledetails = async () => {
         const completion = await fetchProfileDetails();
         if (completion !== null) {
                 setCompletionPercent(completion);
-            }
-       
+            }  
     }
     handleprofiledetails();
-    },[completionPercent])
+    })
 
 
     return (

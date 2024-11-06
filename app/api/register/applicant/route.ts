@@ -1,11 +1,11 @@
 import { NextRequest,NextResponse } from "next/server";
-import { http_endpoints } from "@/app/libs/definations";
+// import { http_endpoints } from "@/app/libs/definations";
 //  register applicant
 export async function POST(request: NextRequest) {
     const assessmentID = request.cookies.get("assessment_id")?.value;
     try{
         const data = await request.json()
-        const response =  await fetch(`${http_endpoints}careerportal/account/`,{
+        const response =  await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/account/`,{
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
             const userid = userdata.id
             console.log(userid)
 
-            const  assessmentResponse =  await fetch(`${http_endpoints}careerportal/get-applicant-assessment/${userid}/${assessmentID}`,{
+            const  assessmentResponse =  await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/get-applicant-assessment/${userid}/${assessmentID}`,{
                 method: "GET",
                 headers: {
                 "Content-Type": "application/json",

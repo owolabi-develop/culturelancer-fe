@@ -8,13 +8,14 @@ import { TbAward } from "react-icons/tb";
 import { BsPatchQuestion } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import { HiOutlineLightBulb } from "react-icons/hi";
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 
 export default function SideBar(){
 
     const [Id,setId] = useState<string|number>(3)
 
+useEffect(()=>{
   const handleApplicantProfile = async ()=>{
     // get token and userid
     const response = await fetch('/api/get-userid-token', {
@@ -28,13 +29,9 @@ export default function SideBar(){
       setId(userId)
       console.log("token: ", token,"userid:")
     }
-
-
-
-
-
   }
   handleApplicantProfile()
+})
 
     return (
         <div className="">

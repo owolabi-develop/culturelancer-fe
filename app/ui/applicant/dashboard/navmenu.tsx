@@ -15,31 +15,33 @@ import { useRouter } from 'next/navigation'
 function DashboardNavbar({applicantprofileName}:{applicantprofileName:string}) {
   const [Id,setId] = useState<string|number>()
   const [profilepicture,Setprofilepicture] = useState<string>("")
+  
+    //  get applicant profile
 
-  const handleApplicantProfile = async ()=>{
-    // get token and userid
-    const response = await fetch('/api/get-ap-profile-details', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if(response.ok){
-      // const {id} = await response.json() 
-      const data = await response.json() 
-      console.log("datas",data)
-      setId(data[0].id)
-      console.log("id ", data[0].id,"userid:")
-    }
+//   useEffect(()=>{
+//   const handleApplicantProfile = async ()=>{
+
+//     const response = await fetch('/api/get-ap-profile-details', {
+//       method: 'GET',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//     });
+//     if(response.ok){
+     
+//       const data = await response.json() 
+//       console.log("datas",data)
+//       setId(data[0].id)
+//       console.log("id ", data[0].id,"userid:")
+//     }
+//   }
+//   handleApplicantProfile()
+// })
 
 
 
 
-
-  }
-  handleApplicantProfile()
-
-  //  get applicant profile
+  // handle logout
 
   const  router = useRouter()
   
@@ -87,8 +89,9 @@ useEffect(() => {
           const data = await Profileresponse.json()
   
         
-          const {profile_image} = data[0]
+          const {profile_image,id} = data[0]
           Setprofilepicture(profile_image)
+          setId(id)
          
       }
 
@@ -97,7 +100,8 @@ useEffect(() => {
   }
 }
 handleprofiledetails();
-},[])
+})
+
   return (
     <div className='relative'>
     <nav className='px-20 items-center w-full flex justify-between font-semibold'>

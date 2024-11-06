@@ -1,6 +1,6 @@
 "use client"
 import Link from 'next/link'
-import { http_endpoints } from "@/app/libs/definations";
+// import { http_endpoints } from "@/app/libs/definations";
 import { useState } from 'react';
 
 export  function AssesmentResult(){
@@ -16,7 +16,7 @@ export  function AssesmentResult(){
         console.log("the token",token)
 
         //  get assessment dateila
-        const response = await fetch(`${http_endpoints}careerportal/get-user-assessment-score/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/get-user-assessment-score/`, {
           method: "GET",
           headers: {
               "Content-Type": "application/json",

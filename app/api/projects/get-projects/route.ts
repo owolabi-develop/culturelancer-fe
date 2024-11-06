@@ -1,10 +1,9 @@
 import { NextRequest,NextResponse } from "next/server";
-import { http_endpoints } from "@/app/libs/definations";
-//  register applicant
+// import { http_endpoints } from "@/app/libs/definations";
 export async function GET(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
     try{
-        const profileresponse =  await fetch(`${http_endpoints}careerportal/applicant-project/`,{
+        const profileresponse =  await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-project/`,{
                 method: "GET",
                 headers: {
                 "Content-Type": "application/json",

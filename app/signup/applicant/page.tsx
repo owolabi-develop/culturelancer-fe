@@ -9,20 +9,24 @@ import { createAccount } from "@/app/libs/shemas";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from 'next/navigation'
 import React, { useState,} from 'react'
+import { FaRegEye } from "react-icons/fa6";
+import { FaRegEyeSlash } from "react-icons/fa6";
 
 
 type Inputs = z.infer<typeof createAccount>
 
 
-export default function SignUp(){
+export default function ApplicantSignUp(){
 
   // loading as error state
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  // const [error, setError] = useState<string | null>(null)
-  // loading as error state
-
+  const [error, setError] = useState<string | null>(null)
+ 
   const router = useRouter()
-  const { register, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(createAccount)});
+  const { register,handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(createAccount)});
+  const [showPassword,setShowPassword] = useState(false)
+
+  const togglePassword = () => setShowPassword(!showPassword);
 
   //  submit from to server
   const processForm: SubmitHandler<Inputs> =  async data => {
@@ -39,10 +43,19 @@ export default function SignUp(){
         router.push('/account-created-successfull')
         
        }
-      if (!response.ok) throw new Error("Account creation failed");
+       if(response.status === 406){
+        console.log(await response.json())
+
+       }
+      if (!response.ok){
+        setError("Account already exists with this email")
+      }
+       console.log(response)
+       setIsLoading(false)
       
     } catch (error){
       console.error("account creation fail",error)
+      setIsLoading(false)
     }
    
   }
@@ -105,9 +118,10 @@ export default function SignUp(){
             <p className="text-sm text-red-500">{errors.email?.message}</p>
         </div>
 
-        <div className="p-2">
+        <div className="p-2 relative">
             <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-            <input type="password"  {...register("password")} id="password" placeholder="Enter your password" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+            <input type={showPassword ? 'text' : 'password'}  {...register("password")} id="password" placeholder="Enter your password" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+            <span className="absolute bottom-5 right-9" onClick={togglePassword} >{showPassword ? <FaRegEye className="text-2xl"/> : <FaRegEyeSlash className="text-2xl" />}</span>
             <p className="text-sm text-red-500">{errors.password?.message}</p>
             <input type="text" hidden={true}  {...register("role")} value={"applicant"} />
             
@@ -135,9 +149,9 @@ export default function SignUp(){
       </div>
 
     </div>
+    <p className="my-3 text-red-400 text-base">{error}</p>
 
      {/* signup */}
-
     
        </div>
          <h1 className="mt-3 cursor-pointer">Already have an account? <Link href="/login">Log in</Link></h1>

@@ -22,7 +22,7 @@ export default function OtpVerification(){
         </div>
         <div className="my-5 text-center">
             <h1 className="text-2xl">Account created successfully!</h1>
-        <p>Congratulations your account has been createds. please check your inbox to Verify your account</p>
+        <p>Congratulations your account has been created. please check your inbox to Verify your account</p>
         </div>
      
 

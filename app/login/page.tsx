@@ -11,6 +11,8 @@ import { loginFormSchema } from "@/app/libs/shemas";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from 'next/navigation'
 import { useState } from "react";
+import { FaRegEye } from "react-icons/fa6";
+import { FaRegEyeSlash } from "react-icons/fa6";
 
 
 type Inputs = z.infer<typeof loginFormSchema>;
@@ -19,10 +21,12 @@ export default function Login() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
+  const [showPassword,setShowPassword] = useState(false)
 
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
     resolver: zodResolver(loginFormSchema),
   });
+  const togglePassword = () => setShowPassword(!showPassword);
 
   const onLogin: SubmitHandler<Inputs> = async (data) => {
     setIsLoading(true);
@@ -85,9 +89,10 @@ export default function Login() {
             <p className="text-sm text-red-500">{errors.email?.message}</p>
         </div>
 
-        <div className="p-2">
+        <div className="p-2 relative">
             <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-            <input type="password" {...register("password")} id="password" placeholder="Enter your password" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+            <input type={showPassword ? 'text' : 'password'} {...register("password")} id="password" placeholder="Enter your password" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+            <span className="absolute bottom-5 right-9" onClick={togglePassword} >{showPassword ? <FaRegEye className="text-2xl"/> : <FaRegEyeSlash className="text-2xl" />}</span>
             <p className="text-sm text-red-500">{errors.password?.message}</p>
         </div>
 
@@ -133,7 +138,7 @@ export default function Login() {
     <ImLinkedin className="text-2xl text-[#1877F2]"/>
       <span>Login with LinkedIn</span></button>
        </div>
-         <h1 className="mt-3 cursor-pointer">`Don`t have an account? <Link href="/signup/options">Sign Up</Link> </h1>
+         <h1 className="mt-3 cursor-pointer">Don`t have an account? <Link href="/signup/options">Sign Up</Link> </h1>
        
 
     </section>

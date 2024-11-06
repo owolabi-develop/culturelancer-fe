@@ -1,5 +1,4 @@
 "use client"
-
 import RequireSkills from "./taginput"
 import { useState } from "react"
 import { FaChevronDown } from "react-icons/fa";
@@ -18,9 +17,6 @@ export function EmployerPostJobs(){
   const handleLocationType = () => {
     setlocationType(prev => !prev);
   };
-
-
-
 
 
     return(

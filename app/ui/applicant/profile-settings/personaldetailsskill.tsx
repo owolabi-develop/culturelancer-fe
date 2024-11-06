@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import * as z from 'zod';
 import { fetchProfileDetails,fetchProfile } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
+// or
 
 type Inputs = z.infer<typeof personalDatailSkill>
 

@@ -13,32 +13,8 @@ import { useRouter } from 'next/navigation'
 
 
 function DashboardNavbar({applicantprofileName}:{applicantprofileName:string}) {
-  const [Id,setId] = useState<string|number>()
+  const [applicantId,SetapplicantId] = useState<string|number>()
   const [profilepicture,Setprofilepicture] = useState<string>("")
-  
-    //  get applicant profile
-
-//   useEffect(()=>{
-//   const handleApplicantProfile = async ()=>{
-
-//     const response = await fetch('/api/get-ap-profile-details', {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     });
-//     if(response.ok){
-     
-//       const data = await response.json() 
-//       console.log("datas",data)
-//       setId(data[0].id)
-//       console.log("id ", data[0].id,"userid:")
-//     }
-//   }
-//   handleApplicantProfile()
-// })
-
-
 
 
   // handle logout
@@ -91,7 +67,7 @@ useEffect(() => {
         
           const {profile_image,id} = data[0]
           Setprofilepicture(profile_image)
-          setId(id)
+          SetapplicantId(id)
          
       }
 
@@ -202,7 +178,7 @@ handleprofiledetails();
         <div className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block z-10`}>
         <ul className='list-none cursor-pointer mt-10 inline [&>*]:p-3'>
           <li>
-            <Link href={`/applicant/settings/profile-details/${Id}`} className="text-slate-700 hover:bg-[black]">
+            <Link href={`/applicant/settings/profile-details/${applicantId}`} className="text-slate-700 hover:bg-[black]">
               <div className='flex text-center space-x-2'>
                 <CiSettings className='text-3xl' />
                 <span>Setting</span>

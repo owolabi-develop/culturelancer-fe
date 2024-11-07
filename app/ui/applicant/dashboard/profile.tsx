@@ -7,8 +7,8 @@ import { useState,useEffect } from 'react';
 import * as z from 'zod';
 import Image from 'next/image'
 import axios from "axios";
-// import { http_endpoints } from "@/app/libs/definations";
 import { useRouter } from 'next/navigation'
+
 
 import { AwardCertificationSchema,
 exprienceSchame,educationSchame,skills,projectShema,
@@ -18,9 +18,6 @@ type Edu = z.infer<typeof educationSchame>
 type Skil = z.infer<typeof skills>
 type projt = z.infer<typeof projectShema>
 type certi = z.infer<typeof AwardCertificationSchema>
-
-
-
 
 export  function ApplicantUserProfile(){
     const [Skills, setSkills] = useState<Skil[]>([])
@@ -37,11 +34,7 @@ export  function ApplicantUserProfile(){
     const [Id,SetId] = useState<string>()
     const [state,Setstate] = useState<string>()
     const [country,SetCountry] = useState<string>()
-
-    // const [completionPercent,SetcompletionPersent] = useState<string>()
     const router = useRouter();
-
-
 
 ///  load all profile details
 useEffect(() => {
@@ -398,11 +391,17 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
                         
                         />
                      )}     
-                        <div className='py-2 px-3 [&>*]:break-words [&>*]:text-sm bg-slate-300'>
-                        <p className='break-words'>Title: {projects.project_title}</p>
-                        <p className='break-words truncate'>description: {projects.description}</p>
-                        <p className='break-word'>Github: {projects.project_links_github} </p>
-                        <p className='break-words'>Live demo: {projects.project_links_live_demo}</p>
+                        <div className='py-2 px-3 [&>*]:break-words [&>*]:text-sm border-t-2'>
+                            <div className='text-center'> 
+                                <p className='break-words truncate'>{projects.description}</p>
+                            </div>
+                       
+                        <div className='my-4'>
+                            <button className='py-2 px-2 mx-2 border rounded-lg hover:bg-slate-200 [&>*]:text-sm drop-shadow-lg'><a href={projects.project_links_live_demo}>View github</a></button>
+                            <button className='py-2 px-2 mx-2 border rounded-lg hover:bg-slate-200 [&>*]:text-sm drop-shadow-lg'><a href={projects.project_links_github}>View live Demo</a></button>
+                      
+                        </div>
+
                         </div> 
                                   
                     </div>

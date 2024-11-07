@@ -277,6 +277,32 @@ export const fetchprojects = async () => {
   
 
 
+  // get applicant job recommendations
+
+  export const fetchapplicantJobrecommendations = async () => {
+    try {
+        const response = await fetch(`/api/applicant-job-recommendations`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            return data
+        } else {
+            console.error("Failed to fetch profile details");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching profile details:", error);
+        return null;
+    }
+  };
+  
+
+
 
  
 

@@ -135,7 +135,7 @@ export default function Projects(){
         });
         try{
             // get token
-        const response_token = await fetch(`/api/get-token`, {
+        const response_token = await fetch(`/api/getToken`, {
                 method: "GET",
           })
             

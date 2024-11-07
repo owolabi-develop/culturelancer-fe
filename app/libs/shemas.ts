@@ -66,26 +66,21 @@ const MAX_FILE_SIZE = 1000000; const ACCEPTED_IMAGE_TYPES = [
 
 export const personalDatailSkill = z.object({
 
-    title: z.string({required_error:'title is required',invalid_type_error:'invalid type input for title'}).min(4,'title must be at least 4 character long'),
-    country: z.string({required_error:'country is required',invalid_type_error:'invalid type input for country'}).min(4,'country must be at least 4 character long'),
-    state: z.string({required_error:'state is required',invalid_type_error:'invalid type input for state'}).min(4,'state must be at least 4 character long'),
-    phone_number: z.string().min(1, { message: "Phone number is required" }).regex(/^\+?[1-9]\d{1,14}$/, { message: "Invalid phone number" }),
-    tagline: z.string({required_error:'tagline is required',invalid_type_error:'invalid type input for tagline'}).min(4,'tagline must be at least 4 character long'),
-    current_major: z.string({required_error:'Current Mayor is required',invalid_type_error:'invalid type input for Current Mayor'}).min(4,'Current Mayor must be at least 4 character long'),
-    dream_carerr: z.string({required_error:'Dream Career is required',invalid_type_error:'invalid type input for Dream Career'}).min(4,'Dream Career must be at least 4 character long'),
-    gender: z.enum(["male", "female", "other"], {
-      required_error: "Gender is required",
-      invalid_type_error: "Invalid gender selection",
-    }),
-    activities: z.string({required_error:'Activities is required',invalid_type_error:'invalid type input for Activities'}).min(4,'Activities must be at least 4 character long'),
-    address: z.string({required_error:'Activities is required',invalid_type_error:'invalid type input for Activities'}).min(4,'Activities must be at least 4 character long'),
-    quote: z.string({required_error:'Quote is required',invalid_type_error:'invalid type input for Quote'}).min(4,'Quote must be 4 character long'),
-    hbcq: z.string({required_error:'HBCQ is required',invalid_type_error:'invalid type input for HBCQ'}).min(4,'HBCQ must be 4 character '),
-    personality: z.string({required_error:'personality is required',invalid_type_error:'invalid type input for personality'}).min(4,'personality must be at least 4 character long'),
-    bio: z.string({required_error:'description is required',invalid_type_error:'invalid type input for description'}).min(4,'description must be at least 4 character long'),
-    language_skills: z.string({required_error:'description is Language',invalid_type_error:'invalid type input for Language'}).min(4,'Language must be at least 4 character long'),
-
-
+    title: z.string({required_error:'title is required',invalid_type_error:'invalid type input for title'}),
+    country: z.string({required_error:'country is required',invalid_type_error:'invalid type input for country'}),
+    state: z.string({required_error:'state is required',invalid_type_error:'invalid type input for state'}),
+    phone_number: z.string().regex(/^\+?[1-9]\d{1,14}$/, { message: "Invalid phone number" }),
+    tagline: z.string({required_error:'tagline is required',invalid_type_error:'invalid type input for tagline'}),
+    current_major: z.string({required_error:'Current Mayor is required',invalid_type_error:'invalid type input for Current Mayor'}),
+    dream_carerr: z.string({required_error:'Dream Career is required',invalid_type_error:'invalid type input for Dream Career'}),
+    gender: z.enum(["male", "female", "other"]),
+    activities: z.string({required_error:'Activities is required',invalid_type_error:'invalid type input for Activities'}),
+    address: z.string({required_error:'Activities is required',invalid_type_error:'invalid type input for Activities'}),
+    quote: z.string({required_error:'Quote is required',invalid_type_error:'invalid type input for Quote'}),
+    hbcq: z.string({required_error:'HBCQ is required',invalid_type_error:'invalid type input for HBCQ'}),
+    personality: z.string({required_error:'personality is required',invalid_type_error:'invalid type input for personality'}),
+    bio: z.string({required_error:'description is required',invalid_type_error:'invalid type input for description'}),
+    language_skills: z.string({required_error:'description is Language',invalid_type_error:'invalid type input for Language'}),
     
 })
 

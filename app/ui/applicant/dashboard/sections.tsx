@@ -5,9 +5,44 @@ import { fetchProfileDetails } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 import ApplicantProfileViewChart from '../../chart/applicantprofilechart';
 import ClientRatingSummaryChart from '../../chart/applicantprofilelineChart';
+import { fetchapplicantJobrecommendations } from '@/app/libs/utils';
+
+type recommededJobSchema = {
+    id:string,
+    title:string,
+    description:string,
+    experience:number,
+    company:string,
+    apply_url:string,
+    posted:string,
+    company_logo:string,
+    location:string[],
+    job_type:string[],
+    minimum_budget:number,
+    maximum_budget:number,
+    skills:string[],
+    experience_levels:string[]
+    status:string
+
+
+}
 
 export  function SkillTraits(){
     const [completionPercent,setCompletionPercent] = useState<number>()
+    const [recommededJobs,SetRecommendedjob] = useState<recommededJobSchema[]>([])
+
+ // get aplicant Recommeded Jobs
+useEffect(() => {
+    const handleRecommendedjobs = async () => {
+    const data = await fetchapplicantJobrecommendations();
+    if (data !== null) {
+        SetRecommendedjob(data['job_recommedation'])
+           console.log(" job recommendation data",data)
+        }
+}
+handleRecommendedjobs();
+},[])
+
      //  retrive  profle completion percent
      useEffect(() => {
         const handleprofiledetails = async () => {
@@ -97,21 +132,19 @@ export  function SkillTraits(){
                 {/* recomend jobs */}
                 <div className='bg-white drop-shadow-lg w-full rounded p-5 py-10'>
                     <h1 className='text-2xl font-bold md:text-2xl block text-black mb-5'>Recommeded Jobs</h1>
+                  
+                    <div className='space-y-6 sm:space-y-6 xl:space-x-4 jobs w-full md:flex  md:space-x-0 md:space-y-0 '>
+                    {recommededJobs.map((jobs)=>(
+                        <div key={jobs.id} className='rounded border p-5 drop-shadow-lg bg-white'>
+                        <p className='font-bold text-black py-2 '>{jobs.title}</p>
+                        <p className='mt-2'>Budget: ${jobs.minimum_budget} -  ${jobs.maximum_budget}</p>
+                        <p className='mt-2'>{jobs.description}</p>
+                        <p className='mt-2'>Date Posted: {jobs.posted}</p>
 
-                    <div className='space-y-6 sm:space-y-6 xl:space-x-4 jobs w-full md:flex  md:space-x-0 md:space-y-0 justify-evenly'>
-                        <div className='rounded border p-5 drop-shadow-lg bg-white'>
-                        <p className='font-bold text-black py-2 '> Senior Frontend Developer</p>
-                        <p className='mt-2'>Budget: $8000 - 10000</p>
-                        <p className='mt-2'>Looking for an experience developer to lead our frontend team...</p>
-                        <Link href=""> <button className=" bg-black text-white rounded py-2 px-3 mt-4">View Job</button></Link>
+                        <span className='py-2 px-3 bg-green-400 rounded-md text-white font-semibold'>{jobs.status}</span>
+                        <Link href={`${process.env.NEXT_PUBLIC_API_JOB_URL}${jobs.apply_url}`}> <button className=" bg-black text-white rounded py-2 px-3 mt-4">View Job</button></Link>
                         </div>
-
-                        <div className='rounded border p-5 drop-shadow-lg bg-white'>
-                        <p className='font-bold text-black py-2 '> Senior Frontend Developer</p>
-                        <p className='mt-2'>Budget: $8000 - 10000</p>
-                        <p className='mt-2'>Looking for an experience developer to lead our frontend team...</p>
-                        <Link href=""> <button className=" bg-black text-white rounded py-2 px-3 mt-4">View Job</button></Link>
-                        </div>
+                        ))}
 
                     </div>
 

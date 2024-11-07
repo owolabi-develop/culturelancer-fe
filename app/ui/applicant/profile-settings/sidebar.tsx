@@ -9,28 +9,21 @@ import { BsPatchQuestion } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { useState,useEffect } from 'react';
+import { fetchProfile} from '@/app/libs/utils';
 
 
 export default function SideBar(){
 
-    const [Id,setId] = useState<string|number>(3)
+    const [applicantId,SetapplicantId] = useState<string|number>()
 
-useEffect(()=>{
-  const handleApplicantProfile = async ()=>{
-    // get token and userid
-    const response = await fetch('/api/get-userid-token', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if(response.ok){
-      const {token,userId} = await response.json() 
-      setId(userId)
-      console.log("token: ", token,"userid:")
-    }
-  }
-  handleApplicantProfile()
+// fetch all certificate data
+useEffect(() => {
+    const handlefetchProfile = async () => {
+    const {id} = await fetchProfile();
+    SetapplicantId(id)
+       
+}
+handlefetchProfile();
 })
 
     return (
@@ -40,7 +33,7 @@ useEffect(()=>{
             <ul className='list-none my-4 [&>*]:my-2'>
 
             <li className=''>
-                <Link href={`/applicant/settings/profile-details/${Id}`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
+                <Link href={`/applicant/settings/profile-details/${applicantId}`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
                 <FaRegUser className='text-xl mr-2' />Personal Details
                 </Link>
             </li>

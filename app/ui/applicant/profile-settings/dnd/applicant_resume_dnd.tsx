@@ -65,7 +65,7 @@ export function ApplicantDndResume({className,name,notifytest}:{className:string
         try{
         setIsLoading(true)
 
-        const response_token = await fetch(`/api/get-token`, {
+        const response_token = await fetch(`/api/getToken`, {
             method: "GET",
       })
       if (response_token.ok){

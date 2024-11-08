@@ -79,7 +79,7 @@ useEffect(() => {
     }
 }
 handleprofiledetails();
-},[profilepicture])
+},[])
 
 // handle profile upload
 const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{

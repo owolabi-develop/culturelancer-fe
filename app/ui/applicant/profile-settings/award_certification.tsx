@@ -38,7 +38,7 @@ export default function AwardCertification(){
        
     }
     handleprofiledetails();
-    },[completionPercent])
+    },[])
 
 
 

@@ -135,7 +135,6 @@ export default function Projects(){
         try{
             // get token
         const response_token = await fetch(`/api/getToken`, {
-                method: "GET",
           })
             
         if(response_token){
@@ -182,7 +181,7 @@ export default function Projects(){
        
     }
     handleprofiledetails();
-    },[completionPercent])
+    },[])
     
    
     

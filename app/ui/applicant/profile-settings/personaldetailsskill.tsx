@@ -34,7 +34,7 @@ export default function PersonalDetailAndSkills({id}:{ id:string }){
        
     }
     handleprofiledetails();
-    },[completionPercent])
+    },[])
 
 
     // handle toast bar
@@ -53,7 +53,7 @@ export default function PersonalDetailAndSkills({id}:{ id:string }){
        
     }
     handleprofile();
-    },[completionPercent,profile])
+    },[])
     
     //  handle for update field
     

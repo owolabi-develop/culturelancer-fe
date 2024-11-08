@@ -31,7 +31,7 @@ export default function SocialProfile(){
        
     }
     handleprofiledetails();
-    },[completionPercent])
+    },[])
     // handle toast bar
     const notify = () => {
         toast.success("Social Profiles Added!");

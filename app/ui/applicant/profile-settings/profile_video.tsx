@@ -34,7 +34,7 @@ export default function ProfileVideo(){
        
     }
     handleprofiledetails();
-    },[completionPercent])
+    },[])
     
     // handle form submition
   const onSubmit: SubmitHandler<Inputs> =  async data => {

@@ -19,10 +19,9 @@ export default function ExperienceEducation(){
         if (completion !== null) {
                 setCompletionPercent(completion);
             }
-       
     }
     handleprofiledetails();
-    },[completionPercent])
+    },[])
    
     return (
         <section className="w-full ">

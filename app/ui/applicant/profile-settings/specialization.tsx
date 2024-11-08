@@ -42,7 +42,7 @@ export default function Specializations(){
        
     }
     handleprofiledetails();
-    },[completionPercent])
+    },[])
 
 
     // retrive specializations
@@ -57,7 +57,7 @@ export default function Specializations(){
        
     }
     handlespecialization();
-    },[specializationDetails])
+    },[])
 
 
     // delete specializations

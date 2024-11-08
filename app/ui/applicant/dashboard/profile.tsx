@@ -100,7 +100,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
         const token = await response_token.json()
         console.log("upload tolen",token)
         
-        const response = await axios.patch(`https://career-app-vopqo.ondigitalocean.app/careerportal/profile-applicant/${Id}/`,  formData, {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/profile-applicant/${Id}/`,  formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                   "Authorization":`Bearer ${token}`

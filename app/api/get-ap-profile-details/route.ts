@@ -4,7 +4,7 @@ import { NextRequest,NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
     try{
-        const profileresponse =  await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/profile-applicant/`,{
+        const profileresponse =  await fetch(`https://career-app-vopqo.ondigitalocean.app/careerportal/profile-applicant/`,{
                 method: "GET",
                 headers: {
                 "Content-Type": "application/json",

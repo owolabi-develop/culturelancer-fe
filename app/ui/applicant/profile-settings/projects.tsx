@@ -5,7 +5,6 @@ import { TagsInput } from "react-tag-input-component";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { http_endpoints } from "@/app/libs/definations";
 import {useDropzone} from 'react-dropzone';
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { fetchProfileDetails } from '@/app/libs/utils';
@@ -143,7 +142,7 @@ export default function Projects(){
         const token = await response_token.json()
         console.log("the token",token)
 
-        const response = await axios.post(`${http_endpoints}careerportal/applicant-project/`,  formData, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-project/`,  formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                   "Authorization":`Bearer ${token}`

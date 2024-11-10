@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import axios from "axios";
-import { http_endpoints } from "@/app/libs/definations";
+
 
 
 
@@ -31,7 +31,7 @@ export default function EmployerSignUp(){
     console.log(data);
     try{
     setIsLoading(true)
-    const response = await axios.post(`${http_endpoints}careerportal/account/`,  data, {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/account/`,  data, {
       headers: {
           'Content-Type': 'application/json'
       },

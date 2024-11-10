@@ -13,10 +13,13 @@ const VerificationPage = () => {
   const { uidb64, token } = useParams();
     const verifyAccount = async () => {
       try {
-        const response = await fetch(`/api/account-verify/${uidb64}/${token}/`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-        });
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/verify-email/${uidb64}/${token}/`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+     
+      });
 
         if (response.ok) {
           router.push('/login');

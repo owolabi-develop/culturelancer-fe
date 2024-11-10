@@ -5,10 +5,10 @@ import * as z from 'zod';
 import { profileVideo } from "@/app/libs/shemas";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState,useEffect } from "react";
+import { useState} from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { fetchProfileDetails } from '@/app/libs/utils';
+import {  useProfileDetails  } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 
 
@@ -16,25 +16,23 @@ type Inputs = z.infer<typeof profileVideo>
 
 
 export default function ProfileVideo(){
-    const [completionPercent,setCompletionPercent] = useState<number>()
+    const {completionPercent, percentLoading,percentError} = useProfileDetails();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register,reset, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(profileVideo)});
     const notify = () => {
         toast.success("Profile Video  Added!");
     }
 
-     //  retrive  profle completion percent
-
-     useEffect(() => {
-        const handleprofiledetails = async () => {
-        const completion = await fetchProfileDetails();
-        if (completion !== null) {
-                setCompletionPercent(completion);
-            }
-       
+    const completion_percent = completionPercent && completionPercent[0] ? completionPercent[0].completion_percent : 0;
+    
+    if(percentLoading){
+        return<></>
     }
-    handleprofiledetails();
-    },[])
+    if(percentError){
+        return <></>
+    }
+
+   
     
     // handle form submition
   const onSubmit: SubmitHandler<Inputs> =  async data => {
@@ -68,7 +66,7 @@ if (response.ok){
                 {/* progress bar */}
 
                 <ProgressBar 
-                        completed={completionPercent ?? 0} maxCompleted={100}
+                        completed={completion_percent ?? 0} maxCompleted={100}
                          animateOnRender={true} 
                          transitionDuration='3s'
                          height='12px'
@@ -78,7 +76,7 @@ if (response.ok){
                           />
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: {completionPercent}%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {completion_percent}%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Profile Videos</h1>
 

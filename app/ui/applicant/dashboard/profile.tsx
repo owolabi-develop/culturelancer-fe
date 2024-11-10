@@ -3,83 +3,43 @@ import Link from 'next/link'
 import { IoMdAdd } from "react-icons/io";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { LuPencil } from "react-icons/lu";
-import { useState,useEffect } from 'react';
 import * as z from 'zod';
 import Image from 'next/image'
 import axios from "axios";
 import { useRouter } from 'next/navigation'
-
-
+import useSWR from 'swr';
 import { AwardCertificationSchema,
 exprienceSchame,educationSchame,skills,projectShema,
 } from "@/app/libs/shemas";
 type Exp = z.infer<typeof exprienceSchame>
 type Edu = z.infer<typeof educationSchame>
-type Skil = z.infer<typeof skills>
+type Skill = z.infer<typeof skills>
 type projt = z.infer<typeof projectShema>
 type certi = z.infer<typeof AwardCertificationSchema>
 
 export  function ApplicantUserProfile(){
-    const [Skills, setSkills] = useState<Skil[]>([])
-    const [education ,setEducation] = useState<Edu[]>([])
-    const [experience ,setSetExperience] = useState<Exp[]>([])
-    const [certificate, setCertificate] = useState<certi[]>([])
-    // const [testimonials, setTestimonials] = useState([])
-    const [project,setProject] = useState<projt[]>([])
-    const [firstname,Setfirstname] = useState<string>()
-    const [lastname,Setlastname] = useState<string>()
-    const [title,Settitle] = useState<string>()
-    const [bio,Setbio] = useState<string>()
-    const [profilepicture,Setprofilepicture] = useState<string>("")
-    const [Id,SetId] = useState<string>()
-    const [state,Setstate] = useState<string>()
-    const [country,SetCountry] = useState<string>()
     const router = useRouter();
-
 ///  load all profile details
-useEffect(() => {
-    const handleprofiledetails = async () => {
+const fetcher = (url:string) => fetch(url).then(r => r.json())
+const { data, error, isLoading } = useSWR('/api/get-ap-profile-details', fetcher)
 
-    try{
-        const Profileresponse = await fetch(`/api/get-ap-profile-details`,{
-            method: "GET",
-            headers: {
-            "Content-Type": "application/json",
-            },
-        })
-        if(Profileresponse.ok){
-            const data = await Profileresponse.json()
-    
-          
-            const {bio,title,id,work_experience,educations,profile_image,state,country,
-                skill,projects,award_certifications,first_name,last_name,
-            } = data[0]
-            Setstate(state)
-            SetCountry(country)
+if (error) return <div>failed to load</div>
+if (isLoading) return <div role="status" className="p-4  border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700 h-screen w-full">
+  
+    <div className="flex items-center justify-between pt-4">
+        <div>
+            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-60 mb-2.5"></div>
+            <div className="w-52 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-40"></div>
+    </div>
+  
+</div>
 
-            Setbio(bio)
-            SetId(id)
-            Settitle(title)
-            Setprofilepicture(profile_image)
-            // SetcompletionPersent(completion_percent)
-            Setfirstname(first_name)
-            Setlastname(last_name)
-            setEducation(educations)
-            setSkills(skill)
-            setCertificate(award_certifications)
-            setSetExperience(work_experience)
-            setProject(projects)
-            console.log(work_experience)
-        }
+const {bio,title,id,work_experience,educations,profile_image,state,country,
+                    skill,projects,award_certifications,first_name,last_name,
+                } = data[0]
 
-
-
-    } catch (error){
-        console.log("errors:",error)
-    }
-}
-handleprofiledetails();
-},[])
 
 // handle profile upload
 const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
@@ -92,7 +52,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
       });
 
         // send to server 
-    const response_token = await fetch(`/api/get-token`, {
+    const response_token = await fetch(`/api/getToken`, {
             method: "GET",
       })
       if(response_token.ok){
@@ -100,7 +60,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
         const token = await response_token.json()
         console.log("upload tolen",token)
         
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/profile-applicant/${Id}/`,  formData, {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/profile-applicant/${id}/`,  formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                   "Authorization":`Bearer ${token}`
@@ -109,7 +69,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
         if(response.status ==200){
             const {profile_image} = response.data
             console.log(profile_image)
-            Setprofilepicture(profile_image)
+            // Setprofilepicture(profile_image)
             console.log("upload successfully")
             window.location.reload()
         }
@@ -153,13 +113,14 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
                       {/* change icon pen */}
 
                     <div className='border rounded-full w-28 h-28'>
-                        {profilepicture ?(
+                        {profile_image ?(
                              <Image
-                             src={profilepicture}
+                             src={profile_image}
                              alt="profile pic"
                              width={100}
                              height={40}
                              className='rounded-full w-28 h-28'
+                             priority 
                              
                              />
                         ):(
@@ -169,13 +130,14 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
                             width={100}
                             height={40}
                             className='rounded-full w-28 h-28'
+                            priority 
                             
                             />
                         )}
                    
                     </div>
                         <div className="pt-3">
-                            <h1 className='font-bold text-2xl'>{firstname} {lastname}</h1>
+                            <h1 className='font-bold text-2xl'>{first_name} {last_name}</h1>
                             <p className='font-semibold text-xl'>{title}</p>
                             <p className='font-semibold text-base'>{country} {state}</p>
 
@@ -191,7 +153,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
 
         <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-        <Link href={`/applicant/settings/profile-details/${Id}`}><button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">Edit Profile</button></Link>
+        <Link href={`/applicant/settings/profile-details/${id}`}><button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">Edit Profile</button></Link>
         </div>
         </div>
 
@@ -240,7 +202,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
     <ol className="relative border-s-2 border-[gray]">  
             {/* timeline */}
-          {experience.map((exp) => (
+          {work_experience.map((exp:Exp) => (
         <li key={exp.title} className="mb-10 ms-4">
             <div className="absolute w-[0.90rem] h-[0.90rem] bg-white  rounded-full -start-2 border-[3px] border-[gray]"></div> 
      <div className="ml-4">
@@ -284,13 +246,13 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
             <ol className="relative border-s-2 border-[gray]">  
                     {/* timeline */}
-                    {education.map((educations)=>(
-                <li key={educations.degree} className="mb-10 ms-4">
+                    {educations.map((education:Edu)=>(
+                <li key={education.id} className="mb-10 ms-4">
                     <div className="absolute w-[0.90rem] h-[0.90rem] bg-white  rounded-full -start-2 border-[3px] border-[gray]"></div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{educations.field_of_study}</h3>
-                    <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{educations.institution_name}</p>
-                    <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{educations.end_date}</time>
-                    <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">{educations.degree}</p>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{education.field_of_study}</h3>
+                    <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{education.institution_name}</p>
+                    <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{education.end_date}</time>
+                    <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">{education.degree}</p>
                 </li>
                 ))}
 
@@ -328,8 +290,8 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
                     {/* skills */}
                     <div className='w-full overflow-hidden [&>*]:font-bold [&>*]:py-2 [&>*]:px-[0.35rem] md:[&>*]:py-2 md:[&>*]:px-[0.35rem] [&>*]:my-1 [&>*]:mx-1 md:[&>*]:my-1 md:[&>*]:mx-1  '>
-                        {Skills.map((skill) =>(
-                        <button key={skill.level} className='bg-[lightgray] rounded-full'>{skill.skill} - {skill.level}</button>
+                        {skill.map((skills:Skill) =>(
+                        <button key={skills.id} className='bg-[lightgray] rounded-full'>{skills.skill} - {skills.level}</button>
                     ))}
                         
                         </div>
@@ -370,30 +332,28 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
                     <div className='space-y-3 md:grid grid-cols-3 gap-3 md:space-y-0'>
                         {/* projects */}
 
-                     {project.map((projects) => (
-                    <div key={projects.role} className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer ">
+                     {projects.map((project:projt) => (
+                    <div key={project.id} className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer ">
                      {projects.project_image ? (
                          <Image
-                         src={projects.project_image}
-                         alt={projects.project_title}
+                         src={project.project_image}
+                         alt={project.project_title}
                          width={100}
                          height={40}
                          className='w-full rounded-t-lg h-40'
+                         priority 
                          
                          />
                      ):(
-                        <Image
-                        src=""
-                        alt="No project Image"
-                        width={100}
-                        height={40}
-                        className='w-full rounded-t-lg h-40'
-                        
-                        />
+                       <div className='w-full py-2 px-3 text-center animate-pulse bg-slate-300'>
+                        <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-full'></div>
+                        <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[80%]'></div>
+                        <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[60%]'></div>
+                       </div>
                      )}     
                         <div className='py-2 px-3 [&>*]:break-words [&>*]:text-sm border-t-2'>
                             <div className='text-center'> 
-                                <p className='break-words truncate'>{projects.description}</p>
+                                <p className='break-words truncate'>{project.description}</p>
                             </div>
                        
                         <div className='my-4'>
@@ -440,15 +400,15 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
                     <div className='py-3 px-4'>
 
                     {/* certificate container  */}
-                     {certificate.map((certifi) => (
-                    <div key={certifi.title} className="space-y-0 sm:space-y-0 md:flex flex-row md:space-x-3 py-3 border-t-2">
+                     {award_certifications.map((certification:certi) => (
+                    <div key={certification.id} className="space-y-0 sm:space-y-0 md:flex flex-row md:space-x-3 py-3 border-t-2">
                     <div className='bg-[#cccbc8] rounded-full w-12 h-12 leading-10 py-2 px-2'>
                     <IoCheckmarkCircleOutline className='text-3xl'/>
                     </div>
                         <div className="text-left">
-                            <h1>{certifi.title}</h1>
-                            <h1>{certifi.issuing_organization}</h1>
-                            <h2>{certifi.date_recieved}</h2>
+                            <h1>{certification.title}</h1>
+                            <h1>{certification.issuing_organization}</h1>
+                            <h2>{certification.date_recieved}</h2>
                         </div>
                     </div>
                     ))}

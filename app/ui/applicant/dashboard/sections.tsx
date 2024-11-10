@@ -1,11 +1,11 @@
 "use client"
 import Link from 'next/link'
-import React, { useState,useEffect } from 'react'
-import { fetchProfileDetails } from '@/app/libs/utils';
+
+import { useProfileDetails, useJobrecommendation } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 import ApplicantProfileViewChart from '../../chart/applicantprofilechart';
 import ClientRatingSummaryChart from '../../chart/applicantprofilelineChart';
-import { fetchapplicantJobrecommendations } from '@/app/libs/utils';
+
 
 type recommededJobSchema = {
     id:string,
@@ -26,33 +26,16 @@ type recommededJobSchema = {
 
 
 }
-
 export  function SkillTraits(){
-    const [completionPercent,setCompletionPercent] = useState<number>()
-    const [recommededJobs,SetRecommendedjob] = useState<recommededJobSchema[]>([])
+    const {completionPercent, percentLoading,percentError} = useProfileDetails();
+    const { jobsrecommendation,JobisLoading} = useJobrecommendation()
 
- // get aplicant Recommeded Jobs
-useEffect(() => {
-    const handleRecommendedjobs = async () => {
-    const data = await fetchapplicantJobrecommendations();
-    if (data !== null) {
-        SetRecommendedjob(data['job_recommedation'])
-           console.log(" job recommendation data",data)
-        }
-}
-handleRecommendedjobs();
-},[])
+    // get aplicant Recommeded Jobs
+const job_recommedation = jobsrecommendation?.job_recommedation;
 
-     //  retrive  profle completion percent
-     useEffect(() => {
-        const handleprofiledetails = async () => {
-        const completion = await fetchProfileDetails();
-        if (completion !== null) {
-                setCompletionPercent(completion);
-            }  
-    }
-    handleprofiledetails();
-    })
+const completion_percent = completionPercent && completionPercent[0] ? completionPercent[0].completion_percent : 0;
+
+
 
 
     return (
@@ -76,14 +59,24 @@ handleRecommendedjobs();
 
                 <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
                     <h1 className='text-2xl font-bold md:text-2xl block text-black'>Profile Completion</h1>
-                    <ProgressBar 
-                        completed={completionPercent ?? 0} maxCompleted={100}
+                    {percentLoading ?? (
+                        <ProgressBar 
+                        completed={0} maxCompleted={100}
                          animateOnRender={true} 
                          transitionDuration='3s'
                          height='15px'
                          bgColor='#354656'
                          
-
+                          />
+                    )}
+                    {percentError ?? (<p>Fail to fetch profile percent</p>) }
+                    <ProgressBar 
+                        completed={completion_percent ?? 0} maxCompleted={100}
+                         animateOnRender={true} 
+                         transitionDuration='3s'
+                         height='15px'
+                         bgColor='#354656'
+                         
                           />
                           <div className='my-4'>
                     <Link href="/hire"> <button className=" bg-black text-white rounded py-3 px-5">Update Resume with AI</button></Link>
@@ -131,10 +124,18 @@ handleRecommendedjobs();
 
                 {/* recomend jobs */}
                 <div className='bg-white drop-shadow-lg w-full rounded p-5 py-10'>
+
                     <h1 className='text-2xl font-bold md:text-2xl block text-black mb-5'>Recommeded Jobs</h1>
-                  
+                    {JobisLoading? (
+                      <div className='w-full py-2 px-3 text-center animate-pulse bg-slate-300'>
+                      <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-full'></div>
+                      <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[80%]'></div>
+                      <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[60%]'></div>
+                     </div>
+                    ):(
+                    
                     <div className='space-y-6 sm:space-y-6 xl:space-x-4 jobs w-full md:flex  md:space-x-0 md:space-y-0 '>
-                    {recommededJobs.map((jobs)=>(
+                    {job_recommedation.map((jobs:recommededJobSchema)=>(
                         <div key={jobs.id} className='rounded border p-5 drop-shadow-lg bg-white'>
                         <p className='font-bold text-black py-2 '>{jobs.title}</p>
                         <p className='mt-2'>Budget: ${jobs.minimum_budget} -  ${jobs.maximum_budget}</p>
@@ -147,6 +148,7 @@ handleRecommendedjobs();
                         ))}
 
                     </div>
+                    )}
 
                 </div>
                {/* recomend jobs */}

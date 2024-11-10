@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {useDropzone} from 'react-dropzone';
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { fetchProfileDetails } from '@/app/libs/utils';
+import { useProfileDetails} from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { fetchprojects} from '@/app/libs/utils';
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -24,10 +24,12 @@ type projectsSchema = {
 
 
 export default function Projects(){
+    const {completionPercent, percentLoading,percentError} = useProfileDetails();
     const [selected, setSelected] = useState([""]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const dndstyle =`border-dashed border-2 text-center py-8 hover:border-blue-300 cursor-pointer`
-    const [completionPercent,setCompletionPercent] = useState<number>()
+      //  retrive  profle completion percent
+    const completion_percent = completionPercent && completionPercent[0] ? completionPercent[0].completion_percent : 0;
     const [projects,Setporjects] = useState<projectsSchema[]>([])
 
 
@@ -40,7 +42,7 @@ export default function Projects(){
         const data = await fetchprojects();
         if (data !== null) {
             Setporjects(data)
-               console.log("certificate data",data)
+               console.log("project data",data)
             }
        
     }
@@ -70,7 +72,7 @@ export default function Projects(){
             notifydelete()
             console.log("projects deleted:", data);
         } else {
-            console.error("Failed to delete certificate:", data.error);
+            console.error("Failed to delete project:", data.error);
         }
     } catch (error) {
         console.error("Error deleting projects", error);
@@ -172,16 +174,16 @@ export default function Projects(){
 
     }
     
-    useEffect(() => {
-        const handleprofiledetails = async () => {
-        const completion = await fetchProfileDetails();
-        if (completion !== null) {
-                setCompletionPercent(completion);
-            }
+    // useEffect(() => {
+    //     const handleprofiledetails = async () => {
+    //     const completion = await fetchProfileDetails();
+    //     if (completion !== null) {
+    //             setCompletionPercent(completion);
+    //         }
        
-    }
-    handleprofiledetails();
-    },[])
+    // }
+    // handleprofiledetails();
+    // },[])
     
    
     
@@ -192,9 +194,19 @@ export default function Projects(){
               <ToastContainer/>
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
+                {percentLoading ? (
+                 <ProgressBar 
+                 completed={0} maxCompleted={100}
+                  animateOnRender={true} 
+                  transitionDuration='3s'
+                  height='12px'
+                  labelAlignment='outside'
+                  bgColor='#354656'
 
+                   />
+               ):percentError ? (<></>):(
                 <ProgressBar 
-                        completed={completionPercent ?? 0} maxCompleted={100}
+                        completed={completion_percent ?? 0} maxCompleted={100}
                          animateOnRender={true} 
                          transitionDuration='3s'
                          height='12px'
@@ -202,9 +214,10 @@ export default function Projects(){
                          bgColor='#354656'
 
                           />
+                        )}
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: {completionPercent}%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {completion_percent}%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Projects</h1>
 

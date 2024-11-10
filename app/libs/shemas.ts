@@ -65,6 +65,7 @@ const MAX_FILE_SIZE = 1000000; const ACCEPTED_IMAGE_TYPES = [
 
 
 export const personalDatailSkill = z.object({
+   id:z.string().optional(),
 
     title: z.string({required_error:'title is required',invalid_type_error:'invalid type input for title'}),
     country: z.string({required_error:'country is required',invalid_type_error:'invalid type input for country'}),
@@ -90,7 +91,7 @@ export const personalDatailSkill = z.object({
 //  specialization schema
 
 export const specializationSchema = z.object({
-
+  id:z.string().optional(),
     specialization: z.string({required_error:'Specialization is required',invalid_type_error:'invalid type input for Specialization'}).min(4,'Quote must be 4 character Specialization'),
     proficiency: z.number({required_error:'Proficiency is required',invalid_type_error:'invalid type input for Proficiency'}).min(1, { message: "A'Proficiency be at least 1" })
     .max(120, { message: "'Proficiency must be less than or equal to 120" }),
@@ -129,6 +130,7 @@ export const socialProfile = z.object({
 // profile faq schema
 
 export const profileFaq = z.object({
+   id:z.string().optional(),
 
     description:  z.string({required_error:'Faq is required',invalid_type_error:'invalid type input for Faq'}).min(4,'Faq must be 4 character long'),
 })
@@ -136,7 +138,7 @@ export const profileFaq = z.object({
 //  AwardCertificationSchema
 
 export const AwardCertificationSchema = z.object({
-
+    id:z.string().optional(),
     title: z.string({required_error:'Title is required',invalid_type_error:'invalid type input for Title'}).min(4,'Title must be 4 character long'),
     issuing_organization: z.string({required_error:'Inssuing Organization is required',invalid_type_error:'invalid type input for Inssuing Organization'}).min(4,'Inssuing Organization must be 4 character long'),
     date_recieved: z.string().date(),
@@ -145,7 +147,7 @@ export const AwardCertificationSchema = z.object({
 
 // education shema
 export const educationSchame = z.object({
-
+    id:z.string().optional(),
     institution_name: z.string({required_error:' institution name is required',invalid_type_error:'invalid type input for institution name'}).min(4,'institution name must be 4 character long'),
     degree: z.string({required_error:'Degree required',invalid_type_error:'invalid type input for Degree'}).min(4,'Degree must be 4 character long'),
     field_of_study: z.string({required_error:'field of study is required',invalid_type_error:'invalid type input for field of study'}).min(4,'field of study must be 4 character long'),
@@ -157,6 +159,7 @@ export const educationSchame = z.object({
 
 // experience shema
 export const exprienceSchame = z.object({
+    id:z.string(),
 
     title: z.string({required_error:'Title is required',invalid_type_error:'invalid type input for Title'}).min(4,'Title name must be 4 character long'),
     company_name: z.string({required_error:'Company Name required',invalid_type_error:'invalid type input for Company Name'}).min(4,'Company Name must be 4 character long'),
@@ -184,6 +187,7 @@ export const exprienceSchame = z.object({
 // project
 
 export const projectShema = z.object({
+    id:z.string(),
 
     project_title: z.string({required_error:'Project Title is required',invalid_type_error:'invalid type input for Project Title'}).min(5,'Project Title must be 5 character long'),
     technologies_used: z.array(z.string()).min(1, "At least one technology is required"),
@@ -211,6 +215,7 @@ export const projectShema = z.object({
 
 
 export const jobPostingSchema = z.object({
+  id:z.string().optional(),
     title: z.string({required_error:'Title is required',invalid_type_error:'invalid type input for Title'}).min(20,'Title must be 20 character long'),
     description: z.string({required_error:'description is required',invalid_type_error:'invalid type input for  description'}).min(60,'description must be 60 character long'),
     category: z.string({required_error:'Category is required',invalid_type_error:'invalid type input for Category'}).min(20,'Category must be 20 character long'),
@@ -265,6 +270,7 @@ export const verificationCode = z.object({
 
 //  skills
 export const skills =z.object({
+  id:z.string().optional(),
   level: z.enum(['Beginner','Intermediate','Expert']),
   skill:z.enum([
 

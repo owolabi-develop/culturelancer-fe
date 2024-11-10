@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState,useEffect} from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { fetchProfileDetails } from '@/app/libs/utils';
+import { useProfileDetails } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { fetchspecialization} from '@/app/libs/utils';
 
@@ -21,32 +21,18 @@ type specializationstype = {
     proficiency:number
 }
 export default function Specializations(){
-    const [completionPercent,setCompletionPercent] = useState<number>()
+    const {completionPercent, percentLoading,percentError} = useProfileDetails();
+   
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register, reset, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(specializationSchema)});
     const [specializationDetails,setspecializationDetails] = useState<specializationstype[]>([])
+
     // handle toast bar
     const notify = () => {
         toast.success("Specialization Added!");
     }
 
     
-    //  retrive  profle completion percent
-
-    useEffect(() => {
-        const handleprofiledetails = async () => {
-        const completion = await fetchProfileDetails();
-        if (completion !== null) {
-                setCompletionPercent(completion);
-            }
-       
-    }
-    handleprofiledetails();
-    },[])
-
-
-    // retrive specializations
-
     
     useEffect(() => {
         const handlespecialization = async () => {
@@ -59,6 +45,15 @@ export default function Specializations(){
     handlespecialization();
     },[])
 
+    
+    const completion_percent = completionPercent && completionPercent[0] ? completionPercent[0].completion_percent : 0;
+    
+    if(percentLoading){
+        return<></>
+    }
+    if(percentError){
+        return <></>
+    }
 
     // delete specializations
      // delete certificate 
@@ -127,7 +122,7 @@ if (response.ok){
                 {/* progress bar */}
 
                 <ProgressBar 
-                        completed={completionPercent ?? 0} maxCompleted={100}
+                        completed={completion_percent ?? 0} maxCompleted={100}
                          animateOnRender={true} 
                          transitionDuration='3s'
                          height='12px'
@@ -137,7 +132,7 @@ if (response.ok){
                           />
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: {completionPercent}%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {completion_percent}%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Specialization</h1>
 

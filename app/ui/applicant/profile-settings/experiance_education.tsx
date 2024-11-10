@@ -4,32 +4,29 @@ import { EducationModal, Skill } from "../../modals";
 import {  ExperienceModal } from "../../modals";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import React, { useState,useEffect } from 'react'
-import { fetchProfileDetails } from '@/app/libs/utils';
+import useSWR from 'swr';
+
 import ProgressBar from "@ramonak/react-progress-bar";
 
 import { ApplicantDndResume } from "./dnd/applicant_resume_dnd";
 
 export default function ExperienceEducation(){
-    const [completionPercent,setCompletionPercent] = useState<number>()
+    const profile = (url:string) => fetch(url).then(r => r.json())
+    const { data,isLoading } = useSWR('/api/get-ap-profile-details', profile)
 
-    useEffect(() => {
-        const handleprofiledetails = async () => {
-        const completion = await fetchProfileDetails();
-        if (completion !== null) {
-                setCompletionPercent(completion);
-            }
+    
+    if(isLoading){
+        return<></>
     }
-    handleprofiledetails();
-    },[])
    
     return (
         <section className="w-full ">
             <ToastContainer/>
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
+
                 <ProgressBar 
-                        completed={completionPercent ?? 0} maxCompleted={100}
+                        completed={ data[0].completion_percent ?? 0} maxCompleted={100}
                          animateOnRender={true} 
                          transitionDuration='3s'
                          height='12px'
@@ -37,10 +34,11 @@ export default function ExperienceEducation(){
                          bgColor='#354656'
 
                           />
+                     
 
                 
                         {/* progress bar */}
-                <p className="font-semibold text-[gray]">Profle Completion: {completionPercent}%</p>
+                <p className="font-semibold text-[gray]">Profle Completion:{ data[0].completion_percent ?? 0} %</p>
 
 
              {/* education */}

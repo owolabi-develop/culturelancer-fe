@@ -33,6 +33,7 @@
     "react-international-phone": "^4.3.0",
     "react-tag-input-component": "^2.0.2",
     "react-toastify": "^10.0.6",
+    "swr": "^2.2.5",
     "yup": "^1.4.0",
     "zod": "^3.23.8",
     "zod-form-data": "^2.0.2"

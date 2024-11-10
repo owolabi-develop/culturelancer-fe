@@ -7,31 +7,28 @@ import * as z from 'zod';
 import { socialProfile } from "@/app/libs/shemas";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState,useEffect } from "react";
+import { useState} from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { fetchProfileDetails } from '@/app/libs/utils';
+import { useProfileDetails } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 
 type Inputs = z.infer<typeof socialProfile >
 
 export default function SocialProfile(){
+    const {completionPercent, percentLoading,percentError} = useProfileDetails();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register, handleSubmit,reset, formState: { errors } } = useForm<Inputs>({resolver:zodResolver(socialProfile)});
-    const [completionPercent,setCompletionPercent] = useState<number>()
+  
+    const completion_percent = completionPercent && completionPercent[0] ? completionPercent[0].completion_percent : 0;
     
-    //  retrive  profle completion percent
-
-    useEffect(() => {
-        const handleprofiledetails = async () => {
-        const completion = await fetchProfileDetails();
-        if (completion !== null) {
-                setCompletionPercent(completion);
-            }
-       
+    if(percentLoading){
+        return<></>
     }
-    handleprofiledetails();
-    },[])
+    if(percentError){
+        return <></>
+    }
+
     // handle toast bar
     const notify = () => {
         toast.success("Social Profiles Added!");
@@ -67,7 +64,7 @@ if (response.ok){
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
                 <ProgressBar 
-                        completed={completionPercent ?? 0} maxCompleted={100}
+                        completed={completion_percent ?? 0} maxCompleted={100}
                          animateOnRender={true} 
                          transitionDuration='3s'
                          height='12px'
@@ -77,7 +74,7 @@ if (response.ok){
                           />
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: {completionPercent}%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {completion_percent}%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Social Profile</h1>
 

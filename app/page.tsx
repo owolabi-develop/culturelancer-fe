@@ -5,53 +5,45 @@ import CommunityEngagement from "./ui/community";
 import {Cta} from "./ui/cta";
 import HomeNavbar from "./ui/navbar";
 import Footer from "./ui/footer";
+import { ToastContainer } from 'react-toastify';
 
 
 export default function HomePage() {
   return (
     <div className={`w-full mx-auto`}>
+      <ToastContainer />
       {/* navbar component */}
-    <div className=" bg-[#f1f1f1]">
-    <HomeNavbar/>
-    <WelcomeNote/>
-    </div>
+      <div className=" bg-[#f1f1f1]">
+        <HomeNavbar />
+        <WelcomeNote />
+      </div>
       {/* navbar component */}
 
       {/* leading brands component */}
 
-    <LeadingBrand/>
-     {/* leading brands component */}
+      <LeadingBrand />
+      {/* leading brands component */}
 
-
-
-     {/* our solutions component */}
-
-     <div className=" bg-[#f1f1f1]">
-      <OurSolutions/>
-   
-    </div>
       {/* our solutions component */}
 
-
+      <div className=" bg-[#f1f1f1]">
+        <OurSolutions />
+      </div>
+      {/* our solutions component */}
 
       {/* cta component */}
-      <Cta/>
+      <Cta />
 
       {/* cta component */}
-
 
       {/* community and engagament */}
-      <CommunityEngagement/>
+      <CommunityEngagement />
 
+      {/* community and engagament */}
 
- {/* community and engagament */}
+      {/* footer */}
 
- {/* footer */}
- 
- <Footer/>
-
+      <Footer />
     </div>
-    
-  
   );
 }

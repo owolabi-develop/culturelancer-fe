@@ -635,7 +635,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
             <div className='border rounded-full w-28 h-28'>
                     <Image
-                    src={data?.profile_image ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.profile_image}` : "/default_profile.jpeg"}
+                    src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${data.profile_image}` ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.profile_image}` : "/default_profile.jpeg"}
                     alt="profile pic"
                     width={100}
                     height={40}

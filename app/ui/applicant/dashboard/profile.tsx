@@ -10,139 +10,17 @@ import { useRouter } from 'next/navigation'
 import useSWR from 'swr';
 
 import Cookies from "js-cookie";
-// import { AwardCertificationSchema,
-// exprienceSchame,educationSchame,skills,projectShema,
-// } from "@/app/libs/shemas";
-// // type Exp = z.infer<typeof exprienceSchame>
-// // type Edu = z.infer<typeof educationSchame>
-// // type Skill = z.infer<typeof skills>
-// // type projt = z.infer<typeof projectShema>
-// type certi = z.infer<typeof AwardCertificationSchema>
 
 export  function ApplicantUserProfile(){
-    const router = useRouter();
-// handle profile upload
-const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
-   try{
-    if(e.target.files){
-        // const file = e.target.files[0];
-      const formData = new FormData()
-      Object.values(e.target.files).forEach((file) => {
-        formData.append("profile_image", file);
-      });
-
-        // send to server 
-    const response_token = await fetch(`/api/getToken`, {
-            method: "GET",
-      })
-      if(response_token.ok){
-        // send file to server
-        const token = await response_token.json()
-        console.log("upload tolen",token)
-        
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/profile-applicant/`,  formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                  "Authorization":`Bearer ${token}`
-            },
-        });
-        if(response.status ==200){
-            const {profile_image} = response.data
-            console.log(profile_image)
-            // Setprofilepicture(profile_image)
-            console.log("upload successfully")
-            window.location.reload()
-        }
-
-
-
-
-      }
-
-    }
-} catch(error){
-    console.log("error",error)
-}finally{
-    router.push("/applicant/dashboard/profile")
-}
-    
   
-}
+
     return (
         <section className="md:grid grid-cols-1 p-20 w-full justify-around">
 
-{/* profile icon */}
-        <div className="rounded bg-white drop-shadow-lg p-5 w-full"> 
-
-        <div className='w-full flex flex-row'>
-                        
-        <div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
-
-           {/* profile */}
-           <div className="">
-                  
-                <div className="space-y-0 sm:space-y-0 md:flex flex-row md:space-x-3 py-3 relative">
-                    {/* change icon pen */}
-                    <div className='bg-[#f6f4f4] rounded-full w-10 h-10 drop-shadow-lg absolute py-3 px-[0.6rem] top-[5rem] md:bottom-3 left-20 cursor-pointer'>
-                        <label htmlFor="profile_image">
-                     <LuPencil className='text-xl cursor-pointer' />
-                     </label>
+                {/* profile icon */}
+                <ProfileDetailsContainer/>
                     
-                    </div>
-                   
-                      {/* change icon pen */}
-
-                    <div className='border rounded-full w-28 h-28'>
-                            <Image
-                            src="/default_profile.jpeg"
-                            alt="profile pic"
-                            width={100}
-                            height={40}
-                            className='rounded-full w-28 h-28'
-                            priority 
-                            
-                            />
-                     
-                    </div>
-                        <div className="pt-3">
-                            <h1 className='font-bold text-2xl'></h1>
-                            <p className='font-semibold text-xl'></p>
-                            <p className='font-semibold text-base'></p>
-
-                        </div>
-                    </div>
-
-                </div>
-
-          {/* profile */}
-
-
-        </div>
-
-
-        <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-        <Link href={`/applicant/settings/profile-details/`}><button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">Edit Profile</button></Link>
-        </div>
-        </div>
-
-
-
-            {/* about me */}
-            <h1 className='text-2xl font-bold md:text-2xl block text-black'>About Me</h1>
-            <div className=''>
-        
-            <p></p>
-    
-{/* profile upload form */}
-    <input type='file' id='profile_image' name='profile_image' style={{opacity:0}} onChange={handleUpload}/>
-{/* profile upload form */}
-            </div>
-              {/* about me */}
-
-
-
-        </div>
-{/* profile icon */}
+                {/* profile icon */}
 
 
         <div className='profile-details md:flex mt-10 w-full justify-between'>
@@ -255,7 +133,12 @@ function ExperienceContainer(){
     const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-work-experience/`, fetcher)
   
     if(isLoading){
-        return <div>...loading</div>
+        return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        </div>
     }
     if(error){
         return <div>fail to fetch data</div>
@@ -335,7 +218,12 @@ function EducationContainer(){
     const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-education/`, fetcher)
   
     if(isLoading){
-        return <div>...loading</div>
+        return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    </div>
     }
     if(error){
         return <div>fail to fetch data</div>
@@ -408,7 +296,12 @@ function CertificateContainer(){
     const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-award-certifications/`, fetcher)
   
     if(isLoading){
-        return <div>...loading</div>
+        return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    </div>
     }
     if(error){
         return <div>fail to fetch data</div>
@@ -473,7 +366,12 @@ function SkillContainer(){
     const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-skills/`, fetcher)
   
     if(isLoading){
-        return <div>...loading</div>
+        return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    </div>
     }
     if(error){
         return <div>fail to fetch data</div>
@@ -552,7 +450,12 @@ function ProjectsContainer(){
     console.log("projects:",data)
   
     if(isLoading){
-        return <div>...loading</div>
+        return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    </div>
     }
     if(error){
         return <div>fail to fetch data</div>
@@ -593,15 +496,17 @@ function ProjectsContainer(){
                    
                     <div key={projects.id} className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer ">
                    
-                         <Image
-                         src={projects.project_image}
-                         alt="hello"
-                         width={100}
-                         height={40}
-                         className='w-full rounded-t-lg h-40'
-                         priority 
-                         
-                         />
+                            {projects.project_image ? (
+                            <Image 
+                            src={projects.project_image} 
+                            alt="Project Image" 
+                            width={100} 
+                            height={40} 
+                            className="w-full h-28 rounded-t-lg"
+                            />
+                            ) : (
+                            <div  className='w-full h-28 py-6 text-center'>No image available</div>
+                            )}
                      
                        {/* <div className='w-full py-2 px-3 text-center animate-pulse bg-slate-300'>
                         <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-full'></div>
@@ -637,6 +542,151 @@ function ProjectsContainer(){
     </>)
 }
 
+
+
+// profile image and details container
+
+
+function ProfileDetailsContainer(){
+const router = useRouter();
+
+// get appliant profile
+const fetcher = (url: string) =>
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("item")}`,
+      },
+    }).then((r) => r.json());
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+console.log("new profile:",data)
+
+if(isLoading){
+    return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+</div>
+}
+if(error){
+    return <div>fail to fetch data</div>
+}
+
+
+
+// handle profile upload
+const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
+   try{
+    if(e.target.files){
+        // const file = e.target.files[0];
+      const formData = new FormData()
+      Object.values(e.target.files).forEach((file) => {
+        formData.append("profile_image", file);
+      });
+
+        
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/profile-applicant/${data?.id}/`,  formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                  "Authorization":`Bearer ${Cookies.get("item")}`
+            },
+        });
+        if(response.status ==200){
+            const {profile_image} = response.data
+            console.log(profile_image)
+            // Setprofilepicture(profile_image)
+            console.log("upload successfully")
+            window.location.reload()
+        }
+
+    }
+} catch(error){
+    console.log("error",error)
+}finally{
+    router.push(`/applicant/dashboard/profile/${data?.id}`)
+}
+    
+  
+}
+
+
+
+    return (<>
+      <div className="rounded bg-white drop-shadow-lg p-5 w-full"> 
+
+<div className='w-full flex flex-row'>
+                
+<div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
+
+   {/* profile */}
+   <div className="">
+          
+        <div className="space-y-0 sm:space-y-0 md:flex flex-row md:space-x-3 py-3 relative">
+            {/* change icon pen */}
+            <div className='bg-[#f6f4f4] rounded-full w-10 h-10 drop-shadow-lg absolute py-3 px-[0.6rem] top-[5rem] md:bottom-3 left-20 cursor-pointer'>
+                <label htmlFor="profile_image">
+             <LuPencil className='text-xl cursor-pointer' />
+             </label>
+            
+            </div>
+           
+              {/* change icon pen */}
+
+            <div className='border rounded-full w-28 h-28'>
+                    <Image
+                    src={data?.profile_image ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/${data.profile_image}` : "/default_profile.jpeg"}
+                    alt="profile pic"
+                    width={100}
+                    height={40}
+                    className='rounded-full w-28 h-28'
+                    priority 
+                    
+                    />
+             
+            </div>
+                <div className="pt-3">
+                    <h1 className='font-bold text-2xl'>{data?.title}</h1>
+                    <p className='font-semibold text-xl'>{data?.first_name} {data?.last_name}</p>
+                    <p className='font-semibold text-base'>{data?.country} {data?.state}</p>
+
+                </div>
+            </div>
+
+        </div>
+
+  {/* profile */}
+
+
+</div>
+
+
+<div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
+<Link href={`/applicant/settings/profile-details/`}><button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">Edit Profile</button></Link>
+</div>
+</div>
+
+
+
+    {/* about me */}
+    <h1 className='text-2xl font-bold md:text-2xl block text-black'>About Me</h1>
+    <div className=''>
+
+    <p>{data && data.bio}</p>
+
+{/* profile upload form */}
+<input type='file' id='profile_image' name='profile_image' style={{opacity:0}} onChange={handleUpload}/>
+{/* profile upload form */}
+    </div>
+      {/* about me */}
+
+
+
+</div>
+
+
+    </>)
+}
 
 
 

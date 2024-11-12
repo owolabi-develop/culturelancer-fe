@@ -62,6 +62,7 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
           const data = await Profileresponse.json();
 
           const { profile_image, id } = data[0];
+          console.log("upimage",profile_image)
           Setprofilepicture(profile_image);
           SetapplicantId(id);
         }

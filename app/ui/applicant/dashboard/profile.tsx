@@ -148,209 +148,29 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
         <div className='profile-details md:flex mt-10 w-full justify-between'>
 
             <div className='space-y-6 md:w-[68%] md:flex flex-col'>
+                {/* applicant experience */}
+
+                <ExperienceContainer/>
 
                {/* applicant experience */}
-               <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
-                    {/* add experience header */}
-                  
-                     <div className='w-full flex flex-row'>
-                        <div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
-                        <h1 className='text-2xl font-bold'>Experience</h1>
-                        </div>
-                        <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-                        <Link href='/applicant/settings/experience-education'>
-                        <IoMdAdd className='text-3xl' />
-                        </Link>
-                        </div>
-                    </div>
-
-{/* addd experience */}
-
-{/* experience timeline */}
-
-    <ol className="relative border-s-2 border-[gray]">  
-            {/* timeline */}
-       
-        <li className="mb-10 ms-4">
-            <div className="absolute w-[0.90rem] h-[0.90rem] bg-white  rounded-full -start-2 border-[3px] border-[gray]"></div> 
-     <div className="ml-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white"></h3>
-        <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"></p>
-        <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"></time>
-        <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2 break-words"></p>
-    </div>
-        </li>
-       
 
 
-    </ol>
-
- {/*  experiencetimeline */}
-                    
-    </div>
-{/* applicant experience */}
+               {/* applicant education */}
+  
+                <EducationContainer/>
 
 
-{/* applicant education */}
-                <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
-                    {/* add education header */}
-                  
-                     <div className='w-full flex flex-row'>
-                        <div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
-                        <h1 className='text-2xl font-bold'>Education</h1>
-                        </div>
-                        <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-                        <Link href='/applicant/settings/experience-education'>
-                        <IoMdAdd className='text-3xl' />
-                        </Link>
-                        </div>
-                    </div>
+                {/*  applicant skill */}
 
-                    {/* addd education */}
+                <SkillContainer/>
+  
 
 
 
-            {/* education timeline */}
+             {/* aproject Container */}
 
-            <ol className="relative border-s-2 border-[gray]">  
-                    {/* timeline */}
-                   
-                <li className="mb-10 ms-4">
-                    <div className="absolute w-[0.90rem] h-[0.90rem] bg-white  rounded-full -start-2 border-[3px] border-[gray]"></div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white"></h3>
-                    <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"></p>
-                    <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"></time>
-                    <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2"></p>
-                </li>
-            
+             <ProjectsContainer/>
 
-
-            </ol>
-
-        {/*  education */}
-
-                    
-                </div>
-{/* applicant education */}
-
-
-
-  {/* Applicant skill */}
-  <div className='bg-white drop-shadow-lg w-full rounded p-3 py-5'>
-                    {/* add project header */}
-
-                    <div className='w-full flex flex-row'>
-
-                        <div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
-                        <h1 className='text-2xl font-bold'>Skills</h1>
-                        </div>
-                        <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-                        <Link href='/applicant/settings/experience-education'>
-                        <IoMdAdd className='text-3xl' />
-                        </Link>
-                        </div>
-                        </div>
-
-
-                     {/* add project header */}
-
-
-
-                    {/* skills */}
-                    <div className='w-full overflow-hidden [&>*]:font-bold [&>*]:py-2 [&>*]:px-[0.35rem] md:[&>*]:py-2 md:[&>*]:px-[0.35rem] [&>*]:my-1 [&>*]:mx-1 md:[&>*]:my-1 md:[&>*]:mx-1  '>
-                     
-                        <button className='bg-[lightgray] rounded-full'></button>
-                
-                        
-                        </div>
-                                  
-                         {/* skills */}
-
-
-
-                </div>
-               {/* applicant skill*/}
-
-
-
-
-
-                {/* Applicant projects */}
-                <div className='bg-white drop-shadow-lg w-full rounded p-3 py-5'>
-                    {/* add project header */}
-
-                    <div className='w-full flex flex-row'>
-
-                        <div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
-                        <h1 className='text-2xl font-bold'>Portfolio</h1>
-                        </div>
-                        <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-                        <Link href='/applicant/settings/projects'>
-                        <IoMdAdd className='text-3xl' />
-                        </Link>
-                        </div>
-                        </div>
-
-
-                     {/* add project header */}
-
-
-
-
-                    <div className='space-y-3 md:grid grid-cols-3 gap-3 md:space-y-0'>
-                        {/* projects */}
-
-                   
-                    <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer ">
-                   
-                         <Image
-                         src="/default_profile.jpeg"
-                         alt="hello"
-                         width={100}
-                         height={40}
-                         className='w-full rounded-t-lg h-40'
-                         priority 
-                         
-                         />
-                     
-                       <div className='w-full py-2 px-3 text-center animate-pulse bg-slate-300'>
-                        <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-full'></div>
-                        <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[80%]'></div>
-                        <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[60%]'></div>
-                       </div>
-                          
-                        <div className='py-2 px-3 [&>*]:break-words [&>*]:text-sm border-t-2'>
-                            <div className='text-center'> 
-                                <p className='break-words truncate'></p>
-                            </div>
-                       
-                        <div className='my-4'>
-                            <button className='py-2 px-2 mx-2 border rounded-lg hover:bg-slate-200 [&>*]:text-sm drop-shadow-lg'><a href="">View github</a></button>
-                            <button className='py-2 px-2 mx-2 border rounded-lg hover:bg-slate-200 [&>*]:text-sm drop-shadow-lg'><a href="">View live Demo</a></button>
-                      
-                        </div>
-
-                        </div> 
-                                  
-                    </div>
-                    
-
-                       
-
-
-
-
-                        
-
-
-                         {/* projects */}
-
-                       
-
-                    </div>
-
-                </div>
-               {/* applicant projects*/}
 
 
             </div>
@@ -411,6 +231,162 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
 }
 
+/// ExperienceContainer
+
+function ExperienceContainer(){
+
+    type ExperienceI = {
+        id:string,
+        title:string,
+        company_name:string,
+        location_type:string,
+        description:string,
+        start_date:string,
+        end_date:string,
+
+    }
+    const fetcher = (url: string) =>
+        fetch(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("item")}`,
+          },
+        }).then((r) => r.json());
+    const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-work-experience/`, fetcher)
+  
+    if(isLoading){
+        return <div>...loading</div>
+    }
+    if(error){
+        return <div>fail to fetch data</div>
+    }
+    console.log(data)
+    return (
+    <>
+      {/* applicant experience */}
+      <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
+                    {/* add experience header */}
+                  
+                     <div className='w-full flex flex-row'>
+
+                        <div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
+                        <h1 className='text-2xl font-bold'>Experience</h1>
+                        </div>
+                        
+                        <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
+                        <Link href='/applicant/settings/experience-education'>
+                        <IoMdAdd className='text-3xl' />
+                        </Link>
+                        </div>
+                    </div>
+
+{/* addd experience */}
+
+ 
+{/* experience timeline */}
+<div>
+    
+<ol className="relative border-s border-gray-200 dark:border-gray-700">  
+    {data && data.map((exp:ExperienceI)=>(               
+    <li key={exp.id} className="mb-10 ms-4">
+        <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{exp.company_name}</h3>
+        <p className="text-lg font-semibold text-gray-900 dark:text-white">{exp.title}</p>
+        <p className="text-base font-normal text-gray-500 dark:text-gray-400">{exp.start_date} - {exp.end_date}</p>
+       
+        <p className="text-base font-normal text-gray-500 dark:text-gray-400">{exp.description}</p>
+    </li>
+    ))} 
+  
+</ol>
+
+</div>
+
+ {/*  experiencetimeline */}
+                    
+    </div>
+    </>)
+}
+
+
+
+///  EducationContainer
+
+function EducationContainer(){
+
+    type EducationI = {
+        id:string,
+        institution_name:string,
+        degree:string,
+        field_of_study:string,
+        start_date:string,
+        end_date:string,
+        gpa:number,
+       
+
+    }
+    const fetcher = (url: string) =>
+        fetch(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("item")}`,
+          },
+        }).then((r) => r.json());
+    const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-education/`, fetcher)
+  
+    if(isLoading){
+        return <div>...loading</div>
+    }
+    if(error){
+        return <div>fail to fetch data</div>
+    }
+    console.log(data)
+    return (
+    <>
+      {/* applicant experience */}
+      <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
+                    {/* add experience header */}
+                  
+                     <div className='w-full flex flex-row'>
+
+                        <div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
+                        <h1 className='text-2xl font-bold'>Education</h1>
+                        </div>
+                        
+                        <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
+                        <Link href='/applicant/settings/experience-education'>
+                        <IoMdAdd className='text-3xl' />
+                        </Link>
+                        </div>
+                    </div>
+
+{/* addd experience */}
+
+ 
+{/* experience timeline */}
+<div>
+    
+<ol className="relative border-s border-gray-200 dark:border-gray-700">  
+    {data && data.map((edu:EducationI)=>(               
+    <li key={edu.id} className="mb-10 ms-4">
+        <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{edu.institution_name}</h3>
+        <p className="text-lg font-semibold text-gray-900 dark:text-white">{edu.field_of_study}</p>
+        <p className="text-base font-normal text-gray-500 dark:text-gray-400">{edu.start_date} - {edu.end_date}</p>
+       
+        <p className="text-base font-normal text-gray-500 dark:text-gray-400">{edu.gpa}</p>
+    </li>
+    ))} 
+  
+</ol>
+
+</div>
+
+ {/*  experiencetimeline */}
+                    
+    </div>
+    </>)
+}
 
 
 /// certificate container
@@ -476,6 +452,191 @@ function CertificateContainer(){
         </>
     )
 }
+
+
+//  skill container 
+
+function SkillContainer(){
+
+    type SkillI = {
+        id:string,
+        name:string,
+        level:string,
+    }
+    const fetcher = (url: string) =>
+        fetch(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("item")}`,
+          },
+        }).then((r) => r.json());
+    const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-skills/`, fetcher)
+  
+    if(isLoading){
+        return <div>...loading</div>
+    }
+    if(error){
+        return <div>fail to fetch data</div>
+    }
+    console.log(data)
+    return (
+    <>
+     {/* Applicant skill */}
+  <div className='bg-white drop-shadow-lg w-full rounded p-3 py-5'>
+                    {/* add project header */}
+
+                    <div className='w-full flex flex-row'>
+
+                        <div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
+                        <h1 className='text-2xl font-bold'>Skills</h1>
+                        </div>
+                        <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
+                        <Link href='/applicant/settings/experience-education'>
+                        <IoMdAdd className='text-3xl' />
+                        </Link>
+                        </div>
+                        </div>
+
+
+                     {/* add project header */}
+
+
+
+                    {/* skills */}
+                   
+                    <div className='w-full overflow-hidden [&>*]:font-bold [&>*]:py-2 [&>*]:px-[0.35rem] md:[&>*]:py-2 md:[&>*]:px-[0.35rem] [&>*]:my-1 [&>*]:mx-1 md:[&>*]:my-1 md:[&>*]:mx-1  '>
+                    {data && data.map((skills:SkillI)=>(
+                        <button key={skills.id} className='bg-[lightgray] rounded-full'> {skills.name}-{skills.level}</button>
+                    ))}
+                        
+                        </div>
+                       
+                                  
+                         {/* skills */}
+
+
+
+                </div>
+               {/* applicant skill*/}
+    </>)
+}
+
+
+//  projects
+
+function ProjectsContainer(){
+
+    type projectI = {
+        id:string,
+        project_title:string,
+        description:string,
+        project_image:string,
+        role:string,
+        technologies_used:string,
+        project_links_github:string,
+        project_links_live_demo:string
+        start_date:string,
+        end_date:string
+
+
+
+    }
+    const fetcher = (url: string) =>
+        fetch(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("item")}`,
+          },
+        }).then((r) => r.json());
+    const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-project/`, fetcher)
+    console.log("projects:",data)
+  
+    if(isLoading){
+        return <div>...loading</div>
+    }
+    if(error){
+        return <div>fail to fetch data</div>
+    }
+    console.log(data)
+    return (
+    <>
+   
+                {/* Applicant projects */}
+                <div className='bg-white drop-shadow-lg w-full rounded p-3 py-5'>
+                    {/* add project header */}
+
+                    <div className='w-full flex flex-row'>
+
+                        <div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
+                        <h1 className='text-2xl font-bold'>Portfolio</h1>
+                        </div>
+                        <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
+                        <Link href='/applicant/settings/projects'>
+                        <IoMdAdd className='text-3xl' />
+                        </Link>
+                        </div>
+                        </div>
+
+
+                     {/* add project header */}
+
+
+
+
+                    <div className='space-y-3 md:grid grid-cols-3 gap-3 md:space-y-0'>
+
+
+                        {/* projects */}
+
+                      {data && data.map((projects:projectI)=>( 
+
+                   
+                    <div key={projects.id} className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer ">
+                   
+                         <Image
+                         src={projects.project_image}
+                         alt="hello"
+                         width={100}
+                         height={40}
+                         className='w-full rounded-t-lg h-40'
+                         priority 
+                         
+                         />
+                     
+                       {/* <div className='w-full py-2 px-3 text-center animate-pulse bg-slate-300'>
+                        <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-full'></div>
+                        <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[80%]'></div>
+                        <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[60%]'></div>
+                       </div> */}
+                          
+                        <div className='py-2 px-3 [&>*]:break-words [&>*]:text-sm border-t-2'>
+                            <div className='text-center'> 
+                                <p className='break-words truncate'> {projects.description}</p>
+                            </div>
+                       
+                        <div className='my-4'>
+                            <button className='py-2 px-2 mx-2 border rounded-lg hover:bg-slate-200 [&>*]:text-sm drop-shadow-lg'><a href={projects.project_links_github}>View github</a></button>
+                            <button className='py-2 px-2 mx-2 border rounded-lg hover:bg-slate-200 [&>*]:text-sm drop-shadow-lg'><a href={projects.project_links_live_demo}>View live Demo</a></button>
+                      
+                        </div>
+
+                        </div> 
+                                  
+                    </div>
+                    ))} 
+
+
+                         {/* projects */}
+
+                       
+
+                    </div>
+
+                </div>
+               {/* applicant projects*/}
+    </>)
+}
+
 
 
 

@@ -10,16 +10,13 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { fetchprojects} from '@/app/libs/utils';
 import { RiDeleteBin6Line } from "react-icons/ri";
-
+import Cookies from "js-cookie";
 
 type projectsSchema = {
     id:string,
     project_title:string,
     description:string,
 } 
-
-
-
 
 
 export default function Projects(){
@@ -132,18 +129,11 @@ export default function Projects(){
             formObject[key] = value;
         });
         try{
-            // get token
-        const response_token = await fetch(`/api/getToken`, {
-          })
-            
-        if(response_token){
-        const token = await response_token.json()
-        console.log("the token",token)
-
+        
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-project/`,  formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                  "Authorization":`Bearer ${token}`
+                  "Authorization":`Bearer ${Cookies.get("item")}`
             },
         });
       
@@ -158,24 +148,16 @@ export default function Projects(){
             
             console.log('Form submitted successfully');
         }
-    }
-
+    
         // get token
     }catch (error){
         console.log("server error",error)
     }
     
-       
-       
-         
 
     }
     
     
-   
-    
-
-
     return (
         <section className="w-full ">
               <ToastContainer/>

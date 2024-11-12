@@ -7,25 +7,7 @@ import ApplicantProfileViewChart from '../../chart/applicantprofilechart';
 import ClientRatingSummaryChart from '../../chart/applicantprofilelineChart';
 
 
-// type recommededJobSchema = {
-//     id:string,
-//     title:string,
-//     description:string,
-//     experience:number,
-//     company:string,
-//     apply_url:string,
-//     posted:string,
-//     company_logo:string,
-//     location:string[],
-//     job_type:string[],
-//     minimum_budget:number,
-//     maximum_budget:number,
-//     skills:string[],
-//     experience_levels:string[]
-//     status:string
 
-
-// }
 export  function SkillTraits(){
   
     return (
@@ -89,36 +71,7 @@ export  function SkillTraits(){
 {/* applied job */}
 
 
-                {/* recomend jobs */}
-                <div className='bg-white drop-shadow-lg w-full rounded p-5 py-10'>
-
-                    <h1 className='text-2xl font-bold md:text-2xl block text-black mb-5'>Recommeded Jobs</h1>
-                   
-                      <div className='w-full py-2 px-3 text-center animate-pulse bg-slate-300'>
-                      <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-full'></div>
-                      <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[80%]'></div>
-                      <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[60%]'></div>
-                     </div>
-                  
-                    
-                    <div className='space-y-6 sm:space-y-6 xl:space-x-4 jobs w-full md:flex  md:space-x-0 md:space-y-0 '>
-                   
-                        <div className='rounded border p-5 drop-shadow-lg bg-white'>
-                        <p className='font-bold text-black py-2 '></p>
-                        <p className='mt-2'></p>
-                        <p className='mt-2'></p>
-                        <p className='mt-2'></p>
-
-                        <span className='py-2 px-3 bg-green-400 rounded-md text-white font-semibold'></span>
-                        <Link href=""> <button className=" bg-black text-white rounded py-2 px-3 mt-4">View Job</button></Link>
-                        </div>
-                      
-
-                    </div>
-                
-
-                </div>
-               {/* recomend jobs */}
+               <JobRecommendations/>
 
 
             </div>
@@ -149,15 +102,7 @@ export  function SkillTraits(){
                     </div>
                
                     <p className='my-3'>Update Profile</p>
-                        <ProgressBar
-                        completed={Number(0) || 0} 
-                        maxCompleted={100}
-                        animateOnRender={true}
-                        transitionDuration="3s"
-                        height="12px"
-                        bgColor='#354656'
-                    
-                        />
+                    <RecentActivitiesProfilePercent/>
                        
                     
                 </div>
@@ -236,3 +181,132 @@ if(error){
                 </div>
     </>)
 }
+
+
+
+
+
+// recent activities percent
+
+function RecentActivitiesProfilePercent(){
+    // get appliant profile
+const fetcher = (url: string) =>
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("item")}`,
+      },
+    }).then((r) => r.json());
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+console.log("new profile:",data)
+
+if(isLoading){
+    return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+</div>
+}
+if(error){
+    return <div>fail to fetch data</div>
+}
+    
+
+    return (<>
+     <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
+                    <h1 className='text-2xl font-bold md:text-2xl block text-black'>Profile Completion</h1>
+                    
+                  
+                    <ProgressBar 
+                        completed={data?.completion_percent} maxCompleted={100}
+                         animateOnRender={true} 
+                         transitionDuration='3s'
+                         height='15px'
+                         bgColor='#354656'
+                         
+                          />
+                </div>
+    </>)
+}
+
+
+
+
+
+function JobRecommendations(){
+
+
+type recommededJobSchema = {
+    id:string,
+    title:string,
+    description:string,
+    experience:number,
+    company:string,
+    apply_url:string,
+    posted:string,
+    company_logo:string,
+    location:string[],
+    job_type:string[],
+    minimum_budget:number,
+    maximum_budget:number,
+    skills:string[],
+    experience_levels:string[]
+    status:string
+
+
+}
+
+       // get appliant profile
+const fetcher = (url: string) =>
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("item")}`,
+      },
+    }).then((r) => r.json());
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/match-job-recommendation/`, fetcher)
+console.log("job:",data)
+
+if(isLoading){
+    return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+</div>
+}
+if(error){
+    return <div>fail to fetch data</div>
+}
+    return (<>
+     {/* recomend jobs */}
+     <div className='bg-white drop-shadow-lg w-full rounded p-5 py-10'>
+
+<h1 className='text-2xl font-bold md:text-2xl block text-black mb-5'>Recommeded Jobs</h1>
+
+
+<div className='space-y-6 sm:space-y-6 xl:space-x-4 jobs w-full md:flex  md:space-x-0 md:space-y-0 '>
+
+    {data && data.map((jobs:recommededJobSchema)=>(
+
+    <div key={jobs.id} className='rounded border p-5 drop-shadow-lg bg-white w-full'>
+    <p className='font-bold text-black py-2 '>{jobs.company}</p>
+    <p className='mt-2'>{jobs.title}</p>
+    <p className='mt-2'>{jobs.minimum_budget} - {jobs.maximum_budget}</p>
+    <p className='mt-2'>{jobs.location}</p>
+    <p className='mt-2'>{jobs.description}</p>
+
+    <button className='py-2 px-3 bg-green-400 rounded-md text-white font-semibold'>{jobs.status}</button>
+    <Link href={jobs.apply_url}> <button className=" bg-black text-white rounded py-2 px-2 mt-4">View Job</button></Link>
+    </div>
+    ))}
+  
+
+</div>
+
+
+</div>
+{/* recomend jobs */}
+    
+
+    </>)
+}
+
+

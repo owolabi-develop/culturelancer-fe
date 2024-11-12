@@ -353,8 +353,8 @@ function SkillContainer(){
 
     type SkillI = {
         id:string,
-        name:string,
         level:string,
+        skill:string,
     }
     const fetcher = (url: string) =>
         fetch(url, {
@@ -404,7 +404,7 @@ function SkillContainer(){
                    
                     <div className='w-full overflow-hidden [&>*]:font-bold [&>*]:py-2 [&>*]:px-[0.35rem] md:[&>*]:py-2 md:[&>*]:px-[0.35rem] [&>*]:my-1 [&>*]:mx-1 md:[&>*]:my-1 md:[&>*]:mx-1  '>
                     {data && data.map((skills:SkillI)=>(
-                        <button key={skills.id} className='bg-[lightgray] rounded-full'> {skills.name}-{skills.level}</button>
+                        <button key={skills.id} className='bg-[lightgray] rounded-full'> {skills.skill}-{skills.level}</button>
                     ))}
                         
                         </div>

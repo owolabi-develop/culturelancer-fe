@@ -635,7 +635,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
             <div className='border rounded-full w-28 h-28'>
                     <Image
-                    src={data?.profile_image ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/${data.profile_image}` : "/default_profile.jpeg"}
+                    src={data?.profile_image ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.profile_image}` : "/default_profile.jpeg"}
                     alt="profile pic"
                     width={100}
                     height={40}
@@ -662,7 +662,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
 
 <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-<Link href={`/applicant/settings/profile-details/`}><button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">Edit Profile</button></Link>
+<Link href={`/applicant/settings/profile-details/${data.id}`}><button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">Edit Profile</button></Link>
 </div>
 </div>
 

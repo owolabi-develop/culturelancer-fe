@@ -87,14 +87,14 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
             {/* nav text */}
             <ul className="list-none m-0 sm:flex hidden cursor-pointer">
               <li className="mr-5">
-                <Link href="/applicant/dashboard" className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100">
+                <Link href={`/applicant/dashboard/home/${Cookies.get("user_id_item")}/`} className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100">
                   Dashboard
                 </Link>
               </li>
 
               <li className="mr-5">
                 <Link
-                  href="/applicant/dashboard/jobs"
+                  href={`/applicant/dashboard/jobs/${Cookies.get("user_id_item")}/`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Jobs
@@ -103,7 +103,7 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
 
               <li className="mr-5">
                 <Link
-                  href="/applicant/dashboard/assessment-result"
+                  href={`/applicant/dashboard/assessment-result/${Cookies.get("user_id_item")}/`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Assesement Results
@@ -112,7 +112,7 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
 
               <li className="mr-5">
                 <Link
-                  href="/applicant/dashboard/course"
+                  href={`/applicant/dashboard/course/${Cookies.get("user_id_item")}/`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Course
@@ -147,7 +147,7 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
                   <Image src="/default_profile.jpeg" alt="" width={40} height={40} className="rounded-full w-11 h-11" />
                 )}
               </div>
-              <Link href="/applicant/dashboard/profile">
+              <Link href={`/applicant/dashboard/profile/${Cookies.get("user_id_item")}`}>
                 <div className="logo-text">
                   <p className="leading-10 text-xs">{applicantprofileName}</p>
                 </div>

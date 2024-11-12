@@ -9,9 +9,10 @@ import {
   Legend,
   ChartOptions,
   ChartData,
+  Filler
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement,Filler, Tooltip, Legend);
 
 // Sample rating data
 const ratingData = [

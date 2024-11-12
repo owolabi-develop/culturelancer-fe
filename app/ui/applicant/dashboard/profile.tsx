@@ -3,44 +3,24 @@ import Link from 'next/link'
 import { IoMdAdd } from "react-icons/io";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { LuPencil } from "react-icons/lu";
-import * as z from 'zod';
+// import * as z from 'zod';
 import Image from 'next/image'
 import axios from "axios";
 import { useRouter } from 'next/navigation'
 import useSWR from 'swr';
-import { AwardCertificationSchema,
-exprienceSchame,educationSchame,skills,projectShema,
-} from "@/app/libs/shemas";
-type Exp = z.infer<typeof exprienceSchame>
-type Edu = z.infer<typeof educationSchame>
-type Skill = z.infer<typeof skills>
-type projt = z.infer<typeof projectShema>
-type certi = z.infer<typeof AwardCertificationSchema>
+
+import Cookies from "js-cookie";
+// import { AwardCertificationSchema,
+// exprienceSchame,educationSchame,skills,projectShema,
+// } from "@/app/libs/shemas";
+// // type Exp = z.infer<typeof exprienceSchame>
+// // type Edu = z.infer<typeof educationSchame>
+// // type Skill = z.infer<typeof skills>
+// // type projt = z.infer<typeof projectShema>
+// type certi = z.infer<typeof AwardCertificationSchema>
 
 export  function ApplicantUserProfile(){
     const router = useRouter();
-///  load all profile details
-const fetcher = (url:string) => fetch(url).then(r => r.json())
-const { data, error, isLoading } = useSWR('/api/get-ap-profile-details', fetcher)
-
-if (error) return <div>failed to load</div>
-if (isLoading) return <div role="status" className="p-4  border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700 h-screen w-full">
-  
-    <div className="flex items-center justify-between pt-4">
-        <div>
-            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-60 mb-2.5"></div>
-            <div className="w-52 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-        </div>
-        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-40"></div>
-    </div>
-  
-</div>
-
-const {bio,title,id,work_experience,educations,profile_image,state,country,
-                    skill,projects,award_certifications,first_name,last_name,
-                } = data[0]
-
-
 // handle profile upload
 const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
    try{
@@ -60,7 +40,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
         const token = await response_token.json()
         console.log("upload tolen",token)
         
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/profile-applicant/${id}/`,  formData, {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/profile-applicant/`,  formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                   "Authorization":`Bearer ${token}`
@@ -113,17 +93,6 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
                       {/* change icon pen */}
 
                     <div className='border rounded-full w-28 h-28'>
-                        {profile_image ?(
-                             <Image
-                             src={profile_image}
-                             alt="profile pic"
-                             width={100}
-                             height={40}
-                             className='rounded-full w-28 h-28'
-                             priority 
-                             
-                             />
-                        ):(
                             <Image
                             src="/default_profile.jpeg"
                             alt="profile pic"
@@ -133,13 +102,12 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
                             priority 
                             
                             />
-                        )}
-                   
+                     
                     </div>
                         <div className="pt-3">
-                            <h1 className='font-bold text-2xl'>{first_name} {last_name}</h1>
-                            <p className='font-semibold text-xl'>{title}</p>
-                            <p className='font-semibold text-base'>{country} {state}</p>
+                            <h1 className='font-bold text-2xl'></h1>
+                            <p className='font-semibold text-xl'></p>
+                            <p className='font-semibold text-base'></p>
 
                         </div>
                     </div>
@@ -153,7 +121,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
 
         <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-        <Link href={`/applicant/settings/profile-details/${id}`}><button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">Edit Profile</button></Link>
+        <Link href={`/applicant/settings/profile-details/`}><button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">Edit Profile</button></Link>
         </div>
         </div>
 
@@ -163,7 +131,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
             <h1 className='text-2xl font-bold md:text-2xl block text-black'>About Me</h1>
             <div className=''>
         
-            <p>{bio?(bio):(<>.........</>)}</p>
+            <p></p>
     
 {/* profile upload form */}
     <input type='file' id='profile_image' name='profile_image' style={{opacity:0}} onChange={handleUpload}/>
@@ -202,17 +170,17 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
     <ol className="relative border-s-2 border-[gray]">  
             {/* timeline */}
-          {work_experience.map((exp:Exp) => (
-        <li key={exp.title} className="mb-10 ms-4">
+       
+        <li className="mb-10 ms-4">
             <div className="absolute w-[0.90rem] h-[0.90rem] bg-white  rounded-full -start-2 border-[3px] border-[gray]"></div> 
      <div className="ml-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{exp.title}</h3>
-        <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{exp.company_name}</p>
-        <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{exp.end_date}</time>
-        <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2 break-words">{exp.description}</p>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white"></h3>
+        <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"></p>
+        <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"></time>
+        <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2 break-words"></p>
     </div>
         </li>
-        ))}  
+       
 
 
     </ol>
@@ -246,15 +214,15 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
             <ol className="relative border-s-2 border-[gray]">  
                     {/* timeline */}
-                    {educations.map((education:Edu)=>(
-                <li key={education.id} className="mb-10 ms-4">
+                   
+                <li className="mb-10 ms-4">
                     <div className="absolute w-[0.90rem] h-[0.90rem] bg-white  rounded-full -start-2 border-[3px] border-[gray]"></div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{education.field_of_study}</h3>
-                    <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{education.institution_name}</p>
-                    <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{education.end_date}</time>
-                    <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2">{education.degree}</p>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white"></h3>
+                    <p className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"></p>
+                    <time className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"></time>
+                    <p className="mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 my-2"></p>
                 </li>
-                ))}
+            
 
 
             </ol>
@@ -290,9 +258,9 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
                     {/* skills */}
                     <div className='w-full overflow-hidden [&>*]:font-bold [&>*]:py-2 [&>*]:px-[0.35rem] md:[&>*]:py-2 md:[&>*]:px-[0.35rem] [&>*]:my-1 [&>*]:mx-1 md:[&>*]:my-1 md:[&>*]:mx-1  '>
-                        {skill.map((skills:Skill) =>(
-                        <button key={skills.id} className='bg-[lightgray] rounded-full'>{skills.skill} - {skills.level}</button>
-                    ))}
+                     
+                        <button className='bg-[lightgray] rounded-full'></button>
+                
                         
                         </div>
                                   
@@ -332,40 +300,40 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
                     <div className='space-y-3 md:grid grid-cols-3 gap-3 md:space-y-0'>
                         {/* projects */}
 
-                     {projects.map((project:projt) => (
-                    <div key={project.id} className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer ">
-                     {projects.project_image ? (
+                   
+                    <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer ">
+                   
                          <Image
-                         src={project.project_image}
-                         alt={project.project_title}
+                         src="/default_profile.jpeg"
+                         alt="hello"
                          width={100}
                          height={40}
                          className='w-full rounded-t-lg h-40'
                          priority 
                          
                          />
-                     ):(
+                     
                        <div className='w-full py-2 px-3 text-center animate-pulse bg-slate-300'>
                         <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-full'></div>
                         <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[80%]'></div>
                         <div className='bg-slate-50 drop-shadow-lg py-2 my-2 w-[60%]'></div>
                        </div>
-                     )}     
+                          
                         <div className='py-2 px-3 [&>*]:break-words [&>*]:text-sm border-t-2'>
                             <div className='text-center'> 
-                                <p className='break-words truncate'>{project.description}</p>
+                                <p className='break-words truncate'></p>
                             </div>
                        
                         <div className='my-4'>
-                            <button className='py-2 px-2 mx-2 border rounded-lg hover:bg-slate-200 [&>*]:text-sm drop-shadow-lg'><a href={projects.project_links_live_demo}>View github</a></button>
-                            <button className='py-2 px-2 mx-2 border rounded-lg hover:bg-slate-200 [&>*]:text-sm drop-shadow-lg'><a href={projects.project_links_github}>View live Demo</a></button>
+                            <button className='py-2 px-2 mx-2 border rounded-lg hover:bg-slate-200 [&>*]:text-sm drop-shadow-lg'><a href="">View github</a></button>
+                            <button className='py-2 px-2 mx-2 border rounded-lg hover:bg-slate-200 [&>*]:text-sm drop-shadow-lg'><a href="">View live Demo</a></button>
                       
                         </div>
 
                         </div> 
                                   
                     </div>
-                    ))}
+                    
 
                        
 
@@ -395,34 +363,8 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
         <div className='space-y-5 md:w-[30%] md:flex flex-col '>
                     {/* certificate */}
-                <div className='bg-white drop-shadow-lg w-full p-3 rounded flex-none'>
-                    <h1 className='text-2xl font-bold md:text-2xl block text-black'>Certification</h1>
-                    <div className='py-3 px-4'>
-
-                    {/* certificate container  */}
-                     {award_certifications.map((certification:certi) => (
-                    <div key={certification.id} className="space-y-0 sm:space-y-0 md:flex flex-row md:space-x-3 py-3 border-t-2">
-                    <div className='bg-[#cccbc8] rounded-full w-12 h-12 leading-10 py-2 px-2'>
-                    <IoCheckmarkCircleOutline className='text-3xl'/>
-                    </div>
-                        <div className="text-left">
-                            <h1>{certification.title}</h1>
-                            <h1>{certification.issuing_organization}</h1>
-                            <h2>{certification.date_recieved}</h2>
-                        </div>
-                    </div>
-                    ))}
-                      {/* certificate container  */}
-
-
-                    
-                    </div>
-
-                    <div className='px-3'>
-                    <Link href="/applicant/settings/awards-certifications"> <button className="border rounded py-1 px-2">Add Certificate</button></Link>
-                    </div>
-
-                </div>
+                    <CertificateContainer/>
+               
                 {/* certificate */}
 
 
@@ -467,6 +409,72 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
     
     )
 
+}
+
+
+
+/// certificate container
+function CertificateContainer(){
+    type CertificateI = {
+        id:string,
+        title:string,
+        date_recieved:string,
+        issuing_organization:string
+
+    }
+    const fetcher = (url: string) =>
+        fetch(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("item")}`,
+          },
+        }).then((r) => r.json());
+    const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-award-certifications/`, fetcher)
+  
+    if(isLoading){
+        return <div>...loading</div>
+    }
+    if(error){
+        return <div>fail to fetch data</div>
+    }
+    console.log(data)
+
+    return (
+        <>
+         <div className='bg-white drop-shadow-lg w-full p-3 rounded flex-none'>
+                    <h1 className='text-2xl font-bold md:text-2xl block text-black'>Certification</h1>
+
+                    {data && data.map((certi:CertificateI)=>(
+                    <div key={certi.id} className='py-3 px-4'>
+                    {/* certificate container  */}
+                     
+                    <div  className="space-y-0 sm:space-y-0 md:flex flex-row md:space-x-3 py-3 border-t-2">
+                        
+                    <div className='bg-[#cccbc8] rounded-full w-12 h-12 leading-10 py-2 px-2'>
+                    <IoCheckmarkCircleOutline className='text-3xl'/>
+                    </div>
+                        <div className="text-left">
+                            <h1>{certi.title}</h1>
+                            <h1>{certi.issuing_organization}</h1>
+                            <h2>{certi.date_recieved}</h2>
+                        </div>
+                    </div>
+                   
+                      {/* certificate container  */}
+
+                    </div>
+                    ))}
+
+
+
+                    <div className='px-3'>
+                    <Link href="/applicant/settings/awards-certifications"> <button className="border rounded py-1 px-2">Add Certificate</button></Link>
+                    </div>
+
+                </div>
+        
+        </>
+    )
 }
 
 

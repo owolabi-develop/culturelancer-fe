@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { inter } from "./ui/font";
-import { Providers } from "./_providers/Provider";
+// import { Providers } from "./_providers/Provider";
 
 export const metadata: Metadata = {
   title: "CultureLancer",
@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <Providers>
+    
         <body className={`${inter.className} antialiased`}>{children}</body>
-      </Providers>
+    
     </html>
   );
 }

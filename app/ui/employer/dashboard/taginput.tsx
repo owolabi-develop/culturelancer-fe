@@ -15,7 +15,7 @@ const RequireSkills = (props: IRequiredSkills) => {
   
  useEffect(() => {
   setskills(selected)
- }, [selected]);
+ }, );
  
   return (
     <>

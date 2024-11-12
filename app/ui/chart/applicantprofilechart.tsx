@@ -10,9 +10,10 @@ import {
   Legend,
   ChartOptions,
   ChartData,
+  Filler
 } from "chart.js";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
+ChartJS.register(LineElement, CategoryScale,Filler, LinearScale, PointElement, Tooltip, Legend);
 
 // Hardcoded data for the last 7 days
 const demoData = [

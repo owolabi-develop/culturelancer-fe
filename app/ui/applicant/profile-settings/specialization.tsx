@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState,useEffect} from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { useProfileDetails } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { fetchspecialization} from '@/app/libs/utils';
 
@@ -21,7 +20,7 @@ type specializationstype = {
     proficiency:number
 }
 export default function Specializations(){
-    const {completionPercent, percentLoading,percentError} = useProfileDetails();
+   
    
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register, reset, handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(specializationSchema)});
@@ -45,18 +44,6 @@ export default function Specializations(){
     handlespecialization();
     },[])
 
-    
-    const completion_percent = completionPercent && completionPercent[0] ? completionPercent[0].completion_percent : 0;
-    
-    if(percentLoading){
-        return<></>
-    }
-    if(percentError){
-        return <></>
-    }
-
-    // delete specializations
-     // delete certificate 
 
  const notifydelete = () => {
     toast.success("Specialization Deleted");
@@ -122,7 +109,7 @@ if (response.ok){
                 {/* progress bar */}
 
                 <ProgressBar 
-                        completed={completion_percent ?? 0} maxCompleted={100}
+                        completed={0} maxCompleted={100}
                          animateOnRender={true} 
                          transitionDuration='3s'
                          height='12px'
@@ -132,7 +119,7 @@ if (response.ok){
                           />
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: {completion_percent}%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {}%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Specialization</h1>
 

@@ -1,67 +1,67 @@
 "use client";
-import { WelcomeHeader } from "@/app/ui/employer/dashboard/dashboard";
-import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+// import { WelcomeHeader } from "@/app/ui/employer/dashboard/dashboard";
+// import { useParams } from "next/navigation";
+// import React, { useEffect, useState } from "react";
 
 export default function DashboardsDetails() {
-  const [employerdetails, setEmployerdetails] = useState<string>("");
+  // const [employerdetails, setEmployerdetails] = useState<string>("");
 
-  const [employer, setEmployer] = useState<string>("");
+  // const [employer, setEmployer] = useState<string>("");
 
-  const params = useParams();
-  const { id } = params;
+  // const params = useParams();
+  // const { id } = params;
 
-  const [isLoading, setisLoading] = useState(true);
-  const [isError, setisError] = useState(false);
+  // const [isLoading, setisLoading] = useState(true);
+  // const [isError, setisError] = useState(false);
 
-  // Fetch profile data
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const response = await fetch("/api/userdetail");
+  // // Fetch profile data
+  // useEffect(() => {
+  //   const fetchProfileData = async () => {
+  //     try {
+  //       const response = await fetch("/api/userdetail");
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch profile data");
-        }
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch profile data");
+  //       }
 
-        const { first_name, last_name } = await response.json();
-        setEmployerdetails(`${first_name} ${last_name}`);
-        setisLoading(false);
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-        setisError(true);
-        setisLoading(false);
-      }
-    };
+  //       const { first_name, last_name } = await response.json();
+  //       setEmployerdetails(`${first_name} ${last_name}`);
+  //       setisLoading(false);
+  //     } catch (error) {
+  //       console.error("Error fetching profile data:", error);
+  //       setisError(true);
+  //       setisLoading(false);
+  //     }
+  //   };
 
-    const fetchPprofile = async () => {
-      try {
-        const response = await fetch(`/api/get-employer-profile-details/${id}/`, {
-          method: "GET",
-        });
+  //   const fetchPprofile = async () => {
+  //     try {
+  //       const response = await fetch(`/api/get-employer-profile-details/${id}/`, {
+  //         method: "GET",
+  //       });
 
         
-        if (!response.ok) {
-          throw new Error("Failed to fetch employer profile details");
-        }
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch employer profile details");
+  //       }
 
-        const data  = await response.json();
+  //       const data  = await response.json();
         
-        setEmployer(data);
-      } catch (error) {
-        console.error("Error fetching employer profile details:", error);
-        // Handle error, e.g., show error message, retry, or log the error
-      }
-    };
+  //       setEmployer(data);
+  //     } catch (error) {
+  //       console.error("Error fetching employer profile details:", error);
+  //       // Handle error, e.g., show error message, retry, or log the error
+  //     }
+  //   };
 
-    fetchProfileData();
-    fetchPprofile();
-  }, [id]);
+  //   fetchProfileData();
+  //   fetchPprofile();
+  // }, [id]);
 
  
   return (
     <>
-      {isLoading && (
+      {/* {isLoading && (
         <div className="flex w-full justify-center items-center min-h-[500px]">
           {" "}
           <div className="spinner"></div>
@@ -72,7 +72,7 @@ export default function DashboardsDetails() {
           <h1 className="font-bold text-xl">An error occured</h1>
         </div>
       )}
-      {employer && employerdetails && !isLoading && !isError && <WelcomeHeader headerTest={employerdetails} employer={employer} />}
+      {employer && employerdetails && !isLoading && !isError && <WelcomeHeader headerTest={employerdetails} employer={employer} />} */}
     </>
   );
 }

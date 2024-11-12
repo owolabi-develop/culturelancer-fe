@@ -10,24 +10,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState} from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { useProfileDetails } from '@/app/libs/utils';
+
 import ProgressBar from "@ramonak/react-progress-bar";
 
 type Inputs = z.infer<typeof socialProfile >
 
 export default function SocialProfile(){
-    const {completionPercent, percentLoading,percentError} = useProfileDetails();
+  
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register, handleSubmit,reset, formState: { errors } } = useForm<Inputs>({resolver:zodResolver(socialProfile)});
   
-    const completion_percent = completionPercent && completionPercent[0] ? completionPercent[0].completion_percent : 0;
-    
-    if(percentLoading){
-        return<></>
-    }
-    if(percentError){
-        return <></>
-    }
+ 
 
     // handle toast bar
     const notify = () => {
@@ -64,7 +57,7 @@ if (response.ok){
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
                 <ProgressBar 
-                        completed={completion_percent ?? 0} maxCompleted={100}
+                        completed={0} maxCompleted={100}
                          animateOnRender={true} 
                          transitionDuration='3s'
                          height='12px'
@@ -74,7 +67,7 @@ if (response.ok){
                           />
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: {completion_percent}%</p>
+                <p className="font-semibold text-[gray]">Profle Completion: {}%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Social Profile</h1>
 

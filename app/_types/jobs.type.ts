@@ -1,4 +1,5 @@
 export interface IJob {
+  id:string,
   title: string;
   location_type: string[];
   payments_terms: string;

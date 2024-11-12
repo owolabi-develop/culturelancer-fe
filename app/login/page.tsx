@@ -56,7 +56,7 @@ export default function Login() {
         if (is_active && role === "employer") {
           router.push(`/employer/dashboard/${responseData.user_id}/`);
         } else if (is_active && role === "applicant") {
-          router.push("/applicant/dashboard");
+          router.push(`/applicant/dashboard/home/${responseData.user_id}/`);
         } else {
           setStatus("Account not active. Please contact support.");
         }

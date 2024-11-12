@@ -4,20 +4,12 @@ import { EducationModal, Skill } from "../../modals";
 import {  ExperienceModal } from "../../modals";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import useSWR from 'swr';
 
 import ProgressBar from "@ramonak/react-progress-bar";
 
 import { ApplicantDndResume } from "./dnd/applicant_resume_dnd";
 
 export default function ExperienceEducation(){
-    const profile = (url:string) => fetch(url).then(r => r.json())
-    const { data,isLoading } = useSWR('/api/get-ap-profile-details', profile)
-
-    
-    if(isLoading){
-        return<></>
-    }
    
     return (
         <section className="w-full ">
@@ -26,7 +18,7 @@ export default function ExperienceEducation(){
                 {/* progress bar */}
 
                 <ProgressBar 
-                        completed={ data[0].completion_percent ?? 0} maxCompleted={100}
+                        completed={0} maxCompleted={100}
                          animateOnRender={true} 
                          transitionDuration='3s'
                          height='12px'
@@ -38,7 +30,7 @@ export default function ExperienceEducation(){
 
                 
                         {/* progress bar */}
-                <p className="font-semibold text-[gray]">Profle Completion:{ data[0].completion_percent ?? 0} %</p>
+                <p className="font-semibold text-[gray]">Profle Completion:{0} %</p>
 
 
              {/* education */}

@@ -1,6 +1,8 @@
 "use client"
 import React from 'react'
 import Link from 'next/link';
+import Cookies from "js-cookie";
+
 
 function SettingsNavbar() {
  
@@ -27,7 +29,7 @@ function SettingsNavbar() {
             <ul className='list-none cursor-pointer inline'>
 
             <li className='mr-5'>
-            <Link href="/applicant/dashboard" className='rounded-lg px-6 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100'>
+            <Link href={`/applicant/dashboard/home/${Cookies.get("user_id_item")}/`} className='rounded-lg px-6 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100'>
             Go to DashBoard
             </Link>
             </li>

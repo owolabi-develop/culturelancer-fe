@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState,useEffect } from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { useProfileDetails,fetchawardCertificate} from '@/app/libs/utils';
+import { fetchawardCertificate} from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 
 type Inputs = z.infer<typeof AwardCertificationSchema>
@@ -22,13 +22,12 @@ type certificate = {
 } 
 
 export default function AwardCertification(){
-    const {completionPercent, percentLoading,percentError} = useProfileDetails();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register,reset,handleSubmit,formState: { errors } } = useForm<Inputs>({resolver:zodResolver(AwardCertificationSchema)});
     const [certificateDetails,setCertificateDetails] = useState<certificate[]>([])
 
      //  retrive  profle completion percent
-     const completion_percent = completionPercent && completionPercent[0] ? completionPercent[0].completion_percent : 0;
+   
 
 
 
@@ -113,7 +112,7 @@ if (response.ok){
             <ToastContainer/>
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
-               {percentLoading ? (
+             
                  <ProgressBar 
                  completed={0} maxCompleted={100}
                   animateOnRender={true} 
@@ -123,20 +122,10 @@ if (response.ok){
                   bgColor='#354656'
 
                    />
-               ):percentError ? (<></>):(
-                <ProgressBar 
-                        completed={completion_percent ?? 0} maxCompleted={100}
-                         animateOnRender={true} 
-                         transitionDuration='3s'
-                         height='12px'
-                         labelAlignment='outside'
-                         bgColor='#354656'
-
-                          />
-                        )}
+              
                         {/* progress bar */}
 
-                <p className="font-semibold text-[gray]">Profle Completion: {completion_percent}%</p>
+                <p className="font-semibold text-[gray]">Profle Completion:%</p>
 
                 <h1 className="my-3 font-extrabold text-2xl"> Award & Certifications</h1>
 

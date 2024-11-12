@@ -234,7 +234,7 @@ if(error){
 function JobRecommendations(){
 
 
-type recommededJobSchema = {
+type recommendedJobSchema = {
     id:string,
     title:string,
     description:string,
@@ -283,20 +283,23 @@ if(error){
 
 
 <div className='space-y-6 sm:space-y-6 xl:space-x-4 jobs w-full md:flex  md:space-x-0 md:space-y-0 '>
-
-    {data && data.map((jobs:recommededJobSchema)=>(
-
-    <div key={jobs.id} className='rounded border p-5 drop-shadow-lg bg-white w-full'>
-    <p className='font-bold text-black py-2 '>{jobs.company}</p>
-    <p className='mt-2'>{jobs.title}</p>
-    <p className='mt-2'>{jobs.minimum_budget} - {jobs.maximum_budget}</p>
-    <p className='mt-2'>{jobs.location}</p>
-    <p className='mt-2'>{jobs.description}</p>
-
-    <button className='py-2 px-3 bg-green-400 rounded-md text-white font-semibold'>{jobs.status}</button>
-    <Link href={jobs.apply_url}> <button className=" bg-black text-white rounded py-2 px-2 mt-4">View Job</button></Link>
-    </div>
-    ))}
+{data && data.length > 0 ? (
+    data.map((jobs: recommendedJobSchema) => (
+        <div key={jobs.id} className='rounded border p-5 drop-shadow-lg bg-white w-full'>
+            <p className='font-bold text-black py-2 '>{jobs.company}</p>
+            <p className='mt-2'>{jobs.title}</p>
+            <p className='mt-2'>{jobs.minimum_budget} - {jobs.maximum_budget}</p>
+            <p className='mt-2'>{jobs.location}</p>
+            <p className='mt-2'>{jobs.description}</p>
+            <button className='py-2 px-3 bg-green-400 rounded-md text-white font-semibold'>{jobs.status}</button>
+            <Link href={jobs.apply_url}>
+                <button className="bg-black text-white rounded py-2 px-2 mt-4">View Job</button>
+            </Link>
+        </div>
+    ))
+) : (
+    <div className='w-full py-2 px-3'><h1 className='font-semibold text-2xl'></h1>No match job yet</div>
+)}
   
 
 </div>

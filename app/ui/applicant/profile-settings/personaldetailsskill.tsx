@@ -3,7 +3,8 @@
 import React, { useState,FormEvent } from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-
+import useSWR from 'swr';
+import Cookies from "js-cookie";
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 // import { useProfileDetails,useProfile } from '@/app/libs/utils';
@@ -11,8 +12,107 @@ import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function PersonalDetailAndSkills({id}:{ id:string }){
  
-    const [phone, setPhone] = useState('');
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    return (
+        <section className="w-full ">
+             <ToastContainer/>
+            <div className="md:grid grid-cols-1 py-5 px-5">
+                {/* progress bar */}
+                     <ProfilePercent/>
+                        {/* progress bar */}
+
+                <h1 className="my-3 font-extrabold text-2xl"> Personal Details</h1>
+
+                {/* form */}
+
+                <ProfildetailsContainer id={id}/>
+                  {/* form */}
+            </div>
+
+        </section>
+    )
+}
+
+
+
+
+/// profile percent
+
+function ProfilePercent(){
+
+    // get appliant profile
+const fetcher = (url: string) =>
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("item")}`,
+      },
+    }).then((r) => r.json());
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+console.log("new profile:",data)
+
+if(isLoading){
+    return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+</div>
+}
+if(error){
+    return <div>fail to fetch data</div>
+}
+    
+
+    return (<>
+    <ProgressBar 
+        completed={data?.completion_percent} maxCompleted={100}
+            animateOnRender={true} 
+            transitionDuration='3s'
+            height='15px'
+            bgColor='#354656'
+            
+            />
+
+    <p className="font-semibold text-[gray]">Profle Completion: {data?.completion_percent}%</p>
+                  
+    </>)
+}
+
+
+
+
+
+
+function ProfildetailsContainer({id}:{ id:string }){
+const [phone, setPhone] = useState('');
+const [isloading, setIsLoading] = useState<boolean>(false);
+
+    // get appliant profile details
+const fetcher = (url: string) =>
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("item")}`,
+      },
+    }).then((r) => r.json());
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+console.log("new profile:",data)
+
+if(isLoading){
+    return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+</div>
+}
+if(error){
+    return <div>fail to fetch data</div>
+}
+    
+
+
   
     
 
@@ -71,31 +171,9 @@ if (response.ok){
     }
 };
 
-  
-   
+    return (<>
 
-
-    return (
-        <section className="w-full ">
-             <ToastContainer/>
-            <div className="md:grid grid-cols-1 py-5 px-5">
-                {/* progress bar */}
-                        <ProgressBar 
-                        completed={0} maxCompleted={100}
-                         animateOnRender={true} 
-                         transitionDuration='3s'
-                         height='12px'
-                         labelAlignment='right'
-                         bgColor='#354656'
-                       
-                          />
-                        {/* progress bar */}
-
-                <p className="font-semibold text-[gray]">Profle Completion: {0}%</p>
-
-                <h1 className="my-3 font-extrabold text-2xl"> Personal Details</h1>
-
-
+    
                 {/* form container */}
                 <form onSubmit={handleFormSubmit} encType="multipart/form-data">
 
@@ -106,7 +184,7 @@ if (response.ok){
 
                         <div>
                             <label htmlFor="Title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                            <input type="text" defaultValue=""  id="Title"  name='title'  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full "/>
+                            <input type="text" defaultValue={data?.title}  id="Title"  name='title'  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full "/>
                         </div>
                     
                     <div className="grid gap-6 mb-6 md:grid-cols-2 my-2">
@@ -121,27 +199,27 @@ if (response.ok){
                             onChange={(phone) => setPhone(phone)}
                             inputProps={{
                                 required:true,
-                                defaultValue:"",
+                                defaultValue:data?.phone_number,
                                 className:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg  block w-full"}}                           
                             />
                         </div>
 
                         <div>
                             <label htmlFor="Tagline" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tagline</label>
-                            <input type="text" id="Tagline" defaultValue="" name='tagline' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"/>
+                            <input type="text" id="Tagline" defaultValue={data?.tagline} name='tagline' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"/>
                             {/* <p className='text-sm text-red-500'>{errors.tagline?.message}</p> */}
                         </div>
 
 
                         <div>
-                            <label htmlFor="CurrentMayor" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Major</label>
-                            <input type="text" id="CurrentMayor" defaultValue="" name='current_major' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"/>
+                            <label htmlFor="CurrentMajor" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Major</label>
+                            <input type="text" id="CurrentMayor" defaultValue={data?.current_major} name='current_major' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"/>
                            
                         </div>
 
                         <div>
                             <label htmlFor="DreamCareer" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dream Career</label>
-                            <input type="text" id="DreamCareer" defaultValue="" name='dream_carerr' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full dark:text-white"/>
+                            <input type="text" id="DreamCareer" defaultValue={data?.dream_carerr} name='dream_carerr' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full dark:text-white"/>
                           
                         </div>
 
@@ -149,7 +227,7 @@ if (response.ok){
                         
                         <div>
                             <label htmlFor="country" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
-                            <select id="country" defaultValue="" name ='country' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  dark:text-white">
+                            <select id="country" defaultValue={data?.country} name ='country' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  dark:text-white">
                                 <option disabled value="">Select Country</option>
                                 <option value="nigeria">nigeria</option>
                              </select>
@@ -161,7 +239,7 @@ if (response.ok){
                            
                         <div>
                             <label htmlFor="state" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
-                            <select id="state" defaultValue="" name='state' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  dark:text-white">
+                            <select id="state" defaultValue={data?.state} name='state' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  dark:text-white">
                                 <option disabled value="">Select State</option>
                                 <option value="lagos">lagos</option>
                              </select>
@@ -175,13 +253,13 @@ if (response.ok){
                     <div className="my-6 w-full grid grid-cols-2 gap-3">
                         <div>
                         <label htmlFor="Activities" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Activities</label>
-                        <input type="text" defaultValue="" name='activities' id="Activities" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full "/>
+                        <input type="text" defaultValue={data?.activities} name='activities' id="Activities" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full "/>
                         {/* <p className='text-sm text-red-500'>{errors.activities?.message}</p> */}
                         </div>
 
                         <div>
                         <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                        <input type="text" defaultValue=""  id="Address" name='address' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full"/>
+                        <input type="text" defaultValue={data?.address}  id="Address" name='address' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full"/>
                        
                         </div>
                     </div> 
@@ -224,27 +302,27 @@ if (response.ok){
 
                 <div>
                     <label htmlFor="Quote" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word to Live ByQuote</label>
-                    <input type="text" id="quote" defaultValue=""  name='quote' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full"/>
+                    <input type="text" id="quote" defaultValue={data?.quote}  name='quote' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full"/>
                     {/* <p className='text-sm text-red-500'>{errors.quote?.message}</p> */}
                 </div>
 
                 <div>
                 <label htmlFor="Highlights" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">A Fun Fact or Somethng That Highlights Your Personality</label>
-                <input type="text" id="Highlights" defaultValue="" name ='personality' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"/>
+                <input type="text" id="Highlights" defaultValue={data?.personality} name ='personality' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"/>
                 {/* <p className='text-sm text-red-500'>{errors.personality?.message}</p> */}
                 </div>
 
 
                 <div>
                 <label htmlFor="HBCU" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">HBCU</label>
-                <input type="text" id="HBCU" defaultValue=""  name ='hbcq' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full "/>
+                <input type="text" id="HBCU" defaultValue={data?.hbcq}  name ='hbcq' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full "/>
                 {/* <p className='text-sm text-red-500'>{errors.hbcq?.message}</p> */}
                 </div>
 
 
                 <div>
                 <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add Description</label>
-                <textarea id="description" defaultValue="" name='bio' rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300" placeholder="Tell us more about your self"></textarea>
+                <textarea id="description" defaultValue={data?.bio} name='bio' rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300" placeholder="Tell us more about your self"></textarea>
                
                 </div>
 
@@ -266,7 +344,7 @@ if (response.ok){
 
                 <div>
                 <label htmlFor="Language" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Language You Can Speak</label>
-                <textarea id="language" defaultValue="" name='language_skills' rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 "></textarea>
+                <textarea id="language" defaultValue={data?.language_skills} name='language_skills' rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 "></textarea>
     
                 </div>
 
@@ -288,9 +366,9 @@ if (response.ok){
                     </div>
                
                     <div className="">
-                        <button type='submit' className="bg-[#727272] py-2 px-3 md:px-5 md:py-3 rounded text-white mb-5 md:mb-0" disabled={isLoading}>
+                        <button type='submit' className="bg-[#727272] py-2 px-3 md:px-5 md:py-3 rounded text-white mb-5 md:mb-0" disabled={isloading}>
                                                          
-                        {isLoading? 
+                        {isloading? 
                     (<>
                     <svg aria-hidden="true" role="status" className="inline w-5 h-5 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
@@ -317,9 +395,7 @@ if (response.ok){
 
                 </form>
                 {/* forn container */}
-                
-            </div>
 
-        </section>
-    )
+                  
+    </>)
 }

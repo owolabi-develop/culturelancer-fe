@@ -1,6 +1,7 @@
 "use client"
 import Link from 'next/link'
-
+import useSWR from 'swr';
+import Cookies from "js-cookie";
 import ProgressBar from "@ramonak/react-progress-bar";
 import ApplicantProfileViewChart from '../../chart/applicantprofilechart';
 import ClientRatingSummaryChart from '../../chart/applicantprofilelineChart';
@@ -46,22 +47,8 @@ export  function SkillTraits(){
 
             <div className='space-y-6 md:w-[68%] md:flex flex-col'>
 
-                <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
-                    <h1 className='text-2xl font-bold md:text-2xl block text-black'>Profile Completion</h1>
-                    
-                  
-                    <ProgressBar 
-                        completed={0} maxCompleted={100}
-                         animateOnRender={true} 
-                         transitionDuration='3s'
-                         height='15px'
-                         bgColor='#354656'
-                         
-                          />
-                          <div className='my-4'>
-                    <Link href="/hire"> <button className=" bg-black text-white rounded py-3 px-5">Update Resume with AI</button></Link>
-                    </div>
-                </div>
+               {/* profile completion percent */}
+               <ProfilePercent/>
 
 {/* charts */}
                 <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
@@ -205,3 +192,47 @@ export  function SkillTraits(){
 
 
 
+
+
+function ProfilePercent(){
+
+    // get appliant profile
+const fetcher = (url: string) =>
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("item")}`,
+      },
+    }).then((r) => r.json());
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+console.log("new profile:",data)
+
+if(isLoading){
+    return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+</div>
+}
+if(error){
+    return <div>fail to fetch data</div>
+}
+    
+
+    return (<>
+     <div className='bg-white drop-shadow-lg w-full p-3 rounded'>
+                    <h1 className='text-2xl font-bold md:text-2xl block text-black'>Profile Completion</h1>
+                    
+                  
+                    <ProgressBar 
+                        completed={data?.completion_percent} maxCompleted={100}
+                         animateOnRender={true} 
+                         transitionDuration='3s'
+                         height='15px'
+                         bgColor='#354656'
+                         
+                          />
+                          <div className='my-4'>
+                    <Link href="/hire"> <button className=" bg-black text-white rounded py-3 px-5">Update Resume with AI</button></Link>
+                    </div>
+                </div>
+    </>)
+}

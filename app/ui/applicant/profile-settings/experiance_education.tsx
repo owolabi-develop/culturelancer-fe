@@ -4,6 +4,8 @@ import { EducationModal, Skill } from "../../modals";
 import {  ExperienceModal } from "../../modals";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import useSWR from 'swr';
+import Cookies from "js-cookie";
 
 import ProgressBar from "@ramonak/react-progress-bar";
 
@@ -16,22 +18,7 @@ export default function ExperienceEducation(){
             <ToastContainer/>
             <div className="md:grid grid-cols-1 py-5 px-5">
                 {/* progress bar */}
-
-                <ProgressBar 
-                        completed={0} maxCompleted={100}
-                         animateOnRender={true} 
-                         transitionDuration='3s'
-                         height='12px'
-                         labelAlignment='outside'
-                         bgColor='#354656'
-
-                          />
-                     
-
-                
-                        {/* progress bar */}
-                <p className="font-semibold text-[gray]">Profle Completion:{0} %</p>
-
+                <ProfilePercent/>
 
              {/* education */}
                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
@@ -117,4 +104,46 @@ export default function ExperienceEducation(){
 
         </section>
     )
+}
+
+
+
+/// profile percent
+
+function ProfilePercent(){
+
+    // get appliant profile
+const fetcher = (url: string) =>
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("item")}`,
+      },
+    }).then((r) => r.json());
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+console.log("new profile:",data)
+
+if(isLoading){
+    return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+</div>
+}
+if(error){
+    return <div>fail to fetch data</div>
+}
+    
+
+    return (<>
+    <ProgressBar 
+        completed={data?.completion_percent} maxCompleted={100}
+            animateOnRender={true} 
+            transitionDuration='3s'
+            height='15px'
+            bgColor='#354656'
+            
+            />
+
+    <p className="font-semibold text-[gray]">Profle Completion: {data?.completion_percent}%</p>
+                  
+    </>)
 }

@@ -1,11 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['127.0.0.1'],
       remotePatterns: [
         {
           protocol: 'https',
           hostname: 'career-app-vopqo.ondigitalocean.app',
+          port: '',
+          pathname: '**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'nyc3.digitaloceanspaces.com',
           port: '',
           pathname: '**',
         },

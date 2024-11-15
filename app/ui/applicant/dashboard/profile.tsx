@@ -559,7 +559,8 @@ const fetcher = (url: string) =>
       },
     }).then((r) => r.json());
 const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
-console.log("new profile:",data)
+
+
 
 if(isLoading){
     return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4'>
@@ -572,6 +573,8 @@ if(isLoading){
 if(error){
     return <div>fail to fetch data</div>
 }
+
+console.log("new profile:",data.profile_image)
 
 
 
@@ -635,7 +638,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
             <div className='border rounded-full w-28 h-28'>
                     <Image
-                    src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${data.profile_image}` ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${data.profile_image}` : "/default_profile.jpeg"}
+                    src={`${data.profile_image}` ? `${data.profile_image}` : "/default_profile.jpeg"}
                     alt="profile pic"
                     width={100}
                     height={40}

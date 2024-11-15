@@ -1,12 +1,5 @@
 "use client";
 import { useRouter, useParams } from "next/navigation";
-// import { useState } from "react";
-
-
-// // import { http_endpoints } from '@/app/libs/definations';
-// interface VerificationProps {
-//   params: { uidb64: string; token: string };
-// }
 
 const VerificationPage = () => {
   const router = useRouter();

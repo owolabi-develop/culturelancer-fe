@@ -139,7 +139,7 @@ if(error){
         setIsLoading(true)
         
         //  fetch applicant profile id
-        const applicantProfileresponse = await fetch(`/api/get-ap-profile-details`,{
+        const applicantProfileresponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${id}/`,{
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -150,13 +150,14 @@ if(error){
 
 
 if (applicantProfileresponse.ok){
+    const {id:profile_id} = await applicantProfileresponse.json()
    
     const response =  await fetch(`/api/update-ap-profile-details`,{
         method: "PATCH",
         headers: {
         "Content-Type": "application/json",
         },
-        body: JSON.stringify({Data:formObject,Id:id}),
+        body: JSON.stringify({Data:formObject,Id:profile_id}),
 });
 if (response.ok){
     console.log("personal added")

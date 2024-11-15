@@ -89,7 +89,7 @@ const fetcher = (url: string) =>
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${Cookies.get("item")}`,
+        "Authorization":`Bearer ${Cookies.get("item")}`,
       },
     }).then((r) => r.json());
 const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)

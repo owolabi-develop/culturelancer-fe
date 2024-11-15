@@ -397,7 +397,7 @@ export default function Projects(){
 /// profile percent
 
 function ProfilePercent(){
-    const { id:profileId } = useParams();
+    const {id} = useParams();
     // get appliant profile
 const fetcher = (url: string) =>
     fetch(url, {
@@ -405,7 +405,7 @@ const fetcher = (url: string) =>
         "Content-Type": "application/json",
       },
     }).then((r) => r.json());
-const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${profileId}/`, fetcher)
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${id}/`, fetcher)
 console.log("new profile:",data)
 
 if(isLoading){

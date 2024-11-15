@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 // import { useProfileDetails,useProfile } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 
-export default function PersonalDetailAndSkills({id}:{ id:string }){
+export default function PersonalDetailAndSkills(){
  
     return (
         <section className="w-full ">
@@ -24,7 +24,7 @@ export default function PersonalDetailAndSkills({id}:{ id:string }){
 
                 {/* form */}
 
-                <ProfildetailsContainer id={id}/>
+                <ProfildetailsContainer/>
                   {/* form */}
             </div>
 
@@ -80,10 +80,10 @@ if(error){
 
 
 
-function ProfildetailsContainer({id}:{ id:string }){
+function ProfildetailsContainer(){
 const [phone, setPhone] = useState('');
 const [isloading, setIsLoading] = useState<boolean>(false);
-const { id:profileId } = useParams();
+const { id } = useParams();
 
     // get appliant profile details
 const fetcher = (url: string) =>
@@ -92,7 +92,7 @@ const fetcher = (url: string) =>
         "Content-Type": "application/json",
       },
     }).then((r) => r.json());
-const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${profileId}/`, fetcher)
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${id}/`, fetcher)
 console.log("new profile:",data)
 
 if(isLoading){

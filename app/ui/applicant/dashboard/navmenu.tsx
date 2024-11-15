@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 function DashboardNavbar({ applicantprofileName }: { applicantprofileName: string }) {
-  const [applicantId, SetapplicantId] = useState<string | number>();
   const [profilepicture, Setprofilepicture] = useState<string>("");
 
   // handle logout
@@ -61,10 +60,10 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
         if (Profileresponse.ok) {
           const data = await Profileresponse.json();
 
-          const { profile_image, id } = data[0];
+          const { profile_image,} = data[0];
           console.log("upimage",profile_image)
           Setprofilepicture(profile_image);
-          SetapplicantId(id);
+        
         }
       } catch (error) {
         console.log("errors:", error);
@@ -88,14 +87,14 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
             {/* nav text */}
             <ul className="list-none m-0 sm:flex hidden cursor-pointer">
               <li className="mr-5">
-                <Link href={`/applicant/dashboard/home/${Cookies.get("user_id_item")}/`} className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100">
+                <Link href={`/applicant/dashboard/home/${Cookies.get("user_id_item")}`} className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100">
                   Dashboard
                 </Link>
               </li>
 
               <li className="mr-5">
                 <Link
-                  href={`/applicant/dashboard/jobs/${Cookies.get("user_id_item")}/`}
+                  href={`/applicant/dashboard/jobs/${Cookies.get("user_id_item")}`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Jobs
@@ -104,7 +103,7 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
 
               <li className="mr-5">
                 <Link
-                  href={`/applicant/dashboard/assessment-result/${Cookies.get("user_id_item")}/`}
+                  href={`/applicant/dashboard/assessment-result/${Cookies.get("user_id_item")}`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Assesement Results
@@ -113,7 +112,7 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
 
               <li className="mr-5">
                 <Link
-                  href={`/applicant/dashboard/course/${Cookies.get("user_id_item")}/`}
+                  href={`/applicant/dashboard/course/${Cookies.get("user_id_item")}`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Course
@@ -167,7 +166,7 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
         <div className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block z-10`}>
           <ul className="list-none cursor-pointer mt-10 inline [&>*]:p-3">
             <li>
-              <Link href={`/applicant/settings/profile-details/${applicantId}`} className="text-slate-700 hover:bg-[black]">
+              <Link href={`/applicant/settings/profile-details/${Cookies.get("user_id_item")}`} className="text-slate-700 hover:bg-[black]">
                 <div className="flex text-center space-x-2">
                   <CiSettings className="text-3xl" />
                   <span>Setting</span>

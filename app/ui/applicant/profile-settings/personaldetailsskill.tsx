@@ -38,7 +38,7 @@ export default function PersonalDetailAndSkills(){
 /// profile percent
 
 function ProfilePercent(){
-const { id:profileId } = useParams();
+const {id} = useParams<{id:string}>();
 
     // get appliant profile
 const fetcher = (url: string) =>
@@ -47,7 +47,7 @@ const fetcher = (url: string) =>
         "Content-Type": "application/json",
       },
     }).then((r) => r.json());
-const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${profileId}/`, fetcher)
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${id}/`, fetcher)
 console.log("new profile:",data)
 
 if(isLoading){
@@ -83,7 +83,8 @@ if(error){
 function ProfildetailsContainer(){
 const [phone, setPhone] = useState('');
 const [isloading, setIsLoading] = useState<boolean>(false);
-const { id } = useParams();
+const { id } = useParams<{id:string}>();
+console.log("profide",id)
 
     // get appliant profile details
 const fetcher = (url: string) =>
@@ -176,7 +177,7 @@ if (response.ok){
 
     
                 {/* form container */}
-                <form onSubmit={handleFormSubmit} encType="multipart/form-data">
+                <form onSubmit={handleFormSubmit}>
 
                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
                     <p className="text-xl font-semibold my-2">Personal Information</p>

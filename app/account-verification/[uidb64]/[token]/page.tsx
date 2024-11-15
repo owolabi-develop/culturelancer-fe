@@ -7,7 +7,7 @@ const VerificationPage = () => {
     const verifyAccount = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/verify-email/${uidb64}/${token}/`, {
-          method: "POST",
+          method: "GET",
           headers: {
               "Content-Type": "application/json",
           },

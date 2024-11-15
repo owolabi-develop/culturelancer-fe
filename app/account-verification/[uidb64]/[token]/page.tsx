@@ -11,9 +11,7 @@ const VerificationPage = () => {
           headers: {
               "Content-Type": "application/json",
           },
-     
       });
-
         if (response.ok) {
           router.push('/login');
         }

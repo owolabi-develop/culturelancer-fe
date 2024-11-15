@@ -89,7 +89,7 @@ const fetcher = (url: string) =>
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("item")}`,
+        "Authorization": `Bearer ${Cookies.get("item")}`,
       },
     }).then((r) => r.json());
 const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
@@ -199,7 +199,7 @@ if (response.ok){
                             onChange={(phone) => setPhone(phone)}
                             inputProps={{
                                 required:true,
-                                defaultValue:data?.phone_number,
+                                // defaultValue:data?.phone_number,
                                 className:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg  block w-full"}}                           
                             />
                         </div>

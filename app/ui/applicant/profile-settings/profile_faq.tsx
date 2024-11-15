@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 
+
 type Inputs = z.infer<typeof profileFaq >
 
 export default function ProfileFaq(){

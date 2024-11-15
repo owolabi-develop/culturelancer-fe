@@ -8,6 +8,7 @@ import Image from 'next/image'
 import axios from "axios";
 import { useRouter } from 'next/navigation'
 import useSWR from 'swr';
+import { useParams } from "next/navigation";
 
 import Cookies from "js-cookie";
 
@@ -549,16 +550,16 @@ function ProjectsContainer(){
 
 function ProfileDetailsContainer(){
 const router = useRouter();
+const { id:profileId } = useParams();
 
 // get appliant profile
 const fetcher = (url: string) =>
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization":`Bearer ${Cookies.get("item")}`,
       },
     }).then((r) => r.json());
-const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${profileId}/`, fetcher)
 
 
 

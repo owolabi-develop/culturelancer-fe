@@ -4,9 +4,9 @@ import React, { useState,FormEvent } from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import useSWR from 'swr';
-import Cookies from "js-cookie";
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
+import { useParams } from "next/navigation";
 // import { useProfileDetails,useProfile } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 
@@ -38,16 +38,16 @@ export default function PersonalDetailAndSkills({id}:{ id:string }){
 /// profile percent
 
 function ProfilePercent(){
+const { id:profileId } = useParams();
 
     // get appliant profile
 const fetcher = (url: string) =>
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("item")}`,
       },
     }).then((r) => r.json());
-const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${profileId}/`, fetcher)
 console.log("new profile:",data)
 
 if(isLoading){
@@ -83,16 +83,16 @@ if(error){
 function ProfildetailsContainer({id}:{ id:string }){
 const [phone, setPhone] = useState('');
 const [isloading, setIsLoading] = useState<boolean>(false);
+const { id:profileId } = useParams();
 
     // get appliant profile details
 const fetcher = (url: string) =>
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization":`Bearer ${Cookies.get("item")}`,
       },
     }).then((r) => r.json());
-const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${profileId}/`, fetcher)
 console.log("new profile:",data)
 
 if(isLoading){

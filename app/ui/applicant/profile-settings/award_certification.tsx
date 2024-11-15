@@ -2,7 +2,6 @@
 import { RiDeleteBin6Line } from "react-icons/ri";
 import * as z from 'zod';
 import useSWR from 'swr';
-import Cookies from "js-cookie";
 import { AwardCertificationSchema } from "@/app/libs/shemas";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,6 +10,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { fetchawardCertificate} from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
+import { useParams } from "next/navigation";
 
 type Inputs = z.infer<typeof AwardCertificationSchema>
 
@@ -239,16 +239,16 @@ if (response.ok){
 /// profile percent
 
 function ProfilePercent(){
+    const { id:profileId } = useParams();
 
     // get appliant profile
 const fetcher = (url: string) =>
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("item")}`,
       },
     }).then((r) => r.json());
-const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${profileId }/`, fetcher)
 console.log("new profile:",data)
 
 if(isLoading){

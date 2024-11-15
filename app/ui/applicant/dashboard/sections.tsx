@@ -5,8 +5,7 @@ import Cookies from "js-cookie";
 import ProgressBar from "@ramonak/react-progress-bar";
 import ApplicantProfileViewChart from '../../chart/applicantprofilechart';
 import ClientRatingSummaryChart from '../../chart/applicantprofilelineChart';
-
-
+import { useParams } from "next/navigation";
 
 export  function SkillTraits(){
   
@@ -140,16 +139,15 @@ export  function SkillTraits(){
 
 
 function ProfilePercent(){
-
+    const { id:profileId } = useParams();
     // get appliant profile
 const fetcher = (url: string) =>
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("item")}`,
       },
     }).then((r) => r.json());
-const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${profileId}/`, fetcher)
 console.log("new profile:",data)
 
 if(isLoading){
@@ -190,14 +188,14 @@ if(error){
 
 function RecentActivitiesProfilePercent(){
     // get appliant profile
+    const { id:profileId } = useParams();
 const fetcher = (url: string) =>
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("item")}`,
       },
     }).then((r) => r.json());
-const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/`, fetcher)
+const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${profileId}/`, fetcher)
 console.log("new profile:",data)
 
 if(isLoading){
@@ -254,7 +252,7 @@ type recommendedJobSchema = {
 
 }
 
-       // get appliant profile
+    
 const fetcher = (url: string) =>
     fetch(url, {
       headers: {

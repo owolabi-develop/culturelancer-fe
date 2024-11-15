@@ -16,8 +16,6 @@ const VerificationPage = () => {
 
         if (response.ok) {
           router.push('/login');
-        } else {
-          router.push('/verification-failed');
         }
       } catch (error) {
         console.error('Account verification failed', error);

@@ -62,7 +62,7 @@ function DashboardNavbar({ profileName, user_id }: { profileName: string; user_i
 
               <li className="mr-5">
                 <Link
-                  href="/employer/dashboard/post-job"
+                  href={`/employer/dashboard/post-job/${user_id}`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Post Job
@@ -71,7 +71,7 @@ function DashboardNavbar({ profileName, user_id }: { profileName: string; user_i
 
               <li className="mr-5">
                 <Link
-                  href="/employer/dashboard/jobs"
+                  href={`/employer/dashboard/jobs/${user_id}`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   My Jobs
@@ -80,7 +80,7 @@ function DashboardNavbar({ profileName, user_id }: { profileName: string; user_i
 
               <li className="mr-5">
                 <Link
-                  href="/employer/dashboard/candidates"
+                  href={`/employer/dashboard/candidates/${user_id}`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Candidate
@@ -89,7 +89,7 @@ function DashboardNavbar({ profileName, user_id }: { profileName: string; user_i
 
               <li className="mr-5">
                 <Link
-                  href="/employer/dashboard/membership"
+                  href={`/employer/dashboard/membership/${user_id}`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Membership

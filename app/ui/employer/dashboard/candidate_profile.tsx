@@ -1,4 +1,10 @@
-import { LuPencil } from "react-icons/lu";
+// import { LuPencil } from "react-icons/lu";
+// import { useParams } from "next/navigation";
+// import useSWR  from 'swr';
+// import Cookies from "js-cookie";
+// import Image from "next/image";
+
+
 export default function EmployerCandidateProfile(){
     return (
         <>
@@ -14,12 +20,7 @@ export default function EmployerCandidateProfile(){
    <div className="">
           
         <div className="space-y-0 sm:space-y-0 md:flex flex-row md:space-x-3 py-3 relative">
-            {/* change icon pen */}
-            <div className='bg-[#f6f4f4] rounded-full w-10 h-10 drop-shadow-lg absolute py-3 px-[0.6rem] top-[4.5rem] md:bottom-1 left-[4rem]'>
-            <LuPencil className='text-xl' />
-            </div>
-              {/* change icon pen */}
-
+    
             <div className='bg-[#cccbc8] rounded-full w-24 h-24'></div>
                 <div className="">
                     <h1 className='font-bold text-2xl'>John Doe</h1>

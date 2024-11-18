@@ -257,7 +257,7 @@ export const verificationCode = z.object({
 //  skills
 export const skills = z.object({
   id:z.string().optional(),
-  level: z.enum(["Beginner", "Intermediate", "Expert"]),
+  level: z.enum(["Entry-Level", "Mid-Level", "Senior"]),
   skill: z.enum([
     "Python",
     "JavaScript",

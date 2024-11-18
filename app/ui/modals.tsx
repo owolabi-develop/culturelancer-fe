@@ -410,7 +410,7 @@ export function ExperienceModal({ notifytest }: { notifytest: string }) {
 //  skill modal
 
 export function Skill({ notifytest }: { notifytest: string }) {
-  const LevelEnum = z.enum(["Beginner", "Intermediate", "Expert"]);
+  const LevelEnum = z.enum(["Entry-Level", "Mid-Level", "Senior"]);
   const TechSkillEnum = z.enum([
     "Python",
     "JavaScript",

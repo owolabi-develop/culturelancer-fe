@@ -113,6 +113,7 @@ export  function ApplicantUserProfile(){
 /// ExperienceContainer
 
 function ExperienceContainer(){
+    const {id} = useParams<{id:string}>();
 
     type ExperienceI = {
         id:string,
@@ -158,7 +159,7 @@ function ExperienceContainer(){
                         </div>
                         
                         <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-                        <Link href='/applicant/settings/experience-education'>
+                        <Link href={`/applicant/settings/experience-education/${id}`}>
                         <IoMdAdd className='text-3xl' />
                         </Link>
                         </div>
@@ -197,6 +198,7 @@ function ExperienceContainer(){
 ///  EducationContainer
 
 function EducationContainer(){
+    const {id} = useParams<{id:string}>();
 
     type EducationI = {
         id:string,
@@ -243,7 +245,7 @@ function EducationContainer(){
                         </div>
                         
                         <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-                        <Link href='/applicant/settings/experience-education'>
+                        <Link href={`/applicant/settings/experience-education/${id}`}>
                         <IoMdAdd className='text-3xl' />
                         </Link>
                         </div>
@@ -280,6 +282,7 @@ function EducationContainer(){
 
 /// certificate container
 function CertificateContainer(){
+    const {id} = useParams<{id:string}>();
     type CertificateI = {
         id:string,
         title:string,
@@ -338,7 +341,7 @@ function CertificateContainer(){
 
 
                     <div className='px-3'>
-                    <Link href="/applicant/settings/awards-certifications"> <button className="border rounded py-1 px-2">Add Certificate</button></Link>
+                    <Link href={`/applicant/settings/awards-certifications/${id}`}> <button className="border rounded py-1 px-2">Add Certificate</button></Link>
                     </div>
 
                 </div>
@@ -351,6 +354,7 @@ function CertificateContainer(){
 //  skill container 
 
 function SkillContainer(){
+    const {id} = useParams<{id:string}>();
 
     type SkillI = {
         id:string,
@@ -390,7 +394,7 @@ function SkillContainer(){
                         <h1 className='text-2xl font-bold'>Skills</h1>
                         </div>
                         <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-                        <Link href='/applicant/settings/experience-education'>
+                        <Link href={`/applicant/settings/experience-education/${id}`}>
                         <IoMdAdd className='text-3xl' />
                         </Link>
                         </div>
@@ -424,6 +428,7 @@ function SkillContainer(){
 //  projects
 
 function ProjectsContainer(){
+    const {id} = useParams<{id:string}>();
 
     type projectI = {
         id:string,
@@ -475,7 +480,7 @@ function ProjectsContainer(){
                         <h1 className='text-2xl font-bold'>Portfolio</h1>
                         </div>
                         <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-                        <Link href='/applicant/settings/projects'>
+                        <Link href={`/applicant/settings/projects/${id}`}>
                         <IoMdAdd className='text-3xl' />
                         </Link>
                         </div>
@@ -666,7 +671,7 @@ const handleUpload = async (e:React.ChangeEvent<HTMLInputElement>) =>{
 
 
 <div className='w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer'>
-<Link href={`/applicant/settings/profile-details/${data.id}`}><button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">Edit Profile</button></Link>
+<Link href={`/applicant/settings/profile-details/${id}`}><button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">Edit Profile</button></Link>
 </div>
 </div>
 

@@ -177,7 +177,7 @@ if (response.ok){
 
     
                 {/* form container */}
-                <form onSubmit={handleFormSubmit}>
+               {data && <form onSubmit={handleFormSubmit}>
 
                 <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
                     <p className="text-xl font-semibold my-2">Personal Information</p>
@@ -390,12 +390,7 @@ if (response.ok){
                 </div>
 
                 {/* save and update button */}
-
-
-
-
-
-                </form>
+                </form>}
                 {/* forn container */}
 
                   

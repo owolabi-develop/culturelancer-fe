@@ -240,13 +240,13 @@ return (
 
    <div className="flex my-2 text-gray-400 w-full">
      <CiLocationOn className="text-xl  text-black" />
-     <p className="mr-2">{data && data?.location_type.map((loca:string)=>(<>{loca} {" "}</>))}</p>
+     <p className="mr-2">{data && data?.location_type?.map((loca:string)=>(<>{loca} {" "}</>))}</p>
      <HiOutlineCurrencyDollar className="text-xl text-black" />{" "}
      <p className="ml-2 mr-2 text-sm">
       {data && data.minimum_budget} - {data && data.maximum_budget}
      </p>
      <BsSuitcaseLg className="text-xl  text-black" />
-     <p className="ml-2 mr-2">{data && data?.job_type.map((loca:string)=>(<>{loca} {" "}</>))}</p>
+     <p className="ml-2 mr-2">{data && data?.job_type?.map((loca:string)=>(<>{loca} {" "}</>))}</p>
      <IoIosCheckmarkCircleOutline className="text-xl  text-black" /> <p className="ml-2 mr-2">
      {data && data?.experience_levels.map((loca:string)=>(<>{loca} {" "}</>))}
      </p>

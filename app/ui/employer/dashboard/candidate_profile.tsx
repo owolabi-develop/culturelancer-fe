@@ -1,14 +1,79 @@
-// import { LuPencil } from "react-icons/lu";
-// import { useParams } from "next/navigation";
-// import useSWR  from 'swr';
-// import Cookies from "js-cookie";
-// import Image from "next/image";
+"use client"
+import { useParams } from "next/navigation";
+import useSWR  from 'swr';
+import Cookies from "js-cookie";
+import Image from "next/image";
+import ProgressBar from "@ramonak/react-progress-bar";
+import Link from "next/link";
+
 
 
 export default function EmployerCandidateProfile(){
-    return (
-        <>
+    const {id} = useParams<{id:string}>();
 
+    interface SkillI {
+        id:string,
+        skill:string[]
+        level:string
+        
+    }
+
+    interface AllSkillI {
+        id:string,
+        skill:string
+        level:string
+        
+    }
+
+    interface ExperienceI {
+        id:string
+        title:string,
+        company_name:string,
+        present:boolean,
+        description:string,
+        start_date:string,
+        end_date:string,
+        location_type:string
+    }
+
+    interface CertificateI {
+        id:string,
+        issuing_organization:string,
+        title:string,
+        date_recieved:string
+
+    }
+
+    interface ProjectI {
+        id:string,
+        project_title:string,
+        description:string,
+        role:string,
+        project_image:string,
+        project_links_live_demo:string
+
+    }
+
+    const fetcher = (url: string) =>
+        fetch(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("item")}`,
+          },
+        }).then((r) => r.json());
+    const { data,error,isLoading} =   useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/employer-candidate-profile-details/${id}/`, fetcher)
+    console.log("candidate details",data)
+  
+    if(isLoading){
+        return <div className='bg-slate-50 drop-shadow-lg rounded-md animate-pulse'>
+        {/* <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div> */}
+
+        {/* candidate loading state */}
+
+        
         {/* profile icon */}
 <div className="rounded bg-white drop-shadow-lg px-16 w-full"> 
 
@@ -19,19 +84,13 @@ export default function EmployerCandidateProfile(){
    {/* profile */}
    <div className="">
           
-        <div className="space-y-0 sm:space-y-0 md:flex flex-row md:space-x-3 py-3 relative">
-    
-            <div className='bg-[#cccbc8] rounded-full w-24 h-24'></div>
-                <div className="">
-                    <h1 className='font-bold text-2xl'>John Doe</h1>
-                    <p className='font-semibold text-xl'>Seniorsoftware Engineer</p>
-                    <p className='font-semibold text-base'>San Francisco, CA</p>
-                    <p className='font-bold text-sm'>Open to Opportunities</p>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div> 
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+        <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
 
-                </div>
-            </div>
-
-        </div>
+    </div>
 
   {/* profile */}
 
@@ -40,21 +99,13 @@ export default function EmployerCandidateProfile(){
 
 
 <div className='w-1/2 sm:w-10 p-2 justify-end md:w-[20%] cursor-pointer'>
-    {/* progress bar */}
-    <p className='my-2'>Profile 80% complete</p>
-        <div className=" bg-gray-200 rounded-full h-2.5 ">
-            <div className={`bg-[gray] h-2.5 rounded-full w-[60%]`}></div>
-        </div>
-        {/* progress bar */}
-
-        <div className='[&>*]:py-1 [&>*]:px-1 [&>*]:mx-2 [&>*]:bg-gray-400 [&>*]:rounded-full my-3 [&>*]:text-sm'>
-                                <span>Javascipt</span>
-                                <span>React</span>
-                                <span>Figma</span>
-        </div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div> 
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
 </div>
 </div>
-
 </div>
 {/* profile icon */}
 
@@ -63,56 +114,30 @@ export default function EmployerCandidateProfile(){
         <section className="md:grid grid-cols-1 p-20 w-full justify-around">
             {/* about applicant */}
             <h1 className="font-extrabold text-xl my-5">About</h1>
-            <div className="w-full">
-                
-                <p className="break-all">Passionate web developer with 18 year of
-                     experience in creating responsive and user friendly web 
-                     applications. Specializing Javascript and React, I have a strong foundationin 
-                     front-end developement and keen eye for design. I am always eager to learn new technologies and contribute to innovative projects 
-                </p>
-
-                <div className="my-4">
-                    <button className="bg-[gray] py-3 px-4 rounded">Message Candidate</button>
-                    <button className="border py-3 px-4 rounded mx-2">Invite to Apply</button>
-                    
-                </div>
-
-            </div>
-
+        <div className="w-full">
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div> 
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+         </div>
             {/* about applicant */}
 
 
             {/* experience */}
 
             <h1 className="font-extrabold text-xl my-5">Experience</h1>
-
+               {/* exp */}
             <div className="w-full">
-                {/* exp */}
-
-                <div className='bg-white drop-shadow-lg w-full rounded my-4'>
-
-                <div className='w-full border-b-2 py-4 px-4'>
-                <h1>Senior Web Developer</h1>
-                <p>TechCorp Inc. | Jan 2021 - Present</p>
-                </div>
-                <div className="px-10 py-4">
-                    <p className="break-all w-[70%]">
-                        Led a team of % developers in creating a new e-commarce platform implemented React-base front-end, improving load times by
-                        40% Mentored junior developers and conducted code reviews
-
-                    </p>
-
-                </div>
-
-
-
-                </div>
-
-                 {/* exp */}
-
-
+              
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div> 
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
 
             </div>
+             {/* exp */}
 
             {/* experience */}
 
@@ -123,64 +148,46 @@ export default function EmployerCandidateProfile(){
 
           <div className="w-full md:grid md:grid-cols-4 gap-3">
 
-          <div className="bg-white drop-shadow-lg rounded py-5 px-5 my-8">
-                {/* progress bar */}
-             
-              <div className="flex justify-between">
-              <p className='my-2'>Javascript</p>
-              <p className='my-2'>Advance</p>
-              </div>
-            <div className=" bg-gray-200 rounded-full h-2.5 ">
-                <div className={`bg-[gray] h-2.5 rounded-full w-[60%]`}></div>
-            </div>
-        {/* progress bar */}
+          <div className="bg-white drop-shadow-lg rounded py-2 px-2 my-8">
+          <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div> 
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+              
 
           </div>
 
           
          
-          <div className="bg-white drop-shadow-lg rounded py-5 px-5 my-8">
-                {/* progress bar */}
-             
-              <div className="flex justify-between">
-              <p className='my-2'>React</p>
-              <p className='my-2'>Advance</p>
-              </div>
-            <div className=" bg-gray-200 rounded-full h-2.5 ">
-                <div className={`bg-[gray] h-2.5 rounded-full w-[60%]`}></div>
-            </div>
-        {/* progress bar */}
+          <div className="bg-white drop-shadow-lg rounded py-2 px-2 my-8">
+          <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div> 
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+               
 
           </div>
           
         
-          <div className="bg-white drop-shadow-lg rounded py-5 px-5 my-8">
-                {/* progress bar */}
-             
-              <div className="flex justify-between">
-              <p className='my-2'>HTML/CSS</p>
-              <p className='my-2'>Expert</p>
-              </div>
-            <div className=" bg-gray-200 rounded-full h-2.5 ">
-                <div className={`bg-[gray] h-2.5 rounded-full w-[60%]`}></div>
-            </div>
-        {/* progress bar */}
+          <div className="bg-white drop-shadow-lg rounded py-2 px-2 my-8">
+          <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div> 
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+              
 
           </div>
 
 
-          <div className="bg-white drop-shadow-lg rounded py-5 px-5 my-8">
-                {/* progress bar */}
-             
-              <div className="flex justify-between">
-              <p className='my-2'>Node.js</p>
-              <p className='my-2'>Intermediat</p>
-              </div>
-            <div className=" bg-gray-200 rounded-full h-2.5 ">
-                <div className={`bg-[gray] h-2.5 rounded-full w-[60%]`}></div>
-            </div>
-        {/* progress bar */}
-
+          <div className="bg-white drop-shadow-lg rounded py-2 px-2 my-8">
+          <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div> 
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
+            <div className='w-full bg-slate-300 py-1 rounded-full my-1'></div>
           </div>
               
     </div>
@@ -198,34 +205,26 @@ export default function EmployerCandidateProfile(){
 
 <div className="w-full md:grid md:grid-cols-3 gap-3">
 
+
 <div className="bg-white drop-shadow-lg rounded py-5 px-5 my-8">
 
-    <h1 className="font-semibold text-xl">React Developer Certification</h1>
-    <div className="my-5">
-    <p>Meta</p>
-    Recidved: June 2025
-    </div>
-   
-
-    <button className="py-2 border px-10 rounded">View Certificate</button>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div> 
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
     
-
 </div>
 
 
 
 <div className="bg-white drop-shadow-lg rounded py-5 px-5 my-8">
 
-    
-<h1 className="font-semibold text-xl">React Developer Certification</h1>
-    <div className="my-5">
-    <p>Meta</p>
-    Recidved: June 2025
-    </div>
-   
-
-    <button className="py-2 border px-10 rounded">View Certificate</button>
-    
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div> 
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>    
 
 </div>
 
@@ -233,15 +232,11 @@ export default function EmployerCandidateProfile(){
 <div className="bg-white drop-shadow-lg rounded py-5 px-5 my-8">
 
     
-<h1 className="font-semibold text-xl">React Developer Certification</h1>
-    <div className="my-5">
-    <p>Meta</p>
-    Recidved: June 2025
-    </div>
-   
-
-    <button className="py-2 border px-10 rounded">View Certificate</button>
-   
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div> 
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
 
 </div>
 
@@ -263,24 +258,288 @@ export default function EmployerCandidateProfile(){
 <div className="w-full md:grid md:grid-cols-3 gap-3">
 
 <div className="bg-white drop-shadow-lg rounded my-8">
-    <div className="bg-slate-100 py-20 rounded-t-lg text-center">
-        <h1>Project Image</h1>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div> 
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+    
+</div>
+
+
+
+    
+</div>
+
+ {/* Portfolio */}
+
+           
+
+
+ <h1 className="font-extrabold text-xl my-5">Testimonial & Reviews</h1>
+
+
+{/*Testimonial & Reviews*/}
+
+
+<div className="w-full md:grid md:grid-cols-3 gap-3">
+  
+  <div className='bg-white drop-shadow-lg w-full rounded my-4'>
+      
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div> 
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+<div className='w-full bg-slate-300 py-1 rounded-full my-3'></div>
+
+  </div>
+  
+{/*Testimonial & Reviews*/}
+
+  
+  </div>
+ 
+  </section>
+
+
+        {/* candidate loading state */}
+
+
+    </div>
+    }
+    if(error){
+        return <div>fail to fetch data</div>
+    }
+
+    
+
+
+    return (
+        <>
+
+        {/* profile icon */}
+<div className="rounded bg-white drop-shadow-lg px-16 w-full"> 
+
+<div className='w-full flex flex-row my-2'>
+                
+<div className='w-1/2 sm:w-11 sortby p-2 md:w-full'>
+
+   {/* profile */}
+   <div className="">
+          
+        <div className="space-y-0 sm:space-y-0 md:flex flex-row md:space-x-3 py-3 relative">
+    
+            <div className='bg-[#cccbc8] rounded-full w-24 h-24'>
+            <Image
+                    src={`${process.env.NEXT_PUBLIC_API_PROFILE_URL}${data?.profile_image}` || "/default_profile.jpeg"} 
+                    alt="profile pic"
+                    width={100}
+                    height={40}
+                    className='rounded-full w-24 h-24'
+                    priority 
+                    
+                    />
+            </div>
+
+                <div className="">
+                    <h1 className='font-bold text-2xl'>{data?.first_name} {data?.last_name}</h1>
+                    <p className='font-semibold text-xl'>{data?.title}</p>
+                    <p className='font-semibold text-base'>{data?.country} {data?.state}</p>
+                    <p className='font-bold text-sm'>Open to Opportunities</p>
+
+                </div>
+            </div>
+
+        </div>
+
+  {/* profile */}
+
+
+</div>
+
+
+<div className='w-1/2 sm:w-10 p-2 justify-end md:w-[20%] cursor-pointer'>
+    {/* progress bar */}
+    <ProgressBar 
+        completed={data?.completion_percent} maxCompleted={100}
+            animateOnRender={true} 
+            transitionDuration='3s'
+            height='13px'
+            bgColor='#354656'
+            
+            />
+    <p className='my-2'>Profile {data?.completion_percent}% complete</p>
+        {/* progress bar */}
+
+        <div className='[&>*]:py-1 [&>*]:px-1 [&>*]:mx-2 [&>*]:bg-gray-400 [&>*]:rounded-full my-3 [&>*]:text-sm'>
+                                 {data?.skill.slice(0, 2)?.map((options:SkillI)=>(<span key={options.id}>{options.skill}</span> ))}
+                                
+                                <span>React</span>
+                                <span>Figma</span>
+        </div>
+</div>
+</div>
+
+</div>
+{/* profile icon */}
+
+
+        
+        <section className="md:grid grid-cols-1 p-20 w-full justify-around">
+            {/* about applicant */}
+            <h1 className="font-extrabold text-xl my-5">About</h1>
+            <div className="w-full">
+                
+                <p className="break-all">
+                    {data?.bio}
+                </p>
+
+                <div className="my-4">
+                    <button className="bg-[gray] py-3 px-4 rounded">Message Candidate</button>
+                    <button className="border py-3 px-4 rounded mx-2">Invite to Apply</button>
+                    
+                </div>
+
+            </div>
+
+            {/* about applicant */}
+
+
+            {/* experience */}
+
+            <h1 className="font-extrabold text-xl my-5">Experience</h1>
+
+            <div className="w-full">
+                {/* exp */}
+                {data?.work_experience ? (<>
+                {data?.work_experience?.map((exp:ExperienceI)=>(
+                <div key={exp?.id} className='bg-white drop-shadow-lg w-full rounded my-4'>
+
+                <div className='w-full border-b-2 py-4 px-4'>
+                <h1>{exp?.title}</h1>
+                <p>{exp?.company_name} | {exp.start_date} - {exp.present === true ? "Present":""}</p>
+                </div>
+                <div className="px-10 py-4">
+                    <p className="break-all w-[70%]">
+                        {exp?.description}
+
+                    </p>
+
+                </div>
+
+                </div>
+                ))}
+               </>):(<p className="my-10 mx-10 text-2xl text-gray-500">No Experience</p>)}
+                 {/* exp */}
+
+
+
+            </div>
+
+            {/* experience */}
+
+
+            <h1 className="font-extrabold text-xl my-5">Skill & Expertise</h1>
+
+          {/* Skill & Expertise  */}
+
+          <div className="w-full md:grid md:grid-cols-4 gap-3">
+            {data?.skill ? (<>
+           {data?.skill.slice(0,4)?.map((skills:AllSkillI)=>(
+          <div key={skills?.id} className="bg-white drop-shadow-lg rounded py-4 px-4 my-8">
+                {/* progress bar */}
+              <div className="flex justify-between">
+              <p className='my-2'>{skills.skill}</p>
+              <p className='my-2'>{skills.level}</p>
+              </div>
+        {/* progress bar */}
+
+          </div>
+          ))}</>):(<p className="my-10 mx-10 text-2xl text-gray-500">No Skills</p>)}
+
+        
+
+              
+    </div>
+
+    {/* Skill & Expertise */}
+
+
+
+
+    {/* Certificate & awards */}
+    
+<h1 className="font-extrabold text-xl my-5">Certificate & Awards</h1>
+
+
+
+<div className="w-full md:grid md:grid-cols-3 gap-3">
+   {data?.award_certifications ? (<>
+    {data?.award_certifications?.map((certi:CertificateI)=>(
+
+<div key={certi?.id} className="bg-white drop-shadow-lg rounded py-5 px-5 my-8">
+
+    <h1 className="font-semibold text-xl">{certi?.title}</h1>
+    <div className="my-5">
+    <p>{certi?.issuing_organization}</p>
+    Recieved: {certi?.date_recieved}
+    </div>
+   
+
+    <button className="py-2 border px-10 rounded">View Certificate</button>
+    
+</div>
+
+))}
+</>):(<p className="my-10 mx-10 text-2xl text-gray-500">No Certifications</p>)}
+    
+</div>
+
+ {/* certificate & awards */}
+
+
+
+
+     {/* Portfolio */}
+    
+<h1 className="font-extrabold text-xl my-5">Portfolio</h1>
+
+
+
+<div className="w-full md:grid md:grid-cols-3 gap-3">
+ { data?.projects ? (<>
+   {data?.projects?.map((proj:ProjectI)=>(
+
+<div key={proj?.id} className="bg-white drop-shadow-lg rounded my-8">
+    <div className="rounded-t-lg text-center">
+            {proj?.project_image ? (
+            <Image
+            src={`${process.env.NEXT_PUBLIC_API_PROFILE_URL}${proj?.project_image}`}
+            alt="profile pic"
+            width={100}
+            height={20}
+            className="w-full h-48"
+            priority
+            />
+            ) : (
+            <p className="my-10 mx-10 text-2xl text-gray-500">No Project Image</p>
+            )}
     </div>
 
     <div className="px-5 py-4">
-        <h1 className="my-3 font-bold">E-commarce Platform</h1>
+        <h1 className="my-3 font-bold">{proj?.project_title}</h1>
 
-        <p> A Fully responsive online store built with React and Node.js</p>
+        <p> {proj?.description}</p>
 
-        <button className="py-1 rounded border px-4 my-3">View Project</button>
+        <button className="py-1 rounded border px-4 my-3"><Link href={proj?.project_links_live_demo}>View Project</Link></button>
     </div>
 
     
 
 </div>
 
-
-
+))}
+</>):(<p className="my-10 mx-10 text-2xl text-gray-500">No Portfolio </p>)}
     
 </div>
 

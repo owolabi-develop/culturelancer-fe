@@ -258,7 +258,7 @@ function EducationContainer(){
 <div>
     
 <ol className="relative border-s border-gray-200 dark:border-gray-700">  
-    {data && data.map((edu:EducationI)=>(               
+    {data && data?.map((edu:EducationI)=>(               
     <li key={edu.id} className="mb-10 ms-4">
         <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{edu.institution_name}</h3>
@@ -317,7 +317,7 @@ function CertificateContainer(){
          <div className='bg-white drop-shadow-lg w-full p-3 rounded flex-none'>
                     <h1 className='text-2xl font-bold md:text-2xl block text-black'>Certification</h1>
 
-                    {data && data.map((certi:CertificateI)=>(
+                    {data && data?.map((certi:CertificateI)=>(
                     <div key={certi.id} className='py-3 px-4'>
                     {/* certificate container  */}
                      
@@ -408,7 +408,7 @@ function SkillContainer(){
                     {/* skills */}
                    
                     <div className='w-full overflow-hidden [&>*]:font-bold [&>*]:py-2 [&>*]:px-[0.35rem] md:[&>*]:py-2 md:[&>*]:px-[0.35rem] [&>*]:my-1 [&>*]:mx-1 md:[&>*]:my-1 md:[&>*]:mx-1  '>
-                    {data && data.map((skills:SkillI)=>(
+                    {data && data?.map((skills:SkillI)=>(
                         <button key={skills.id} className='bg-[lightgray] rounded-full'> {skills.skill}-{skills.level}</button>
                     ))}
                         

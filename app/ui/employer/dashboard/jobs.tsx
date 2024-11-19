@@ -170,6 +170,7 @@ const closejob = async (id: string) => {
       if (response.ok) {
         closedJobnotify() 
         mutate(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/${apiUrl}`)
+        mutate(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/get-employer-job-status/`)
        
    
       } else {
@@ -185,7 +186,7 @@ const closejob = async (id: string) => {
 return (
   <>
       {/* sample jobs */}
-      {data && data.length > 0 ? data.map((jobs:IJob)=>(
+      {data && data.length > 0 ? data?.map((jobs:IJob)=>(
      
       <div key={jobs.id} className="w-full  bg-white drop-shadow-lg rounded-lg my-3">
             {/* top header */}
@@ -372,7 +373,7 @@ return (
   <>
      <div className="bg-gray-100 rounded py-5 px-5 my-2">
             <h1 className="font-bold text-sm">Total Applications</h1>
-            <h1 className="font-bold text-xl">{data && data.reduce((sum:number, job:{ applications?: string[] }) => sum + (job.applications?.length || 0), 0)}</h1>
+            <h1 className="font-bold text-xl">{data && data?.reduce((sum:number, job:{ applications?: string[] }) => sum + (job.applications?.length || 0), 0)}</h1>
     </div>
 
   </>

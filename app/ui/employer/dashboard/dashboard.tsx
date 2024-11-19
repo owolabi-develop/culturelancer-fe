@@ -274,7 +274,7 @@ return (
    
 <div className="bg-white drop-shadow-lg rounded py-5 px-5 my-8">
 <h1 className="font-bold text-xl">Total Candidate Applied</h1>
-<h1 className="font-bold text-xl">{data && data.reduce((sum:number, job:{ applications?: string[] }) => sum + (job.applications?.length || 0), 0)}</h1>
+<h1 className="font-bold text-xl">{data && data?.reduce((sum:number, job:{ applications?: string[] }) => sum + (job.applications?.length || 0), 0)}</h1>
 </div>
 
   </>
@@ -333,7 +333,7 @@ if(error){
 
 return (
   <>
-   {data && data.length > 0 ? data.map((jobs:IJob)=>(
+   {data && data.length > 0 ? data?.map((jobs:IJob)=>(
 <div key={jobs?.id} className="bg-white drop-shadow-lg rounded w-full py-4 px-3 [&>*]:my-2 mt-4">
 <h1 className="text-xl font-bold">{jobs.job_title}</h1>
 <p>Posted: {jobs?.posted_date}</p>
@@ -470,7 +470,7 @@ return (
   <>
    <div className="space-y-3 w-full my-4 md:grid grid-cols-2 gap-3 md:space-y-0">
 
-           {data && data.length > 0 ? data.map((candidates:IRecomdation)=>(
+           {data && data.length > 0 ? data?.map((candidates:IRecomdation)=>(
             <div key={candidates?.id} className=" bg-white drop-shadow-lg py-3 px-4 [&>*]:my-3 rounded-md">
               <div className="flex">
 
@@ -493,7 +493,7 @@ return (
               </div>
 
               <p className="">
-                Skills: {candidates?.skill.map((options:ISkill)=>(<>{options.skill} {" "}</>))}
+                Skills: {candidates?.skill?.map((options:ISkill)=>(<>{options.skill} {" "}</>))}
               </p>
               {/* <p>Experience: 5 years</p> */}
 

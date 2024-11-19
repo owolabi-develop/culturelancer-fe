@@ -7,7 +7,6 @@ import useSWR from 'swr';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { useParams } from "next/navigation";
-// import { useProfileDetails,useProfile } from '@/app/libs/utils';
 import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function PersonalDetailAndSkills(){

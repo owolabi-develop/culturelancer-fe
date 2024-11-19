@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useParams } from "next/navigation";
-import useSWR from 'swr';
+import useSWR,{ useSWRConfig } from 'swr';
 
 
 
@@ -14,6 +14,7 @@ export function EmployerEditJobs() {
 
  const {id} = useParams<{id:string}>();
   console.log("jodid",id)
+  const { mutate } = useSWRConfig()
 
   const notifySuccess = () => {
     toast.success("Job Updated successfully");
@@ -123,6 +124,7 @@ const error = await response.json();
 console.log(error)
 if (response.ok){
   notifySuccess()
+  mutate(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/job/${id}/`)
   console.log("job updated")
 }
 
@@ -151,7 +153,7 @@ if(isLoading){
 
       {/* job form */}
       <div>
-      <form onSubmit={handleSubmit}>
+      {data && <form onSubmit={handleSubmit}>
         <div>
           <div className="w-full bg-white rounded-lg drop-shadow-lg my-4 py-3 px-3 [&>*]:my-3">
             <div>
@@ -479,7 +481,7 @@ if(isLoading){
           </div>
           {/* submit button  */}
         </div>
-        </form>
+        </form>}
       </div>
 
       {/* job */}

@@ -26,11 +26,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      <DashboardNavbar
-        applicantprofileName={`${userDetails?.first_name || ""} ${
-          userDetails?.last_name || ""
-        }`}
-      />
+      <DashboardNavbar />
 
       <div className={`w-full mx-auto`}>{children}</div>
       <Footer />

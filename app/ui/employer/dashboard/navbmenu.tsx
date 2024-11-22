@@ -10,6 +10,7 @@ import { CiSettings } from "react-icons/ci";
 import { HiMiniPower } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import Image from "next/image";
 
 function DashboardNavbar({
   profileName,
@@ -49,11 +50,14 @@ function DashboardNavbar({
   return (
     <div className="relative">
       <nav className="px-20 items-center w-full flex justify-between font-semibold">
-        <div className="grid grid-cols-2 p-4 items-center justify-center gap-5">
-          <div className="bg-[#cccbc8] rounded-full w-11 h-11"></div>
-          <div className="logo-text w-11 h-11">
-            <h1 className="leading-10 font-bold">CultureLancer</h1>
-          </div>
+        <div className="items-center justify-center gap-5">
+          <Image
+            src="/assets/full-logo.svg"
+            width={40}
+            height={40}
+            alt="logo"
+            className="w-[150px]"
+          />
         </div>
 
         <div className="md:flex basis-[85%]">

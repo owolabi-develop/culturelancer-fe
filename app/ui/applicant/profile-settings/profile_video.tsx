@@ -127,8 +127,8 @@ export default function ProfileVideo() {
 
         {/* profile videos  */}
         {!isLoadingVideos &&
-          myVideos.map((video: IVideo) => (
-            <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-5 flex">
+          myVideos.map((video: IVideo, index: number) => (
+            <div key={index} className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-5 flex">
               <div className="bg-[lightgray] py-20 px-20">
                 <h1>Video Thumbnail</h1>
               </div>

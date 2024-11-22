@@ -19,8 +19,8 @@ export default function ExperienceEducation() {
         <ProfilePercent />
 
         {/* education */}
-        <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
-          <p className="text-xl font-semibold my-2">Add Your Education</p>
+        <div className="w-full rounded-lg px-5 py-5 bg-white border border-[#E5E5E5] ">
+          <p className="text-xl font-medium my-2">Add Your Education</p>
 
           <div className="">
             <EducationModal notifytest="Education Added!" />
@@ -30,8 +30,8 @@ export default function ExperienceEducation() {
         {/* education */}
 
         {/* experience */}
-        <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-5 ">
-          <p className="text-xl font-semibold my-2">Add Your Experience</p>
+        <div className="w-full rounded-lg px-5 py-5 bg-white border border-[#E5E5E5] my-5 ">
+          <p className="text-xl font-medium my-2">Add Your Experience</p>
 
           <div className="">
             <ExperienceModal notifytest="Experience Added!" />
@@ -42,8 +42,8 @@ export default function ExperienceEducation() {
 
         {/* skills */}
 
-        <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg ">
-          <p className="text-xl font-semibold my-2">Add Your Skill</p>
+        <div className="w-full rounded-lg px-5 py-5 bg-white border border-[#E5E5E5] ">
+          <p className="text-xl font-medium my-2">Add Your Skill</p>
 
           <div className="">
             <Skill notifytest="Skill Added!" />
@@ -55,13 +55,17 @@ export default function ExperienceEducation() {
         {/* resume */}
 
         <div className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-4">
-          <p className="text-xl font-semibold my-2">Add Your resume</p>
+          <p className="text-xl font-medium my-2">Add Your resume</p>
 
           <ApplicantDndResume
             notifytest="Resume Uploaded"
             name="resume"
-            className={`border-dashed border-2 text-center py-8 hover:border-blue-300 cursor-pointer`}
+            className={`border-dashed border-2 text-center -mt-6 py-8 rounded-lg hover:border-blue-300 cursor-pointer`}
           />
+          <p className="text-[#525252] text-sm mt-4">
+            Upload your resume/CV to enhance your profile and increase your
+            chances of being noticed by employers.
+          </p>
         </div>
 
         {/* resume */}

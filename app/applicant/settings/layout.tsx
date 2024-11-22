@@ -7,7 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <SettingsNavbar />
       <div className="flex md:flex-row">
         <SideBar />
-        <div className="w-full py-8 pl-8 h-[calc(100vh-80px)] overflow-x-hidden overflow-y-auto bg-[#e5e7eb7d]">
+        <div className="w-full py-8 pl-8 h-[calc(100vh-70px)] overflow-x-hidden overflow-y-auto bg-[#e5e7eb7d]">
           {children}
         </div>
       </div>

@@ -18,11 +18,14 @@ import { cultureLancerAxios, LoginUser } from "../ui-services/axios";
 import { toast } from "react-toastify";
 import AppButton from "../ui/AppButton";
 import Image from "next/image";
+import { useContext } from "react";
+import { MyContext } from "../context";
 
 export type ILoginData = z.infer<typeof loginFormSchema>;
 
 export default function Login() {
   const router = useRouter();
+  const { user, setUser } = useContext(MyContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +47,7 @@ export default function Login() {
       const responseData = await LoginUser(data);
 
       const { role, is_active, token, user_id } = responseData.data;
+      setUser(responseData.data);
       cultureLancerAxios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${token}`;

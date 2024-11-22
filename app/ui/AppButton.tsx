@@ -4,12 +4,21 @@ import { FC } from "react";
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   isLoading?: boolean;
+  shadow?: boolean;
 }
 
-const AppButton: FC<Props> = ({ children, isLoading, className, ...props }) => {
+const AppButton: FC<Props> = ({
+  children,
+  isLoading,
+  shadow,
+  className,
+  ...props
+}) => {
   return (
     <button
-      className={`${className} w-full text-white  rounded-lg text-sm px-5 py-2.5 text-center bg-[#C71F2A]`}
+      className={`${className} w-full text-white  rounded-lg text-sm px-5 py-2.5 text-center bg-[#C71F2A] ${
+        shadow ? "shadow-lg shadow-[#02010137]" : ""
+      }`}
       disabled={isLoading}
       {...props}
     >
@@ -32,7 +41,6 @@ const AppButton: FC<Props> = ({ children, isLoading, className, ...props }) => {
               fill="currentColor"
             />
           </svg>
-          login...
         </>
       ) : (
         children

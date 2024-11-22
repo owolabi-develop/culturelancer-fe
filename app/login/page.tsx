@@ -14,8 +14,12 @@ import { useState } from "react";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import Cookies from "js-cookie";
+import { cultureLancerAxios, LoginUser } from "../ui-services/axios";
+import { toast } from "react-toastify";
+import AppButton from "../ui/AppButton";
+import Image from "next/image";
 
-type Inputs = z.infer<typeof loginFormSchema>;
+export type ILoginData = z.infer<typeof loginFormSchema>;
 
 export default function Login() {
   const router = useRouter();
@@ -27,152 +31,205 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<ILoginData>({
     resolver: zodResolver(loginFormSchema),
   });
   const togglePassword = () => setShowPassword(!showPassword);
 
-  const onLogin: SubmitHandler<Inputs> = async (data) => {
+  const onLogin: SubmitHandler<ILoginData> = async (data) => {
     setIsLoading(true);
     setStatus(""); // Clear previous status
 
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const responseData = await LoginUser(data);
 
-      const responseData = await response.json();
-
-
-      if (response.ok) {
-        const { role, is_active } = responseData;
-        Cookies.set("item", responseData.token);
-        Cookies.set("user_id_item", responseData.user_id);
-
-        if (is_active && role === "employer") {
-          router.push(`/employer/dashboard/${responseData.user_id}/`);
-        } else if (is_active && role === "applicant") {
-          router.push(`/applicant/dashboard/home/${responseData.user_id}/`);
-        } else {
-          setStatus("Account not active. Please contact support.");
-        }
+      const { role, is_active, token, user_id } = responseData.data;
+      cultureLancerAxios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
+      localStorage.setItem("token", token);
+      Cookies.set("item", token);
+      localStorage.setItem("user_id_item", user_id);
+      Cookies.set("user_id_item", user_id);
+      if (is_active && role === "employer") {
+        router.push(`/employer/dashboard/`);
+      } else if (is_active && role === "applicant") {
+        router.push(`/applicant/dashboard/home/`);
       } else {
-        // Handle errors returned by the API
-        setStatus(responseData.error || "Invalid login credentials");
+        setStatus("Account not active. Please contact support.");
       }
-    } catch (error) {
-      console.error("Login failed:", error);
-      setStatus("Server error. Please try again later.");
+    } catch (error: any) {
+      console.error(error.response.data.error);
+      toast.error(error.response.data.error || "An error occurred");
+      // setStatus(error.response || "Invalid login credentials");
+      // setStatus("Server error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className={`w-full mx-auto`}>
-      <HomeNavbar />
+    <div>
+      <nav className="flex justify-between items-center h-[70px] px-8 shadow-md shadow-[#b9b9b975]">
+        <Image
+          src="/assets/full-logo.svg"
+          width={40}
+          height={40}
+          alt="logo"
+          className="w-[150px]"
+        />
 
-      <section className="p-20 w-full text-center">
-        <div className="space-y-2 md:flex flex-col items-center text-center place-content-center w-full md:gap-2 md:space-y-0">
-          {/* login */}
+        <div className="flex items-center space-x-6">
+          <Link href="/home" className="text-[#525252]">
+            Home
+          </Link>
+          <Link href="/" className="text-[#525252]">
+            FAQ
+          </Link>
+          <Link href="/signup">
+            <AppButton>Signup</AppButton>
+          </Link>
+        </div>
+      </nav>
+      <div
+        className={`w-full grid grid-cols-2 h-[calc(100vh-70px)] overflow-hidden`}
+      >
+        <section className="p-20 w-full text-center relative">
+          <div className="md:flex flex-col items-center text-center place-content-center md:gap-2 max-w-[30rem] mx-auto">
+            {/* login */}
+            <div className="bg-white rounded p-7 drop-shadow-lg  cursor-pointer border mb-4 w-full">
+              <div>
+                <h1 className="text-2xl font-bold md:text-2xl block mt-3">
+                  Login
+                </h1>
+              </div>
 
-          <div className="bg-white rounded py-2 px-7 md:w-[35rem] drop-shadow-lg  cursor-pointer border">
-            <div>
-              <h1 className="text-2xl font-bold md:text-2xl block mt-3">Login</h1>
+              <div className="text-left">
+                <form onSubmit={handleSubmit(onLogin)}>
+                  <div className="p-4">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      {...register("email")}
+                      id="email"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                      placeholder="Enter your Email "
+                    />
+                    <p className="text-sm text-red-500">
+                      {errors.email?.message}
+                    </p>
+                  </div>
+
+                  <div className="p-2 relative">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Password
+                    </label>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      {...register("password")}
+                      id="password"
+                      placeholder="Enter your password"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    />
+                    <span
+                      className="absolute bottom-5 right-9"
+                      onClick={togglePassword}
+                    >
+                      {showPassword ? (
+                        <FaRegEye className="text-2xl" />
+                      ) : (
+                        <FaRegEyeSlash className="text-2xl" />
+                      )}
+                    </span>
+                    <p className="text-sm text-red-500">
+                      {errors.password?.message}
+                    </p>
+                  </div>
+
+                  <div className="mb-4">
+                    <Link
+                      href="/forgot-password"
+                      className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+                  <AppButton type="submit" isLoading={isLoading}>
+                    Login
+                  </AppButton>
+
+                  <p className="text-sm text-red-300">{status}</p>
+                </form>
+              </div>
             </div>
 
-            <div className="text-left">
-              <form onSubmit={handleSubmit(onLogin)}>
-                <div className="p-4">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Address</label>
-                  <input
-                    type="email"
-                    {...register("email")}
-                    id="email"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="Enter your Email "
-                  />
-                  <p className="text-sm text-red-500">{errors.email?.message}</p>
-                </div>
+            <hr className="bg-red-500 w-full my-6" />
+            <p className="text-center -mt-[45px] mb-4 px-3 bg-white w-fit mx-auto text-[#434343]">
+              Or Continue With
+            </p>
+            {/* login */}
 
-                <div className="p-2 relative">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    {...register("password")}
-                    id="password"
-                    placeholder="Enter your password"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                  />
-                  <span className="absolute bottom-5 right-9" onClick={togglePassword}>
-                    {showPassword ? <FaRegEye className="text-2xl" /> : <FaRegEyeSlash className="text-2xl" />}
-                  </span>
-                  <p className="text-sm text-red-500">{errors.password?.message}</p>
-                </div>
-
-                <div className="mb-4">
-                  <Link href="/forgot-password" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
-                    Forgot password?
-                  </Link>
-                </div>
-
-                <button type="submit" className="w-full text-white  rounded-lg text-sm px-5 py-2.5 text-center bg-gray-600 mb-4" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <svg
-                        aria-hidden="true"
-                        role="status"
-                        className="inline w-5 h-5 me-3 text-white animate-spin"
-                        viewBox="0 0 100 101"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                          fill="#E5E7EB"
-                        />
-                        <path
-                          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                      login...
-                    </>
-                  ) : (
-                    "Login"
-                  )}
-                </button>
-
-                <p className="text-sm text-red-300">{status}</p>
-              </form>
+            <div className="flex mt-6 gap-3">
+              <button className="oveflow-hidden w-10 h-10 rounded-full bg-[#F5F5F5] flex items-center justify-center border-[1px] border-[#000000]">
+                <Image
+                  src="/assets/google.svg"
+                  alt="google"
+                  width={20}
+                  height={20}
+                  className="w-9"
+                />
+              </button>
+              <button className="oveflow-hidden w-10 h-10 rounded-full bg-[#000000] flex items-center justify-center border-[1px] border-[#000000]">
+                <Image
+                  src="/assets/apple.svg"
+                  alt="google"
+                  width={20}
+                  height={20}
+                  className="w-3"
+                />
+              </button>
+              <button className="oveflow-hidden w-10 h-10 rounded-full bg-[#0066FF] flex items-center justify-center border-[1px] border-[#0066FF]">
+                <Image
+                  src="/assets/facebook.svg"
+                  alt="google"
+                  width={20}
+                  height={20}
+                  className="w-3"
+                />
+              </button>
             </div>
           </div>
+          <Link href="/signup/options">
+            <h1 className="mt-3 cursor-pointer">
+              Don`t have an account?{" "}
+              <span className="text-[#C71F2A]"> Sign Up</span>
+            </h1>
+          </Link>
 
-          {/* login */}
-
-          <button className="bg-white rounded py-2 px-7 md:w-[35rem] drop-shadow-lg text-center cursor-pointer border flex place-content-center items-center space-x-2 h-10 w-full">
-            <FcGoogle className="text-2xl" />
-            <span>Login with Google</span>
-          </button>
-          <button className="bg-white rounded md:w-[35rem] drop-shadow-lg text-center cursor-pointer border flex place-content-center items-center space-x-2 h-10 w-full">
-            <FaFacebook className="text-2xl text-[#1877F2]" />
-            <span>Login with Facebook</span>
-          </button>
-          <button className="bg-white rounded py-2 px-7 md:w-[35rem] drop-shadow-lg text-center cursor-pointer border flex place-content-center items-center space-x-2 h-10 w-full">
-            <ImLinkedin className="text-2xl text-[#1877F2]" />
-            <span>Login with LinkedIn</span>
-          </button>
-        </div>
-        <h1 className="mt-3 cursor-pointer">
-          Don`t have an account? <Link href="/signup/options">Sign Up</Link>{" "}
-        </h1>
-      </section>
-
-      <Footer />
+          <div className="absolute bottom-4 left-0 w-full flex justify-center text-[14px] gap-4">
+            <Link href="">
+              <h3>Privacy Policy</h3>
+            </Link>
+            <Link href="">
+              <h3>Terms of service</h3>
+            </Link>
+            <Link href="">
+              <h3>Help center</h3>
+            </Link>
+          </div>
+        </section>
+        <section className="flex items-center justify-center bg-gradient-to-b from-[#C71F2A] via-[#b86767] to-[#C71F2A] h-screen">
+          <Image
+            src="/assets/box.png"
+            alt="login"
+            className="w-[400px]"
+            width={100}
+            height={100}
+          />
+        </section>
+      </div>
     </div>
   );
 }

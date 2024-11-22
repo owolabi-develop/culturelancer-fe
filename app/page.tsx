@@ -1,17 +1,14 @@
 import { WelcomeNote } from "./ui/section";
 import LeadingBrand from "./ui/brand";
-import {OurSolutions} from "./ui/oursolutions";
+import { OurSolutions } from "./ui/oursolutions";
 import CommunityEngagement from "./ui/community";
-import {Cta} from "./ui/cta";
+import { Cta } from "./ui/cta";
 import HomeNavbar from "./ui/navbar";
 import Footer from "./ui/footer";
-import { ToastContainer } from 'react-toastify';
-
 
 export default function HomePage() {
   return (
     <div className={`w-full mx-auto`}>
-      <ToastContainer />
       {/* navbar component */}
       <div className=" bg-[#f1f1f1]">
         <HomeNavbar />

@@ -12,8 +12,15 @@ import { HiMiniPower } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 
 import Cookies from "js-cookie";
+import { useApplicantDetals } from "@/app/hooks/useApplicantDetails";
 
-function DashboardNavbar({ applicantprofileName }: { applicantprofileName: string }) {
+function DashboardNavbar({
+  applicantprofileName,
+}: {
+  applicantprofileName: string;
+}) {
+  const { data: applicantDetails } = useApplicantDetals();
+
   const [profilepicture, Setprofilepicture] = useState<string>("");
 
   // handle logout
@@ -44,33 +51,31 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
 
   const handleDisplay = () => {
     setIsOpen((prev) => !prev);
-    console.log("open");
   };
 
   ///  load all profile details
-  useEffect(() => {
-    const handleprofiledetails = async () => {
-      try {
-        const Profileresponse = await fetch(`/api/get-ap-profile-details`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (Profileresponse.ok) {
-          const data = await Profileresponse.json();
+  // useEffect(() => {
+  //   const handleprofiledetails = async () => {
+  //     try {
+  //       const Profileresponse = await fetch(`/api/get-ap-profile-details`, {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
+  //       if (Profileresponse.ok) {
+  //         const data = await Profileresponse.json();
 
-          const { profile_image,} = data[0];
-          console.log("upimage",profile_image)
-          Setprofilepicture(profile_image);
-        
-        }
-      } catch (error) {
-        console.log("errors:", error);
-      }
-    };
-    handleprofiledetails();
-  });
+  //         const { profile_image } = data[0];
+  //         console.log("upimage", profile_image);
+  //         Setprofilepicture(profile_image);
+  //       }
+  //     } catch (error) {
+  //       console.log("errors:", error);
+  //     }
+  //   };
+  //   handleprofiledetails();
+  // });
 
   return (
     <div className="relative">
@@ -87,14 +92,17 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
             {/* nav text */}
             <ul className="list-none m-0 sm:flex hidden cursor-pointer">
               <li className="mr-5">
-                <Link href={`/applicant/dashboard/home/${Cookies.get("user_id_item")}`} className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100">
+                <Link
+                  href={`/applicant/dashboard/home`}
+                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
+                >
                   Dashboard
                 </Link>
               </li>
 
               <li className="mr-5">
                 <Link
-                  href={`/applicant/dashboard/jobs/${Cookies.get("user_id_item")}`}
+                  href={`/applicant/dashboard/jobs`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Jobs
@@ -103,7 +111,7 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
 
               <li className="mr-5">
                 <Link
-                  href={`/applicant/dashboard/assessment-result/${Cookies.get("user_id_item")}`}
+                  href={`/applicant/dashboard/assessment-result`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Assesement Results
@@ -112,7 +120,7 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
 
               <li className="mr-5">
                 <Link
-                  href={`/applicant/dashboard/course/${Cookies.get("user_id_item")}`}
+                  href={`/applicant/dashboard/course`}
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
                   Course
@@ -134,7 +142,9 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
               </div>
 
               <div className="bell relative">
-                <div className="bellNoti absolute bg-[red] w-5 h-5 rounded-full text-center text-sm text-white bottom-[1.2rem] right-2">1</div>
+                <div className="bellNoti absolute bg-[red] w-5 h-5 rounded-full text-center text-sm text-white bottom-[1.2rem] right-2">
+                  1
+                </div>
                 <VscBell className="text-3xl" />
               </div>
             </div>
@@ -142,12 +152,24 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
             <div className="profil-icon flex space-x-3 cursor-pointer">
               <div className="border rounded-full w-11 h-11">
                 {profilepicture ? (
-                  <Image src={profilepicture} alt="" width={40} height={40} className="rounded-full w-11 h-11" />
+                  <Image
+                    src={profilepicture}
+                    alt=""
+                    width={40}
+                    height={40}
+                    className="rounded-full w-11 h-11"
+                  />
                 ) : (
-                  <Image src="/default_profile.jpeg" alt="" width={40} height={40} className="rounded-full w-11 h-11" />
+                  <Image
+                    src="/default_profile.jpeg"
+                    alt=""
+                    width={40}
+                    height={40}
+                    className="rounded-full w-11 h-11"
+                  />
                 )}
               </div>
-              <Link href={`/applicant/dashboard/profile/${Cookies.get("user_id_item")}`}>
+              <Link href={`/applicant/dashboard/profile`}>
                 <div className="logo-text">
                   <p className="leading-10 text-xs">{applicantprofileName}</p>
                 </div>
@@ -163,10 +185,15 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
 
       {/* dropdown */}
       {isOpen && (
-        <div className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block z-10`}>
+        <div
+          className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block z-10`}
+        >
           <ul className="list-none cursor-pointer mt-10 inline [&>*]:p-3">
             <li>
-              <Link href={`/applicant/settings/profile-details/${Cookies.get("user_id_item")}`} className="text-slate-700 hover:bg-[black]">
+              <Link
+                href={`/applicant/settings/profile-details`}
+                className="text-slate-700 hover:bg-[black]"
+              >
                 <div className="flex text-center space-x-2">
                   <CiSettings className="text-3xl" />
                   <span>Setting</span>
@@ -175,7 +202,10 @@ function DashboardNavbar({ applicantprofileName }: { applicantprofileName: strin
             </li>
             <li>
               {/* <Link href="/logout" className="text-slate-700"> */}
-              <div className="flex text-center space-x-2" onClick={handleLogout}>
+              <div
+                className="flex text-center space-x-2"
+                onClick={handleLogout}
+              >
                 <HiMiniPower className="text-3xl" />
                 <span>Logout</span>
               </div>

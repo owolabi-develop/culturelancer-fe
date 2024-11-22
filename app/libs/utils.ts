@@ -1,5 +1,5 @@
-
-import useSWR from 'swr';
+import useSWR from "swr";
+import { cultureLancerAxios } from "../ui-services/axios";
 
 export const initialTraitScores = {
   leadership: 0,
@@ -41,169 +41,125 @@ export const initialTraitScores = {
   high_leadership: 0,
   social: 0,
 
-  University_enrolled_at: '',
+  University_enrolled_at: "",
 
-    College_type: '',
+  College_type: "",
 
-    Institution_Type: '',
+  Institution_Type: "",
 
-    current_year_in_school: '',
+  current_year_in_school: "",
 
-    field_of_study: '',
-    currently_employed_in_college:'',
-    currently_employed: '',
+  field_of_study: "",
+  currently_employed_in_college: "",
+  currently_employed: "",
 
-    age_range: '',
+  age_range: "",
 
-    gender: '',
+  gender: "",
 
-    racial_background: '',
+  racial_background: "",
 
-    first_generation_college_student: '',
+  first_generation_college_student: "",
 
-    
-    areas_of_experience: [],
-
-
-}
-
-
-
+  areas_of_experience: [],
+};
 
 export const useProfileDetails = () => {
-    const fetcher = (url:string) => fetch(url).then(r => r.json())
-    const { data, error, isLoading } = useSWR('/api/get-ap-profile-details', fetcher)
-    return {
-        completionPercent: data,
-        percentLoading: isLoading,
-        percentError: error
-    }
-
+  const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const { data, error, isLoading } = useSWR(
+    "/api/get-ap-profile-details",
+    fetcher
+  );
+  return {
+    completionPercent: data,
+    percentLoading: isLoading,
+    percentError: error,
+  };
 };
-
-
 
 export const useJobrecommendation = () => {
-    const fetchapplicantJobrecommendations = (url:string) => fetch(url).then(r => r.json())
-    const { data,isLoading } = useSWR('/api/applicant-job-recommendations', fetchapplicantJobrecommendations)
-    return {
-        jobsrecommendation: data,
-        JobisLoading: isLoading,
-    }
-
+  const fetchapplicantJobrecommendations = (url: string) =>
+    fetch(url).then((r) => r.json());
+  const { data, isLoading } = useSWR(
+    "/api/applicant-job-recommendations",
+    fetchapplicantJobrecommendations
+  );
+  return {
+    jobsrecommendation: data,
+    JobisLoading: isLoading,
+  };
 };
-
-
 
 export const useProfile = () => {
-    const profile = (url:string) => fetch(url).then(r => r.json())
-    const { data,isLoading } = useSWR('/api/get-ap-profile-details', profile)
-    
-    return {
-        profile: data,
-        profileisLoading: isLoading,
-    }
-   
-  }
+  const profile = (url: string) => fetch(url).then((r) => r.json());
+  const { data, isLoading } = useSWR("/api/get-ap-profile-details", profile);
 
-
-
-export const fetchawardCertificate = async () => {
-    try {
-        const response = await fetch(`/api/award-certificate/get-certificate-data`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            return data
-        } else {
-            console.error("Failed to fetch profile details");
-            return null;
-        }
-    } catch (error) {
-        console.error("Error fetching profile details:", error);
-        return null;
-    }
+  return {
+    profile: data,
+    profileisLoading: isLoading,
   };
-  
-  export const useAwardCertificate = () => {
-    const fetchapplicantJobrecommendations = (url:string) => fetch(url).then(r => r.json())
-    const { data,isLoading } = useSWR('/api/award-certificate/get-certificate-data', fetchapplicantJobrecommendations)
-    return {
-        certificate: data,
-        certificateisLoading: isLoading,
-    }
-
 };
 
+export const fetchawardCertificate = async () => {
+  try {
+    const response = await fetch(
+      `/api/award-certificate/get-certificate-data`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      console.error("Failed to fetch profile details");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching profile details:", error);
+    return null;
+  }
+};
+
+export const useAwardCertificate = () => {
+  const fetchapplicantJobrecommendations = (url: string) =>
+    fetch(url).then((r) => r.json());
+  const { data, isLoading } = useSWR(
+    "/api/award-certificate/get-certificate-data",
+    fetchapplicantJobrecommendations
+  );
+  return {
+    certificate: data,
+    certificateisLoading: isLoading,
+  };
+};
 
 //   get specializations
 
 export const fetchspecialization = async () => {
-    try {
-        const response = await fetch(`/api/specialization/get-specialization`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            return data
-        } else {
-            console.error("Failed to fetch profile details");
-            return null;
-        }
-    } catch (error) {
-        console.error("Error fetching profile details:", error);
-        return null;
-    }
-  };
+  try {
+    const response = await cultureLancerAxios.get(`/applicant-specialization/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching profile details:", error);
+    return null;
+  }
+};
 
-
-
-
-
-//   get projects 
+//   get projects
 
 //   get specializations
 
 export const fetchprojects = async () => {
-    try {
-        const response = await fetch(`/api/projects/get-projects`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            return data
-        } else {
-            console.error("Failed to fetch profile details");
-            return null;
-        }
-    } catch (error) {
-        console.error("Error fetching profile details:", error);
-        return null;
-    }
-  };
-  
-
-
-
-  
-
-
-
- 
-
-  
-
-
+  try {
+    const response = await cultureLancerAxios.get(`/applicant-project/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching profile details:", error);
+    return null;
+  }
+};

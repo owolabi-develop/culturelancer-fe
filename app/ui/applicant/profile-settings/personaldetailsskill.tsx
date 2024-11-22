@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useContext } from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import { PhoneInput } from "react-international-phone";
@@ -10,6 +10,9 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { useApplicantProfileDetails } from "@/app/hooks/useApplicantProfileDetails";
 import { ProfilePercent } from "../../progressBar";
 import AppButton from "../../AppButton";
+import { cultureLancerAxios } from "@/app/ui-services/axios";
+import { MyContext } from "@/app/context";
+import { useUserDetals } from "@/app/hooks/useUserDetails";
 
 export default function PersonalDetailAndSkills() {
   return (
@@ -31,12 +34,15 @@ export default function PersonalDetailAndSkills() {
 }
 
 function ProfildetailsContainer() {
+  const { user } = useContext(MyContext);
+  const { data: userInfo } = useUserDetals();
   const [phone, setPhone] = useState("");
   const [isloading, setIsLoading] = useState<boolean>(false);
   const { id } = useParams<{ id: string }>();
 
-  const { data, error, isLoading } = useApplicantProfileDetails();
+  const { data, error, isLoading, refetch } = useApplicantProfileDetails();
   console.log("new profile:", data);
+  console.log("me", userInfo);
 
   if (isLoading) {
     return (
@@ -71,39 +77,21 @@ function ProfildetailsContainer() {
     formData.forEach((value, key) => {
       formObject[key] = value;
     });
-    console.log(formObject);
     try {
       setIsLoading(true);
 
-      //  fetch applicant profile id
-      const applicantProfileresponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-profile-details/${id}/`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await cultureLancerAxios.patch(
+        `/profile-applicant/${data?.id}/`,
+        formObject
       );
-
-      if (applicantProfileresponse.ok) {
-        const { id: profile_id } = await applicantProfileresponse.json();
-
-        const response = await fetch(`/api/update-ap-profile-details`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ Data: formObject, Id: profile_id }),
-        });
-        if (response.ok) {
-          console.log("personal added");
-          setIsLoading(false);
-          notify();
-        }
-      }
+      console.log("personal added");
+      setIsLoading(false);
+      notify();
+      refetch();
     } catch (error) {
       console.log("server Error: ", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -129,7 +117,7 @@ function ProfildetailsContainer() {
                 defaultValue={data?.title}
                 id="Title"
                 name="title"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full "
+                className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg w-full "
               />
             </div>
 
@@ -147,9 +135,9 @@ function ProfildetailsContainer() {
                   onChange={(phone) => setPhone(phone)}
                   inputProps={{
                     required: true,
-                    // defaultValue:data?.phone_number,
+                    defaultValue: data?.phone_number,
                     className:
-                      "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg  block w-full",
+                      "bg-white border border-gray-300 text-gray-900 text-sm rounded-r-lg  block w-full",
                   }}
                 />
               </div>
@@ -166,7 +154,7 @@ function ProfildetailsContainer() {
                   id="Tagline"
                   defaultValue={data?.tagline}
                   name="tagline"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"
+                  className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"
                 />
                 {/* <p className='text-sm text-red-500'>{errors.tagline?.message}</p> */}
               </div>
@@ -183,7 +171,7 @@ function ProfildetailsContainer() {
                   id="CurrentMayor"
                   defaultValue={data?.current_major}
                   name="current_major"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"
+                  className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"
                 />
               </div>
 
@@ -197,9 +185,9 @@ function ProfildetailsContainer() {
                 <input
                   type="text"
                   id="DreamCareer"
-                  defaultValue={data?.dream_carerr}
-                  name="dream_carerr"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full dark:text-white"
+                  defaultValue={data?.dream_career}
+                  name="dream_career"
+                  className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full dark:text-white"
                 />
               </div>
 
@@ -214,7 +202,7 @@ function ProfildetailsContainer() {
                   id="country"
                   defaultValue={data?.country}
                   name="country"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  dark:text-white"
+                  className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  dark:text-white"
                 >
                   <option disabled value="">
                     Select Country
@@ -234,7 +222,7 @@ function ProfildetailsContainer() {
                   id="state"
                   defaultValue={data?.state}
                   name="state"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  dark:text-white"
+                  className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full  dark:text-white"
                 >
                   <option disabled value="">
                     Select State
@@ -258,7 +246,7 @@ function ProfildetailsContainer() {
                   defaultValue={data?.activities}
                   name="activities"
                   id="Activities"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full "
+                  className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full "
                 />
                 {/* <p className='text-sm text-red-500'>{errors.activities?.message}</p> */}
               </div>
@@ -275,7 +263,7 @@ function ProfildetailsContainer() {
                   defaultValue={data?.address}
                   id="Address"
                   name="address"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full"
+                  className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full"
                 />
               </div>
             </div>
@@ -342,7 +330,7 @@ function ProfildetailsContainer() {
                 id="quote"
                 defaultValue={data?.quote}
                 name="quote"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full"
+                className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full"
               />
               {/* <p className='text-sm text-red-500'>{errors.quote?.message}</p> */}
             </div>
@@ -359,7 +347,7 @@ function ProfildetailsContainer() {
                 id="Highlights"
                 defaultValue={data?.personality}
                 name="personality"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"
+                className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full"
               />
               {/* <p className='text-sm text-red-500'>{errors.personality?.message}</p> */}
             </div>
@@ -376,7 +364,7 @@ function ProfildetailsContainer() {
                 id="HBCU"
                 defaultValue={data?.hbcq}
                 name="hbcq"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full "
+                className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full "
               />
               {/* <p className='text-sm text-red-500'>{errors.hbcq?.message}</p> */}
             </div>
@@ -390,10 +378,10 @@ function ProfildetailsContainer() {
               </label>
               <textarea
                 id="description"
-                defaultValue={data?.bio}
-                name="bio"
+                defaultValue={data?.bio || data?.description}
+                name="description"
                 rows={4}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                className="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300"
                 placeholder="Tell us more about your self"
               ></textarea>
             </div>
@@ -415,10 +403,10 @@ function ProfildetailsContainer() {
               </label>
               <textarea
                 id="language"
-                defaultValue={data?.language_skills}
-                name="language_skills"
+                defaultValue={data?.language}
+                name="language"
                 rows={4}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 "
+                className="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 "
               ></textarea>
             </div>
           </div>

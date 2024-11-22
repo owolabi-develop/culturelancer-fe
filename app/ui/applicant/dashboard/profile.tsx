@@ -15,6 +15,11 @@ import { useApplicantProfileDetails } from "@/app/hooks/useApplicantProfileDetai
 import { useApplicantWorkExperience } from "@/app/hooks/useApplicantWorkExperience";
 import { useApplicantProjects } from "@/app/hooks/useApplicantProjects";
 import { useAwards } from "@/app/hooks/useAwards";
+import { useApplicantEducation } from "@/app/hooks/useApplicantEducation";
+import { useApplicantSkills } from "@/app/hooks/useApplicantSkills";
+import { cultureLancerAxios } from "@/app/ui-services/axios";
+import { toast } from "react-toastify";
+import { useMemo } from "react";
 
 export function ApplicantUserProfile() {
   return (
@@ -136,7 +141,7 @@ function ExperienceContainer() {
           </div>
 
           <div className="w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer">
-            <Link href={`/applicant/settings/experience-education/${id}`}>
+            <Link href={`/applicant/settings/experience-education/`}>
               <IoMdAdd className="text-3xl" />
             </Link>
           </div>
@@ -161,7 +166,7 @@ function ExperienceContainer() {
                     {exp.start_date} - {exp.end_date}
                   </p>
 
-                  <p className="text-base font-normal text-gray-500 dark:text-gray-400">
+                  <p className="whitespace-normal overflow-hidden text-base font-normal text-gray-500 dark:text-gray-400">
                     {exp.description}
                   </p>
                 </li>
@@ -196,10 +201,7 @@ function EducationContainer() {
         Authorization: `Bearer ${Cookies.get("item")}`,
       },
     }).then((r) => r.json());
-  const { data, error, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-education/`,
-    fetcher
-  );
+  const { data, error, isLoading } = useApplicantEducation();
 
   if (isLoading) {
     return (
@@ -227,7 +229,7 @@ function EducationContainer() {
           </div>
 
           <div className="w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer">
-            <Link href={`/applicant/settings/experience-education/${id}`}>
+            <Link href={`/applicant/settings/experience-education/`}>
               <IoMdAdd className="text-3xl" />
             </Link>
           </div>
@@ -350,17 +352,8 @@ function SkillContainer() {
     level: string;
     skill: string;
   };
-  const fetcher = (url: string) =>
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("item")}`,
-      },
-    }).then((r) => r.json());
-  const { data, error, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/applicant-skills/`,
-    fetcher
-  );
+
+  const { data, error, isLoading } = useApplicantSkills();
 
   if (isLoading) {
     return (
@@ -387,7 +380,7 @@ function SkillContainer() {
             <h1 className="text-2xl font-bold">Skills</h1>
           </div>
           <div className="w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer">
-            <Link href={`/applicant/settings/experience-education/${id}`}>
+            <Link href={`/applicant/settings/experience-education`}>
               <IoMdAdd className="text-3xl" />
             </Link>
           </div>
@@ -459,7 +452,7 @@ function ProjectsContainer() {
             <h1 className="text-2xl font-bold">Portfolio</h1>
           </div>
           <div className="w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer">
-            <Link href={`/applicant/settings/projects/${id}`}>
+            <Link href={`/applicant/settings/projects`}>
               <IoMdAdd className="text-3xl" />
             </Link>
           </div>
@@ -531,7 +524,13 @@ function ProfileDetailsContainer() {
   const router = useRouter();
   const { id } = useParams();
 
-  const { data, error, isLoading } = useApplicantProfileDetails();
+  const { data, error, isLoading, refetch } = useApplicantProfileDetails();
+
+  const profileImageUrl = useMemo(() => {
+    return `${process.env.NEXT_PUBLIC_API_PROFILE_URL}${data?.profile_image}`;
+  }, [data?.profile_image]);
+
+  console.log("profileImageUrl", profileImageUrl);
 
   if (isLoading) {
     return (
@@ -559,28 +558,15 @@ function ProfileDetailsContainer() {
           formData.append("profile_image", file);
         });
 
-        const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/profile-applicant/${data?.id}/`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${Cookies.get("item")}`,
-            },
-          }
+        const response = await cultureLancerAxios.patch(
+          `/profile-applicant/${data?.id}/`,
+          formData
         );
-        if (response.status == 200) {
-          const { profile_image } = response.data;
-          console.log(profile_image);
-          // Setprofilepicture(profile_image)
-          console.log("upload successfully");
-          window.location.reload();
-        }
+        refetch();
+        toast.success("Profile image updated");
       }
     } catch (error) {
       console.log("error", error);
-    } finally {
-      router.push(`/applicant/dashboard/profile/${data?.id}`);
     }
   };
 
@@ -603,10 +589,7 @@ function ProfileDetailsContainer() {
 
                 <div className="border rounded-full w-28 h-28">
                   <Image
-                    src={
-                      `${process.env.NEXT_PUBLIC_API_PROFILE_URL}${data?.profile_image}` ||
-                      "/default_profile.jpeg"
-                    }
+                    src={profileImageUrl || "/default_profile.jpeg"}
                     alt="profile pic"
                     width={100}
                     height={40}
@@ -630,7 +613,7 @@ function ProfileDetailsContainer() {
           </div>
 
           <div className="w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer">
-            <Link href={`/applicant/settings/profile-details/${id}`}>
+            <Link href={`/applicant/settings/profile-details/`}>
               <button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">
                 Edit Profile
               </button>

@@ -10,7 +10,7 @@ export const useApplicantDetals = () => {
       console.log("GetApplicantInfo response", response);
       return response.data;
     } catch (error) {
-      return {};
+      return {error};
     }
   };
 

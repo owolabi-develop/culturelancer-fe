@@ -11,7 +11,7 @@ export const useSpecializations = () => {
       );
       return response.data;
     } catch (error) {
-      return {};
+      return {error};
     }
   };
 

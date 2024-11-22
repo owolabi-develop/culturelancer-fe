@@ -1,9 +1,9 @@
 "use client";
-import HomeNavbar from "@/app/ui/navbar";
-import Footer from "@/app/ui/footer";
-import { FaFacebook } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { ImLinkedin } from "react-icons/im";
+// import HomeNavbar from "@/app/ui/navbar";
+// import Footer from "@/app/ui/footer";
+// import { FaFacebook } from "react-icons/fa";
+// import { FcGoogle } from "react-icons/fc";
+// import { ImLinkedin } from "react-icons/im";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -58,9 +58,9 @@ export default function Login() {
       } else {
         setStatus("Account not active. Please contact support.");
       }
-    } catch (error: any) {
-      console.error(error.response.data.error);
-      toast.error(error.response.data.error || "An error occurred");
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred");
       // setStatus(error.response || "Invalid login credentials");
       // setStatus("Server error. Please try again later.");
     } finally {

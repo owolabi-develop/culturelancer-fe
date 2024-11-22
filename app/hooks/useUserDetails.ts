@@ -11,7 +11,7 @@ export const useUserDetals = () => {
       const response = await cultureLancerAxios.get(`/account/${userID}/`);
       return response.data;
     } catch (error) {
-      return {};
+      return {error};
     }
   };
 

@@ -11,7 +11,7 @@ export const useAwards = () => {
       );
       return response.data;
     } catch (error) {
-      return {};
+      return {error};
     }
   };
 

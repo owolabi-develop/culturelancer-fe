@@ -9,12 +9,21 @@ import { useRouter } from "next/navigation";
 import { CiSettings } from "react-icons/ci";
 import { HiMiniPower } from "react-icons/hi2";
 import Cookies from "js-cookie";
+import { useApplicantProfileDetails } from "../hooks/useApplicantProfileDetails";
 
 function LoggedInUserData() {
   const { user } = useContext(MyContext);
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
+  const { data } = useApplicantProfileDetails();
+
+  const profileImageUrl = useMemo(() => {
+    return data?.profile_image
+      ? `${process.env.NEXT_PUBLIC_API_PROFILE_URL}${data?.profile_image}`
+      : "/default_profile.jpeg";
+  }, [data?.profile_image]);
+
   const fullname = useMemo(() => {
     return user?.first_name ? `${user?.first_name} ${user?.last_name}` : "";
   }, [user]);
@@ -79,7 +88,7 @@ function LoggedInUserData() {
       >
         <div className="border rounded-full mr-4 w-[32px] h-[32px] flex items-center justify-center">
           <Image
-            src="/default_profile.jpeg"
+            src={profileImageUrl}
             alt=""
             width={40}
             height={40}

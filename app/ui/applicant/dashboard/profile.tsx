@@ -141,7 +141,7 @@ function ExperienceContainer() {
           </div>
 
           <div className="w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer">
-            <Link href={`/applicant/settings/experience-education/${id}`}>
+            <Link href={`/applicant/settings/experience-education/`}>
               <IoMdAdd className="text-3xl" />
             </Link>
           </div>
@@ -229,7 +229,7 @@ function EducationContainer() {
           </div>
 
           <div className="w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer">
-            <Link href={`/applicant/settings/experience-education/${id}`}>
+            <Link href={`/applicant/settings/experience-education/`}>
               <IoMdAdd className="text-3xl" />
             </Link>
           </div>
@@ -380,7 +380,7 @@ function SkillContainer() {
             <h1 className="text-2xl font-bold">Skills</h1>
           </div>
           <div className="w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer">
-            <Link href={`/applicant/settings/experience-education/${id}`}>
+            <Link href={`/applicant/settings/experience-education`}>
               <IoMdAdd className="text-3xl" />
             </Link>
           </div>
@@ -452,7 +452,7 @@ function ProjectsContainer() {
             <h1 className="text-2xl font-bold">Portfolio</h1>
           </div>
           <div className="w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer">
-            <Link href={`/applicant/settings/projects/${id}`}>
+            <Link href={`/applicant/settings/projects`}>
               <IoMdAdd className="text-3xl" />
             </Link>
           </div>
@@ -613,7 +613,7 @@ function ProfileDetailsContainer() {
           </div>
 
           <div className="w-1/2 sm:w-10 sortby2 flex p-2 justify-end md:w-full cursor-pointer">
-            <Link href={`/applicant/settings/profile-details/${id}`}>
+            <Link href={`/applicant/settings/profile-details/`}>
               <button className="py-2 px-4 font-bold bg-[lightgray] rounded text-black h-12">
                 Edit Profile
               </button>

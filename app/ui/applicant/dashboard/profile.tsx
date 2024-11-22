@@ -521,9 +521,6 @@ function ProjectsContainer() {
 
 // profile image and details container
 function ProfileDetailsContainer() {
-  const router = useRouter();
-  const { id } = useParams();
-
   const { data, error, isLoading, refetch } = useApplicantProfileDetails();
 
   const profileImageUrl = useMemo(() => {

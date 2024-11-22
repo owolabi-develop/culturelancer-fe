@@ -1,15 +1,23 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { MyContext } from "../context";
 import LoggedInUserData from "./loggedInUserData";
+import { useApplicantProfileDetails } from "../hooks/useApplicantProfileDetails";
+import { useUserDetals } from "../hooks/useUserDetails";
 
 function HomeNavbar() {
   const pathname = usePathname();
   const { user } = useContext(MyContext);
+  const { data: loggedInUser } = useUserDetals();
+
+  const dataToUse = useMemo(() => {
+    return user || loggedInUser;
+  }, [user, loggedInUser]);
+
   // Define the list of navigation links
   const linkPaths = [
     { path: "/", title: "Home" },
@@ -114,44 +122,48 @@ function HomeNavbar() {
         </div>
       </Link>
       <div className="items-center">
-        {user ? <LoggedInUserData /> : <ul className="list-none m-0 sm:flex hidden cursor-pointer">
-          {linkPaths.map(renderLink)}
+        {dataToUse ? (
+          <LoggedInUserData />
+        ) : (
+          <ul className="list-none m-0 sm:flex hidden cursor-pointer">
+            {linkPaths.map(renderLink)}
 
-          {pathname === "/signup/employer" && (
-            <li className="mr-5">
-              <Link
-                href="/assessment"
-                className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-              >
-                Join as A Job Seeker
-              </Link>
-            </li>
-          )}
-
-          {pathname === "/signup/applicant" && (
-            <li className="mr-5">
-              <Link
-                href="/signup/employer"
-                className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-              >
-                Join as An Employer
-              </Link>
-            </li>
-          )}
-
-          {pathname !== "/signup/employer" &&
-            pathname !== "/signup/applicant" &&
-            pathname !== "/login" && (
+            {pathname === "/signup/employer" && (
               <li className="mr-5">
                 <Link
-                  href="/login"
+                  href="/assessment"
                   className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
                 >
-                  Login
+                  Join as A Job Seeker
                 </Link>
               </li>
             )}
-        </ul>}
+
+            {pathname === "/signup/applicant" && (
+              <li className="mr-5">
+                <Link
+                  href="/signup/employer"
+                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
+                >
+                  Join as An Employer
+                </Link>
+              </li>
+            )}
+
+            {pathname !== "/signup/employer" &&
+              pathname !== "/signup/applicant" &&
+              pathname !== "/login" && (
+                <li className="mr-5">
+                  <Link
+                    href="/login"
+                    className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
+                  >
+                    Login
+                  </Link>
+                </li>
+              )}
+          </ul>
+        )}
       </div>
     </nav>
   );

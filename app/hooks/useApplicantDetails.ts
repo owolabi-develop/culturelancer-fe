@@ -10,6 +10,7 @@ export const useApplicantDetals = () => {
       console.log("GetApplicantInfo response", response);
       return response.data;
     } catch (error) {
+      console.error("Error fetching profile details:", error);
       return {};
     }
   };

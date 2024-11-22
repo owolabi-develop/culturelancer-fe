@@ -1,219 +1,62 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import Image from "next/image";
-// import { usePathname } from 'next/navigation'
-import { VscBell } from "react-icons/vsc";
-import { FaRegMessage } from "react-icons/fa6";
-import { FaChevronDown } from "react-icons/fa6";
-import { CiSettings } from "react-icons/ci";
-import { HiMiniPower } from "react-icons/hi2";
-import { useRouter } from "next/navigation";
+import LoggedInUserData from "../../loggedInUserData";
+import { MyContext } from "@/app/context";
 
-import Cookies from "js-cookie";
-import { useApplicantDetals } from "@/app/hooks/useApplicantDetails";
-
-function DashboardNavbar({
-  applicantprofileName,
-}: {
-  applicantprofileName: string;
-}) {
-  const { data: applicantDetails } = useApplicantDetals();
-
-  const [profilepicture, Setprofilepicture] = useState<string>("");
-
-  // handle logout
-
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/logout", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        Cookies.remove("item");
-        Cookies.remove("user_id");
-        router.push("/login");
-      } else {
-        console.error("Failed to log out");
-      }
-    } catch (error) {
-      console.error("An error occurred during logout:", error);
-    }
-  };
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleDisplay = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  ///  load all profile details
-  // useEffect(() => {
-  //   const handleprofiledetails = async () => {
-  //     try {
-  //       const Profileresponse = await fetch(`/api/get-ap-profile-details`, {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       });
-  //       if (Profileresponse.ok) {
-  //         const data = await Profileresponse.json();
-
-  //         const { profile_image } = data[0];
-  //         console.log("upimage", profile_image);
-  //         Setprofilepicture(profile_image);
-  //       }
-  //     } catch (error) {
-  //       console.log("errors:", error);
-  //     }
-  //   };
-  //   handleprofiledetails();
-  // });
-
+function DashboardNavbar() {
+  const { user } = useContext(MyContext);
+  
   return (
-    <div className="relative">
-      <nav className="px-20 items-center w-full flex justify-between font-semibold">
-        <div className="grid grid-cols-2 p-4 items-center justify-center gap-5">
-          <div className="bg-[#cccbc8] rounded-full w-11 h-11"></div>
-          <div className="logo-text w-11 h-11">
-            <h1 className="leading-10 font-bold">CultureLancer</h1>
-          </div>
+    <div className="relative h-[70px]">
+      <nav className="h-full px-20 items-center w-full flex justify-between">
+        <div className="w-[300px] ">
+          <Link href={`/`}>
+            <Image
+              src="/assets/full-logo.svg"
+              width={40}
+              height={40}
+              alt="logo"
+              className="w-[200px]"
+            />
+          </Link>
         </div>
 
-        <div className="md:flex basis-[85%]">
-          <div className="navtext basis-[70%] order-1 p-2">
-            {/* nav text */}
-            <ul className="list-none m-0 sm:flex hidden cursor-pointer">
-              <li className="mr-5">
-                <Link
-                  href={`/applicant/dashboard/home`}
-                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-                >
-                  Dashboard
-                </Link>
-              </li>
-
-              <li className="mr-5">
-                <Link
-                  href={`/applicant/dashboard/jobs`}
-                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-                >
-                  Jobs
-                </Link>
-              </li>
-
-              <li className="mr-5">
-                <Link
-                  href={`/applicant/dashboard/assessment-result`}
-                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-                >
-                  Assesement Results
-                </Link>
-              </li>
-
-              <li className="mr-5">
-                <Link
-                  href={`/applicant/dashboard/course`}
-                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-                >
-                  Course
-                </Link>
-              </li>
-            </ul>
-          </div>
+        <div className="navtext order-1 p-2 md:flex h-full items-center">
           {/* nav text */}
-
-          {/* nav icon */}
-
-          <div className=" hidden sm:hidden navIcon order-2 basis-[30%] text-right md:flex items-center justify-end">
-            <div className="m-b-icon-holder flex mr-10 cursor-pointer">
-              <div className="msg relative">
-                <div className="bellNoti absolute bg-[red] w-5 h-5 rounded-full text-center text-sm text-white bottom-[1.2rem] right-2">
-                  <p>1</p>
-                </div>
-                <FaRegMessage className="text-3xl mr-5" />
-              </div>
-
-              <div className="bell relative">
-                <div className="bellNoti absolute bg-[red] w-5 h-5 rounded-full text-center text-sm text-white bottom-[1.2rem] right-2">
-                  1
-                </div>
-                <VscBell className="text-3xl" />
-              </div>
-            </div>
-
-            <div className="profil-icon flex space-x-3 cursor-pointer">
-              <div className="border rounded-full w-11 h-11">
-                {profilepicture ? (
-                  <Image
-                    src={profilepicture}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="rounded-full w-11 h-11"
-                  />
-                ) : (
-                  <Image
-                    src="/default_profile.jpeg"
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="rounded-full w-11 h-11"
-                  />
-                )}
-              </div>
-              <Link href={`/applicant/dashboard/profile`}>
-                <div className="logo-text">
-                  <p className="leading-10 text-xs">{applicantprofileName}</p>
-                </div>
-              </Link>
-              <div className="logo-text p-2">
-                <FaChevronDown className="text-2xl" onClick={handleDisplay} />
-              </div>
-            </div>
-          </div>
-          {/* nav icon */}
-        </div>
-      </nav>
-
-      {/* dropdown */}
-      {isOpen && (
-        <div
-          className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block z-10`}
-        >
-          <ul className="list-none cursor-pointer mt-10 inline [&>*]:p-3">
-            <li>
+          <ul className="list-none m-0 sm:flex hidden cursor-pointer">
+            <li className="mr-5">
               <Link
-                href={`/applicant/settings/profile-details`}
-                className="text-slate-700 hover:bg-[black]"
+                href={`/applicant/dashboard/home`}
+                className="rounded-lg px-4 py-3 text-[#525252] hover:text-[#CB2224] font-medium "
               >
-                <div className="flex text-center space-x-2">
-                  <CiSettings className="text-3xl" />
-                  <span>Setting</span>
-                </div>
+                Dashboard
               </Link>
             </li>
-            <li>
-              {/* <Link href="/logout" className="text-slate-700"> */}
-              <div
-                className="flex text-center space-x-2"
-                onClick={handleLogout}
+
+            <li className="mr-5">
+              <Link
+                href={`/applicant/dashboard/jobs`}
+                className="rounded-lg px-4 py-3 text-[#525252] hover:text-[#CB2224] font-medium"
               >
-                <HiMiniPower className="text-3xl" />
-                <span>Logout</span>
-              </div>
-              {/* </Link> */}
+                Jobs
+              </Link>
+            </li>
+
+            <li className="mr-5">
+              <Link
+                href={`/applicant/dashboard/assessment-result`}
+                className="rounded-lg px-4 py-3 text-[#525252] hover:text-[#CB2224] font-medium "
+              >
+                Assesement Results
+              </Link>
             </li>
           </ul>
         </div>
-      )}
+
+        <LoggedInUserData />
+      </nav>
     </div>
   );
 }

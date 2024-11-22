@@ -58,7 +58,7 @@ export default function SideBar() {
     <div
       className={`${
         sideBarOpen ? "w-[350px]" : "w-[80px]"
-      } py-5 text-center bg-[#141414] text-[#ffffff] transition-all duration-300 h-[calc(100vh-80px)]`}
+      } py-5 text-center bg-[#141414] text-[#ffffff] transition-all duration-300 h-[calc(100vh-70px)]`}
     >
       <div
         className={`flex mb-6 transition-all duration-300 ${

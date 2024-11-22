@@ -58,13 +58,9 @@ export function EducationModal({ notifytest }: { notifytest: string }) {
 
   return (
     <>
-      <Button
-        color=""
-        onClick={() => setOpenModal(true)}
-        className="bg-[#727272] rounded text-white mb-5 md:mb-0"
-      >
+      <AppButton shadow className="!w-[200px]" onClick={() => setOpenModal(true)}>
         + Add Education
-      </Button>
+      </AppButton>
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
@@ -258,13 +254,9 @@ export function ExperienceModal({ notifytest }: { notifytest: string }) {
 
   return (
     <>
-      <Button
-        color=""
-        onClick={() => setOpenModal(true)}
-        className="bg-[#727272]  rounded text-white mb-5 md:mb-0 "
-      >
+      <AppButton shadow onClick={() => setOpenModal(true)} className="!w-[200px]">
         + Add Experience
-      </Button>
+      </AppButton>
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
@@ -561,13 +553,9 @@ export function Skill({ notifytest }: { notifytest: string }) {
 
   return (
     <>
-      <Button
-        color=""
-        onClick={() => setOpenModal(true)}
-        className="bg-[#727272]  rounded text-white mb-5 md:mb-0 "
-      >
+      <AppButton shadow onClick={() => setOpenModal(true)} className="!w-[200px]">
         + Add Skills
-      </Button>
+      </AppButton>
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>

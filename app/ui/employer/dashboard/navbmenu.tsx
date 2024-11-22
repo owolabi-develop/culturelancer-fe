@@ -11,7 +11,13 @@ import { HiMiniPower } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
-function DashboardNavbar({ profileName, user_id }: { profileName: string; user_id: string }) {
+function DashboardNavbar({
+  profileName,
+  user_id,
+}: {
+  profileName: string;
+  user_id: string;
+}) {
   const router = useRouter();
   const handleLogout = async () => {
     try {
@@ -55,7 +61,10 @@ function DashboardNavbar({ profileName, user_id }: { profileName: string; user_i
             {/* nav text */}
             <ul className="list-none m-0 sm:flex hidden cursor-pointer">
               <li className="mr-5">
-                <Link href={`/employer/dashboard/${user_id}`} className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100">
+                <Link
+                  href={`/employer/dashboard/${user_id}`}
+                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
+                >
                   Dashboard
                 </Link>
               </li>
@@ -111,7 +120,9 @@ function DashboardNavbar({ profileName, user_id }: { profileName: string; user_i
               </div>
 
               <div className="bell relative">
-                <div className="bellNoti absolute bg-[red] w-5 h-5 rounded-full text-center text-sm text-white bottom-[1.2rem] right-2">1</div>
+                <div className="bellNoti absolute bg-[red] w-5 h-5 rounded-full text-center text-sm text-white bottom-[1.2rem] right-2">
+                  1
+                </div>
                 <VscBell className="text-3xl" />
               </div>
             </div>
@@ -134,10 +145,15 @@ function DashboardNavbar({ profileName, user_id }: { profileName: string; user_i
 
       {/* dropdown */}
       {isOpen && (
-        <div className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block z-10`}>
+        <div
+          className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] rounded-b-lg  md:block z-10`}
+        >
           <ul className="list-none cursor-pointer mt-10 inline [&>*]:p-3">
             <li>
-              <Link href="/employer/settings/profile-details-skills" className="text-slate-700 hover:bg-[black]">
+              <Link
+                href="/employer/settings/profile-details-skills"
+                className="text-slate-700 hover:bg-[black]"
+              >
                 <div className="flex text-center space-x-2">
                   <CiSettings className="text-3xl" />
                   <span>Setting</span>
@@ -146,7 +162,10 @@ function DashboardNavbar({ profileName, user_id }: { profileName: string; user_i
             </li>
             <li>
               {/* <Link href="/logout" className="text-slate-700"> */}
-              <div className="flex text-center space-x-2" onClick={handleLogout}>
+              <div
+                className="flex text-center space-x-2"
+                onClick={handleLogout}
+              >
                 <HiMiniPower className="text-3xl" />
                 <span>Logout</span>
               </div>

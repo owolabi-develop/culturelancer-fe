@@ -78,108 +78,113 @@ function DashboardNavbar({
   // });
 
   return (
-    <div className="relative">
-      <nav className="px-20 items-center w-full flex justify-between font-semibold">
-        <div className="grid grid-cols-2 p-4 items-center justify-center gap-5">
-          <div className="bg-[#cccbc8] rounded-full w-11 h-11"></div>
-          <div className="logo-text w-11 h-11">
-            <h1 className="leading-10 font-bold">CultureLancer</h1>
-          </div>
+    <div className="relative h-[70px]">
+      <nav className="h-full px-20 items-center w-full flex justify-between">
+        <div className="w-[300px] ">
+          <Link href={`/`}>
+            <Image
+              src="/assets/full-logo.svg"
+              width={40}
+              height={40}
+              alt="logo"
+              className="w-[200px]"
+            />
+          </Link>
         </div>
 
-        <div className="md:flex basis-[85%]">
-          <div className="navtext basis-[70%] order-1 p-2">
-            {/* nav text */}
-            <ul className="list-none m-0 sm:flex hidden cursor-pointer">
-              <li className="mr-5">
-                <Link
-                  href={`/applicant/dashboard/home`}
-                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-                >
-                  Dashboard
-                </Link>
-              </li>
-
-              <li className="mr-5">
-                <Link
-                  href={`/applicant/dashboard/jobs`}
-                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-                >
-                  Jobs
-                </Link>
-              </li>
-
-              <li className="mr-5">
-                <Link
-                  href={`/applicant/dashboard/assessment-result`}
-                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-                >
-                  Assesement Results
-                </Link>
-              </li>
-
-              <li className="mr-5">
-                <Link
-                  href={`/applicant/dashboard/course`}
-                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-                >
-                  Course
-                </Link>
-              </li>
-            </ul>
-          </div>
+        <div className="navtext order-1 p-2 md:flex h-full items-center">
           {/* nav text */}
+          <ul className="list-none m-0 sm:flex hidden cursor-pointer">
+            <li className="mr-5">
+              <Link
+                href={`/applicant/dashboard/home`}
+                className="rounded-lg px-4 py-3 text-[#525252] hover:text-[#CB2224] font-medium "
+              >
+                Dashboard
+              </Link>
+            </li>
 
-          {/* nav icon */}
+            <li className="mr-5">
+              <Link
+                href={`/applicant/dashboard/jobs`}
+                className="rounded-lg px-4 py-3 text-[#525252] hover:text-[#CB2224] font-medium"
+              >
+                Jobs
+              </Link>
+            </li>
 
-          <div className=" hidden sm:hidden navIcon order-2 basis-[30%] text-right md:flex items-center justify-end">
-            <div className="m-b-icon-holder flex mr-10 cursor-pointer">
-              <div className="msg relative">
-                <div className="bellNoti absolute bg-[red] w-5 h-5 rounded-full text-center text-sm text-white bottom-[1.2rem] right-2">
-                  <p>1</p>
-                </div>
-                <FaRegMessage className="text-3xl mr-5" />
+            <li className="mr-5">
+              <Link
+                href={`/applicant/dashboard/assessment-result`}
+                className="rounded-lg px-4 py-3 text-[#525252] hover:text-[#CB2224] font-medium "
+              >
+                Assesement Results
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="w-[300px]  hidden sm:hidden navIcon order-2 basis-[30%] text-right md:flex items-center justify-end">
+          <div className="m-b-icon-holder flex mr-4 cursor-pointer">
+            <div className="msg relative mt-2">
+              <div className="bellNoti absolute bg-[red] w-4 h-4 rounded-full text-center text-xs text-white -top-[10px] right-2">
+                <p>2</p>
               </div>
-
-              <div className="bell relative">
-                <div className="bellNoti absolute bg-[red] w-5 h-5 rounded-full text-center text-sm text-white bottom-[1.2rem] right-2">
-                  1
-                </div>
-                <VscBell className="text-3xl" />
-              </div>
+              <Image
+                src="/assets/message.svg"
+                width={40}
+                height={40}
+                className="w-5 mr-5"
+                alt="message"
+              />
             </div>
 
-            <div className="profil-icon flex space-x-3 cursor-pointer">
-              <div className="border rounded-full w-11 h-11">
-                {profilepicture ? (
-                  <Image
-                    src={profilepicture}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="rounded-full w-11 h-11"
-                  />
-                ) : (
-                  <Image
-                    src="/default_profile.jpeg"
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="rounded-full w-11 h-11"
-                  />
-                )}
+            <div className="bell relative mt-2">
+              <div className="bellNoti absolute bg-[red] w-4 h-4 rounded-full text-center text-xs text-white -top-[10px] right-3">
+                1
               </div>
-              <Link href={`/applicant/dashboard/profile`}>
-                <div className="logo-text">
-                  <p className="leading-10 text-xs">{applicantprofileName}</p>
-                </div>
-              </Link>
-              <div className="logo-text p-2">
-                <FaChevronDown className="text-2xl" onClick={handleDisplay} />
-              </div>
+              <Image
+                src="/assets/bell.svg"
+                width={40}
+                height={40}
+                className="w-5 mr-5"
+                alt="message"
+              />
             </div>
           </div>
-          {/* nav icon */}
+
+          <div className="profil-icon flex items-center cursor-pointer">
+            <div className="border rounded-full mr-4 w-[32px] h-[32px] flex items-center justify-center">
+              {profilepicture ? (
+                <Image
+                  src={profilepicture}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="rounded-full w-[32px] h-[32px]"
+                />
+              ) : (
+                <Image
+                  src="/default_profile.jpeg"
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="rounded-full w-[32px] h-[32px]"
+                />
+              )}
+            </div>
+            <Link href={`/applicant/dashboard/profile`}>
+              <div className="">
+                <p className="text-xs">{applicantprofileName}</p>
+              </div>
+            </Link>
+            <div className="logo-text p-2">
+              <FaChevronDown
+                className="text-[12px] text-[#525252]"
+                onClick={handleDisplay}
+              />
+            </div>
+          </div>
         </div>
       </nav>
 

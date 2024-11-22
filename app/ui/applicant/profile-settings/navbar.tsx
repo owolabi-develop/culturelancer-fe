@@ -6,7 +6,7 @@ import Image from "next/image";
 
 function SettingsNavbar() {
   return (
-    <nav className="px-8 items-center w-full flex justify-between font-semibold h-[80px]">
+    <nav className="px-8 items-center w-full flex justify-between font-semibold h-[70px]">
       <Link href="/">
         <Image
           src="/assets/full-logo.svg"

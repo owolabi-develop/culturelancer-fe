@@ -1,12 +1,10 @@
 "use client";
 import DashboardNavbar from "@/app/ui/applicant/dashboard/navmenu";
 import Footer from "@/app/ui/footer";
-import { useEffect, useState } from "react";
 import { useUserDetals } from "@/app/hooks/useUserDetails";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { data: userDetails } = useUserDetals();
-  const [applicantdetails, setapplicantdetails] = useState<string>("");
 
   // Fetch profile data
   // useEffect(() => {

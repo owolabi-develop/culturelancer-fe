@@ -2,36 +2,22 @@
 import Footer from "@/app/ui/footer";
 import DashboardNavbar from "@/app/ui/employer/dashboard/navbmenu";
 import React, { useEffect, useState } from "react";
+import { useUserDetals } from "@/app/hooks/useUserDetails";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const { data: userDetails } = useUserDetals();
   const [employerdetails, setEmployerdetails] = useState<string>("");
   const [id, setId] = useState<string>("");
-
-  // Fetch profile data
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const response = await fetch("/api/userdetail");
-
-        console.log();
-        
-        if (response.ok) {
-          const { first_name, last_name, id } = await response.json();
-          setEmployerdetails(`${first_name} ${last_name}`);
-          setId(id);
-        } else {
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-
-    fetchProfileData();
-  }, []);
+  console.log("userDetails", userDetails);
 
   return (
     <div>
-      <DashboardNavbar profileName={employerdetails} user_id={id} />
+      <DashboardNavbar
+        profileName={`${userDetails?.first_name || ""} ${
+          userDetails?.last_name || ""
+        }`}
+        user_id={userDetails?.id || ""}
+      />
 
       <div className={`w-full mx-auto`}>{children}</div>
       <Footer />

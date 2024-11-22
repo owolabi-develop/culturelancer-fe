@@ -1,94 +1,104 @@
-"use client"
-import Link from 'next/link';
-import { FaRegUser } from "react-icons/fa6";
-import { PiSuitcaseSimpleLight } from "react-icons/pi";
-import { TbCalendarMonth } from "react-icons/tb"
-import { IoVideocamOutline } from "react-icons/io5";
-import { TbAward } from "react-icons/tb";
-import { BsPatchQuestion } from "react-icons/bs";
-import { FaUsers } from "react-icons/fa";
-import { HiOutlineLightBulb } from "react-icons/hi";
-// import { useState,useEffect } from 'react';
-// import useSWR from 'swr';
-import Cookies from "js-cookie";
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 
+export default function SideBar() {
+  const pathname = usePathname();
+  const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
+  const sideBarItems: {
+    name: string;
+    icon: any;
+    link: string;
+  }[] = [
+    {
+      name: "Personal Details",
+      icon: "/assets/user.svg",
+      link: `/applicant/settings/profile-details`,
+    },
+    {
+      name: "Experience & Education",
+      icon: "/assets/experience.svg",
+      link: `/applicant/settings/experience-education`,
+    },
+    {
+      name: "Projects",
+      icon: "/assets/projects.svg",
+      link: `/applicant/settings/projects`,
+    },
+    {
+      name: "Awards/Certification",
+      icon: "/assets/awards.svg",
+      link: `/applicant/settings/awards-certifications`,
+    },
+    {
+      name: "Profile Videos",
+      icon: "/assets/video.svg",
+      link: `/applicant/settings/profile-video`,
+    },
+    {
+      name: "Specialization",
+      icon: "/assets/specialization.svg",
+      link: `/applicant/settings/specialization`,
+    },
+    {
+      name: "Social Profile",
+      icon: "/assets/social-profile.svg",
+      link: `/applicant/settings/social-profile`,
+    },
+    {
+      name: "Profile Faq",
+      icon: "/assets/faq.svg",
+      link: `/applicant/settings/profile-faq`,
+    },
+  ];
 
-export default function SideBar(){
-
-    // const [applicantId,SetapplicantId] = useState<string|number>()
-   
-    
-
-    return (
-        <div className="">
-        <div className="w-full h-dvh px-5 py-5 text-center">
-            
-            <ul className='list-none my-4 [&>*]:my-2'>
-
-            <li className=''>
-                <Link href={`/applicant/settings/profile-details/${Cookies.get("user_id_item")}/`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
-                <FaRegUser className='text-xl mr-2' />Personal Details
-                </Link>
-            </li>
-
-            <li className=''>
-                <Link href={`/applicant/settings/experience-education/${Cookies.get("user_id_item")}/`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
-                <PiSuitcaseSimpleLight  className='text-xl mr-2' />Experience & Education
-                </Link>
-            </li>
-
-            <li className=''>
-                <Link href={`/applicant/settings/projects/${Cookies.get("user_id_item")}/`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
-                <TbCalendarMonth className='text-xl mr-2' />Project
-                </Link>
-            </li>
-
-            
-            <li className=''>
-                <Link href={`/applicant/settings/awards-certifications/${Cookies.get("user_id_item")}`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
-                <TbAward className='text-xl mr-2' />Awards/Certification
-                </Link>
-            </li>
-
-
-
-            
-            <li className=''>
-                <Link href={`/applicant/settings/profile-video/${Cookies.get("user_id_item")}/`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
-                < IoVideocamOutline className='text-xl mr-2' />Profile Videos
-                </Link>
-            </li>
-
-
-              
-            <li className=''>
-                <Link href={`/applicant/settings/specialization/${Cookies.get("user_id_item")}`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
-                <  HiOutlineLightBulb className='text-xl mr-2' />Specialization
-                </Link>
-            </li>
-
-                  
-            <li className=''>
-                <Link href={`/applicant/settings/social-profile/${Cookies.get("user_id_item")}/`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
-                < FaUsers className='text-xl mr-2' />Social Profile
-                </Link>
-            </li>
-
-
-                    
-            <li className=''>
-                <Link href={`/applicant/settings/profile-faq/${Cookies.get("user_id_item")}/`} className="flex rounded-lg py-2 px-8 font-medium hover:bg-[#e4e4e4] ">
-                <BsPatchQuestion className='text-xl mr-2' />Profile Faq
-                </Link>
-            </li>
-            
-            </ul>
-            
-      
-        </div>
-
-        </div>
-    )
-
-
+  return (
+    <div
+      className={`${
+        sideBarOpen ? "w-[350px]" : "w-[80px]"
+      } py-5 text-center bg-[#141414] text-[#ffffff] transition-all duration-300 h-[calc(100vh-80px)]`}
+    >
+      <div
+        className={`flex mb-6 transition-all duration-300 ${
+          sideBarOpen ? "justify-end" : "justify-center"
+        } py-4 ${sideBarOpen ? "px-8" : "px-0"}`}
+      >
+        <Image
+          src="/assets/menu.svg"
+          alt="menu"
+          width={20}
+          height={20}
+          onClick={() => setSideBarOpen(!sideBarOpen)}
+          className="cursor-pointer"
+        />
+      </div>
+      <ul className="list-none">
+        {sideBarItems.map((item, i) => (
+          <li className="" key={i}>
+            <Link
+              href={item.link}
+              className={`flex flex-nowrap text-nowrap text-[14px] h-[60px] items-center ${
+                sideBarOpen ? "px-8" : "px-0 w-full"
+              } font-medium hover:bg-[#1b1b1beb] transition-all duration-300
+              ${pathname === item.link ? "bg-[#CB2224]" : ""}
+              `}
+            >
+              <Image
+                src={item.icon}
+                alt={item.name}
+                width={20}
+                height={20}
+                className={`${
+                  sideBarOpen ? "mr-4" : "mx-auto"
+                } transition-all duration-300`}
+              />
+              {sideBarOpen && item.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

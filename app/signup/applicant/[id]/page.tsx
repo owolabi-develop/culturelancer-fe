@@ -7,12 +7,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { createAccount } from "@/app/libs/shemas";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import Image from "next/image";
 import AppButton from "@/app/ui/AppButton";
+import { bareAxios, cultureLancerAxios } from "@/app/ui-services/axios";
+import { toast } from "react-toastify";
 
 type Inputs = z.infer<typeof createAccount>;
 
@@ -20,6 +22,7 @@ export default function ApplicantSignUp() {
   // loading as error state
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { id: assessmentID } = useParams<{ id: string }>();
 
   const router = useRouter();
   const {
@@ -33,31 +36,20 @@ export default function ApplicantSignUp() {
 
   //  submit from to server
   const processForm: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
     try {
       setIsLoading(true);
-      const response = await fetch("/api/register/applicant", {
-        method: "POST",
-        body: JSON.stringify(data),
+      await bareAxios.post("/create-applicant-account/", {
+        ...data,
+        assessment_id: assessmentID,
       });
-      if (response.ok) {
-        console.log(response.json());
-        router.push("/account-created-successfull");
-      }
-      if (response.status === 406) {
-        console.log(await response.json());
-      }
-      if (!response.ok) {
-        setError("Account already exists with this email");
-      }
-      console.log(response);
+      router.push("/account-created-successfull");
       setIsLoading(false);
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.response.data.detail || "Account creation fail");
       console.error("account creation fail", error);
       setIsLoading(false);
     }
   };
-  //  submit from to server
 
   return (
     <div>
@@ -98,9 +90,9 @@ export default function ApplicantSignUp() {
               <FaApple className="text-xl text-[#ffffff]" />
               <span className="ml-2">Continue with Apple</span>
             </AppButton>
-            <button className="bg-white rounded py-2 px-7 drop-shadow-lg text-center cursor-pointer border flex place-content-center items-center space-x-2 h-10 w-full">
+            {/* <button className="bg-white rounded py-2 px-7 drop-shadow-lg text-center cursor-pointer border flex place-content-center items-center space-x-2 h-10 w-full">
               <span>Continue with Owolabi Akintan</span>
-            </button>
+            </button> */}
 
             {/* divider */}
             <div className="py-2 px-7 md:w-[35rem]  text-center  flex place-content-center items-center space-x-2 h-10 w-full">

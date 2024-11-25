@@ -54,7 +54,7 @@ export default function AwardCertification() {
   const deleteCertificate = async (id: string) => {
     try {
       const response = await cultureLancerAxios.delete(
-        `/applicant-award-certifications/${id}`
+        `/applicant-award-certifications/${id}/`
       );
 
       refetchCertificates();

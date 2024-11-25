@@ -11,6 +11,7 @@ import { HiMiniPower } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Image from "next/image";
+import { cultureLancerAxios } from "@/app/ui-services/axios";
 
 function DashboardNavbar({
   profileName,
@@ -22,19 +23,11 @@ function DashboardNavbar({
   const router = useRouter();
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/logout", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        Cookies.remove("item");
-        Cookies.remove("user_id");
-        router.push("/login");
-      } else {
-        console.error("Failed to log out");
-      }
+      const response = await cultureLancerAxios.post("/logout");
+      localStorage.clear();
+      Cookies.remove("item");
+      Cookies.remove("user_id");
+      router.push("/login");
     } catch (error) {
       console.error("An error occurred during logout:", error);
     }

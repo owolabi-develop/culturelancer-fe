@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { MyContext } from "../context";
 import { useContext } from "react";
 import { useMemo, useState } from "react";
@@ -10,6 +10,7 @@ import { CiSettings } from "react-icons/ci";
 import { HiMiniPower } from "react-icons/hi2";
 import Cookies from "js-cookie";
 import { useApplicantProfileDetails } from "../hooks/useApplicantProfileDetails";
+import { cultureLancerAxios } from "../ui-services/axios";
 
 function LoggedInUserData() {
   const { user } = useContext(MyContext);
@@ -30,19 +31,11 @@ function LoggedInUserData() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/logout", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        Cookies.remove("item");
-        Cookies.remove("user_id");
-        router.push("/login");
-      } else {
-        console.error("Failed to log out");
-      }
+      const response = await cultureLancerAxios.post("/logout/");
+      localStorage.clear();
+      Cookies.remove("item");
+      Cookies.remove("user_id");
+      router.push("/login");
     } catch (error) {
       console.error("An error occurred during logout:", error);
     }
@@ -52,13 +45,29 @@ function LoggedInUserData() {
     setIsOpen((prev) => !prev);
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    const menuElement = document.getElementById("my-menu");
+    if (!menuElement || !menuElement.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="w-[300px]  hidden sm:hidden navIcon order-2 basis-[30%] text-right md:flex items-center justify-end">
       <div className="m-b-icon-holder flex mr-4 cursor-pointer">
         <div className="msg relative mt-2">
-          <div className="bellNoti absolute bg-[red] w-4 h-4 rounded-full text-center text-xs text-white -top-[10px] right-2">
-            <p>2</p>
-          </div>
+          {false && (
+            <div className="bellNoti absolute bg-[red] w-4 h-4 rounded-full text-center text-xs text-white -top-[10px] right-2">
+              <p>2</p>
+            </div>
+          )}
           <Image
             src="/assets/message.svg"
             width={40}
@@ -69,9 +78,11 @@ function LoggedInUserData() {
         </div>
 
         <div className="bell relative mt-2">
-          <div className="bellNoti absolute bg-[red] w-4 h-4 rounded-full text-center text-xs text-white -top-[10px] right-3">
-            1
-          </div>
+          {false && (
+            <div className="bellNoti absolute bg-[red] w-4 h-4 rounded-full text-center text-xs text-white -top-[10px] right-3">
+              1
+            </div>
+          )}
           <Image
             src="/assets/bell.svg"
             width={40}
@@ -82,10 +93,7 @@ function LoggedInUserData() {
         </div>
       </div>
 
-      <div
-        className="profil-icon flex items-center cursor-pointer"
-        onClick={handleDisplay}
-      >
+      <div className="profil-icon flex items-center cursor-pointer">
         <div className="border rounded-full mr-4 w-[32px] h-[32px] flex items-center justify-center">
           <Image
             src={profileImageUrl}
@@ -95,12 +103,22 @@ function LoggedInUserData() {
             className="rounded-full w-[32px] h-[32px]"
           />
         </div>
-        <Link href={`/applicant/dashboard/profile`}>
+        <Link
+          href={
+            user?.role === "employer"
+              ? `/employer/dashboard/profile/`
+              : `/applicant/dashboard/profile`
+          }
+        >
           <div className="">
             <p className="text-xs">{fullname}</p>
           </div>
         </Link>
-        <div className="logo-text p-2">
+        <div
+          className="logo-text p-2 cursor-pointer"
+          id="my-menu"
+          onClick={handleDisplay}
+        >
           <FaChevronDown className="text-[12px] text-[#525252]" />
         </div>
       </div>
@@ -108,27 +126,27 @@ function LoggedInUserData() {
       {/* dropdown */}
       {isOpen && (
         <div
-          className={`bg-white drop-shadow-lg px-4 w-[12rem] absolute right-[6rem] top-[60px] rounded-lg  md:block z-10`}
+          className={`bg-white drop-shadow-lg px-2 w-[12rem] absolute right-[5rem] top-[60px] rounded-lg  md:block z-10 border`}
         >
-          <ul className="list-none cursor-pointer mt-10 inline [&>*]:p-3">
-            <li>
+          <ul className="list-none cursor-pointer mt-10 inline text-[14px]">
+            <li className="py-2">
               <Link
                 href={`/applicant/settings/profile-details`}
                 className="text-slate-700 hover:bg-[black]"
               >
-                <div className="flex text-center space-x-2">
-                  <CiSettings className="text-3xl" />
+                <div className="flex items-center text-center space-x-2">
+                  <CiSettings className="text-[18px]" />
                   <span>Setting</span>
                 </div>
               </Link>
             </li>
-            <li>
+            <li className="py-2">
               {/* <Link href="/logout" className="text-slate-700"> */}
               <div
-                className="flex text-center space-x-2"
+                className="flex items-center text-center space-x-2"
                 onClick={handleLogout}
               >
-                <HiMiniPower className="text-3xl" />
+                <HiMiniPower className="text-[18px]" />
                 <span>Logout</span>
               </div>
               {/* </Link> */}

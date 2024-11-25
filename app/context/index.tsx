@@ -7,6 +7,7 @@ interface User {
   is_active: boolean;
   token: string;
   user_id: string;
+  id?: string;
   first_name: string;
   last_name: string;
 }

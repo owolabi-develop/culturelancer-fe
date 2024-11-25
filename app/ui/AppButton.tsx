@@ -16,7 +16,7 @@ const AppButton: FC<Props> = ({
 }) => {
   return (
     <button
-      className={`${className} w-full text-white  rounded-lg text-sm px-5 py-2.5 text-center bg-[#C71F2A] ${
+      className={`${className} w-full flex items-center justify-center text-white  rounded-lg text-sm px-5 py-2.5 text-center bg-[#C71F2A] transition-all duration-300 ${
         shadow ? "shadow-lg shadow-[#02010137]" : ""
       }`}
       disabled={isLoading}
@@ -27,7 +27,7 @@ const AppButton: FC<Props> = ({
           <svg
             aria-hidden="true"
             role="status"
-            className="inline w-5 h-5 me-3 text-white animate-spin"
+            className="inline w-5 h-5 text-white animate-spin"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

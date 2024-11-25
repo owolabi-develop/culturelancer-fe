@@ -12,7 +12,7 @@ export const useApplicantProfileViews = () => {
       );
       return response.data;
     } catch (error) {
-      return {};
+      return [];
     }
   };
 

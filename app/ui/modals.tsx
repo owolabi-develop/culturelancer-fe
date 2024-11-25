@@ -58,7 +58,11 @@ export function EducationModal({ notifytest }: { notifytest: string }) {
 
   return (
     <>
-      <AppButton shadow className="!w-[200px]" onClick={() => setOpenModal(true)}>
+      <AppButton
+        shadow
+        className="!w-[200px]"
+        onClick={() => setOpenModal(true)}
+      >
         + Add Education
       </AppButton>
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
@@ -84,7 +88,7 @@ export function EducationModal({ notifytest }: { notifytest: string }) {
                     type="text"
                     {...register("institution_name")}
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   />
                   <p className="text-sm text-red-500">
                     {errors.institution_name?.message}
@@ -103,7 +107,7 @@ export function EducationModal({ notifytest }: { notifytest: string }) {
                     type="text"
                     {...register("degree")}
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   />
                   <p className="text-sm text-red-500">
                     {errors.degree?.message}
@@ -122,7 +126,7 @@ export function EducationModal({ notifytest }: { notifytest: string }) {
                     type="text"
                     {...register("field_of_study")}
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   />
                   <p className="text-sm text-red-500">
                     {errors.field_of_study?.message}
@@ -141,7 +145,7 @@ export function EducationModal({ notifytest }: { notifytest: string }) {
                     type="date"
                     {...register("start_date")}
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   />
                   <p className="text-sm text-red-500">
                     {errors.start_date?.message}
@@ -160,7 +164,7 @@ export function EducationModal({ notifytest }: { notifytest: string }) {
                     type="date"
                     {...register("end_date")}
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   />
                   <p className="text-sm text-red-500">
                     {errors.end_date?.message}
@@ -179,7 +183,7 @@ export function EducationModal({ notifytest }: { notifytest: string }) {
                     type="text"
                     {...register("gpa")}
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                     required
                   />
                   <p className="text-sm text-red-500">{errors.gpa?.message}</p>
@@ -254,7 +258,11 @@ export function ExperienceModal({ notifytest }: { notifytest: string }) {
 
   return (
     <>
-      <AppButton shadow onClick={() => setOpenModal(true)} className="!w-[200px]">
+      <AppButton
+        shadow
+        onClick={() => setOpenModal(true)}
+        className="!w-[200px]"
+      >
         + Add Experience
       </AppButton>
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
@@ -279,7 +287,7 @@ export function ExperienceModal({ notifytest }: { notifytest: string }) {
                     type="text"
                     {...register("title")}
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   />
                   <p className="text-sm text-red-500">
                     {errors.title?.message}
@@ -298,7 +306,7 @@ export function ExperienceModal({ notifytest }: { notifytest: string }) {
                     type="text"
                     {...register("company_name")}
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   />
                   <p className="text-sm text-red-500">
                     {errors.company_name?.message}
@@ -315,7 +323,7 @@ export function ExperienceModal({ notifytest }: { notifytest: string }) {
                   <select
                     id="location"
                     {...register("location_type")}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg "
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg "
                   >
                     <option disabled>Choose a Location</option>
                     <option value="Remote">Remote</option>
@@ -336,7 +344,7 @@ export function ExperienceModal({ notifytest }: { notifytest: string }) {
                   <select
                     id="location"
                     {...register("employment_types")}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg "
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg "
                   >
                     <option selected disabled>
                       Choose a Location
@@ -385,7 +393,7 @@ export function ExperienceModal({ notifytest }: { notifytest: string }) {
                     type="date"
                     {...register("start_date")}
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   />
                   <p className="text-sm text-red-500">
                     {errors.start_date?.message}
@@ -404,7 +412,7 @@ export function ExperienceModal({ notifytest }: { notifytest: string }) {
                     type="date"
                     {...register("end_date")}
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   />
                   <p className="text-sm text-red-500">
                     {errors.end_date?.message}
@@ -553,7 +561,11 @@ export function Skill({ notifytest }: { notifytest: string }) {
 
   return (
     <>
-      <AppButton shadow onClick={() => setOpenModal(true)} className="!w-[200px]">
+      <AppButton
+        shadow
+        onClick={() => setOpenModal(true)}
+        className="!w-[200px]"
+      >
         + Add Skills
       </AppButton>
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
@@ -576,7 +588,7 @@ export function Skill({ notifytest }: { notifytest: string }) {
                   <select
                     id="Skill"
                     {...register("skill")}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full"
                   >
                     <option selected disabled>
                       Choose skill
@@ -602,7 +614,7 @@ export function Skill({ notifytest }: { notifytest: string }) {
                   <select
                     id="Skill"
                     {...register("level")}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full"
                   >
                     <option selected disabled>
                       Choose skill level

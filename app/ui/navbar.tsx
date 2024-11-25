@@ -8,6 +8,7 @@ import { MyContext } from "../context";
 import LoggedInUserData from "./loggedInUserData";
 import { useApplicantProfileDetails } from "../hooks/useApplicantProfileDetails";
 import { useUserDetals } from "../hooks/useUserDetails";
+import AppButton from "./AppButton";
 
 function HomeNavbar() {
   const pathname = usePathname();
@@ -17,6 +18,8 @@ function HomeNavbar() {
   const dataToUse = useMemo(() => {
     return user || loggedInUser;
   }, [user, loggedInUser]);
+
+  console.log("dataToUse", dataToUse);
 
   // Define the list of navigation links
   const linkPaths = [
@@ -45,7 +48,7 @@ function HomeNavbar() {
       <li className="mr-5" key={path}>
         <Link
           href={path}
-          className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
+          className="px-4 py-3 text-[#525252] font-medium hover:text-[#CB2224]"
         >
           {title}
         </Link>
@@ -125,14 +128,14 @@ function HomeNavbar() {
         {dataToUse ? (
           <LoggedInUserData />
         ) : (
-          <ul className="list-none m-0 sm:flex hidden cursor-pointer">
+          <ul className="list-none m-0 sm:flex hidden cursor-pointer items-center">
             {linkPaths.map(renderLink)}
 
             {pathname === "/signup/employer" && (
               <li className="mr-5">
                 <Link
                   href="/assessment"
-                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
+                  className="px-4 py-3 text-[#525252] font-medium hover:text-[#CB2224]"
                 >
                   Join as A Job Seeker
                 </Link>
@@ -143,7 +146,7 @@ function HomeNavbar() {
               <li className="mr-5">
                 <Link
                   href="/signup/employer"
-                  className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
+                  className="px-4 py-3 text-[#525252] font-medium hover:text-[#CB2224]"
                 >
                   Join as An Employer
                 </Link>
@@ -154,11 +157,8 @@ function HomeNavbar() {
               pathname !== "/signup/applicant" &&
               pathname !== "/login" && (
                 <li className="mr-5">
-                  <Link
-                    href="/login"
-                    className="rounded-lg px-4 py-3 text-slate-700 font-medium hover:bg-[black] hover:text-slate-100"
-                  >
-                    Login
+                  <Link href="/login" className="">
+                    <AppButton>Login</AppButton>
                   </Link>
                 </li>
               )}

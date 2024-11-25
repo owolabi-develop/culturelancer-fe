@@ -30,15 +30,16 @@ export default function Projects() {
   //  retrive  profle completion percent
   const [projects, Setporjects] = useState<projectsSchema[]>([]);
 
+  const handlecertificatedetails = async () => {
+    const data = await fetchprojects();
+    if (data !== null) {
+      Setporjects(data);
+      console.log("project data", data);
+    }
+  };
+
   // fetch all certificate data
   useEffect(() => {
-    const handlecertificatedetails = async () => {
-      const data = await fetchprojects();
-      if (data !== null) {
-        Setporjects(data);
-        console.log("project data", data);
-      }
-    };
     handlecertificatedetails();
   }, []);
 
@@ -51,12 +52,9 @@ export default function Projects() {
   const deleteProject = async (id: string) => {
     try {
       const response = await cultureLancerAxios.delete(
-        `/api/projects/delete-project?id=${id}`
+        `/applicant-project/${id}/`
       );
-
-      Setporjects((prevProjects) =>
-        prevProjects.filter((project) => project.id !== id)
-      );
+      handlecertificatedetails();
       notifydelete();
     } catch (error) {
       console.error("Error deleting projects", error);
@@ -83,6 +81,7 @@ export default function Projects() {
         "image/png": [],
       },
     });
+
   const fileRejectionItems = fileRejections.map(({ file, errors }) => (
     <div key={file.path}>
       {errors.map((e) => (
@@ -98,8 +97,6 @@ export default function Projects() {
       {file.path} - {file.size} byte
     </p>
   ));
-
-  // dnd
 
   const notify = () => {
     toast.success("Project Added!");
@@ -120,20 +117,15 @@ export default function Projects() {
         `/applicant-project/`,
         formData
       );
-
-      if (response.status === 201) {
-        setIsLoading(false);
-        notify();
-        setSelected([]);
-        if (event.target) {
-          (event.target as HTMLFormElement).reset();
-        }
-        console.log(response.data);
-
-        console.log("Form submitted successfully");
+      handlecertificatedetails();
+      setIsLoading(false);
+      notify();
+      setSelected([]);
+      if (event.target) {
+        (event.target as HTMLFormElement).reset();
       }
-
-      // get token
+      console.log(response.data);
+      console.log("Form submitted successfully");
     } catch (error) {
       console.log("server error", error);
     } finally {
@@ -169,7 +161,7 @@ export default function Projects() {
                   type="text"
                   id="Title"
                   name="project_title"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
                 />
                 <p className="text-sm text-red-500"></p>
               </div>
@@ -185,7 +177,7 @@ export default function Projects() {
                   type="text"
                   id="role"
                   name="role"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
                 />
                 <p className="text-sm text-red-500"></p>
               </div>
@@ -201,7 +193,7 @@ export default function Projects() {
                   type="date"
                   id="StartDate"
                   name="start_date"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
                 />
                 <p className="text-sm text-red-500">{}</p>
               </div>
@@ -217,7 +209,7 @@ export default function Projects() {
                   type="date"
                   id="EndDate"
                   name="end_date"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
                 />
                 <p className="text-sm text-red-500"></p>
               </div>
@@ -258,7 +250,7 @@ export default function Projects() {
                 id="description"
                 name="description"
                 rows={4}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                className="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300"
                 placeholder=""
               ></textarea>
             </div>
@@ -316,7 +308,7 @@ export default function Projects() {
                 type="url"
                 id="Github"
                 name="project_links_github"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
               />
               <p className="text-sm text-red-500"></p>
             </div>
@@ -332,7 +324,7 @@ export default function Projects() {
                 type="url"
                 id="LiveDemo"
                 name="project_links_live_demo"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
+                className="border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
               />
               <p className="text-sm text-red-500"></p>
             </div>
@@ -348,7 +340,7 @@ export default function Projects() {
                 type="url"
                 id="PortfolioLink"
                 name="project_link_portfolio"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
+                className="border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
               />
               <p className="text-sm text-red-500">{}</p>
             </div>

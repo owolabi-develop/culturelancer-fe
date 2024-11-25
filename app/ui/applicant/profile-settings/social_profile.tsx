@@ -1,13 +1,12 @@
 "use client";
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
 
 import * as z from "zod";
 import { socialProfile } from "@/app/libs/shemas";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import { useParams } from "next/navigation";
@@ -16,45 +15,45 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { useApplicantProfileDetails } from "@/app/hooks/useApplicantProfileDetails";
 import { ProfilePercent } from "../../progressBar";
 import AppButton from "../../AppButton";
+import { cultureLancerAxios } from "@/app/ui-services/axios";
+import { useApplicantSocialLinks } from "@/app/hooks/useApplicantSocialLinks";
+import Image from "next/image";
 
 type Inputs = z.infer<typeof socialProfile>;
 
 export default function SocialProfile() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>({ resolver: zodResolver(socialProfile) });
+  const { data: myLinks, mutation, isLoading } = useApplicantSocialLinks();
 
   // handle toast bar
   const notify = () => {
-    toast.success("Social Profiles Added!");
+    toast.success(`Social Profiles ${!myLinks.length ? "Added" : "Updated"}!`);
   };
   // handle form submition
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
-    try {
-      setIsLoading(true);
-      const response = await fetch(`/api/applicant-settings/social-profile/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        console.log("Social profiles added");
-        reset();
-        setIsLoading(false);
-        notify();
-      }
-    } catch (error) {
-      console.log("server Error: ", error);
-    }
+    await mutation.mutate({
+      data,
+      profile_id: myLinks[0]?.id,
+    });
   };
+
+  useEffect(() => {
+    setValue("facebook", myLinks?.[0]?.facebook);
+    setValue("twitter_x", myLinks?.[0]?.twitter_x);
+    setValue("linkedin", myLinks?.[0]?.linkedin);
+  }, [myLinks]);
+
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      notify();
+    }
+  }, [mutation.status]);
 
   return (
     <section className="w-full ">
@@ -76,23 +75,35 @@ export default function SocialProfile() {
             {/*  */}
             <div className="mb-6">
               <div className="relative mb-4 flex w-full flex-wrap items-stretch justify-between">
-                <FaFacebook className="text-4xl" />
+                <Image
+                  src="/assets/facebook-2.svg"
+                  alt="twitter"
+                  width={30}
+                  height={30}
+                />
                 <input
                   type="url"
                   id="facebook"
+                  defaultValue={myLinks?.[0]?.facebook}
                   {...register("facebook")}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5"
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5"
                 />
               </div>
               <p className="text-sm text-red-500">{errors.facebook?.message}</p>
 
               <div className="relative mb-4 flex w-full flex-wrap items-stretch justify-between">
-                <FaTwitter className="text-4xl" />
+                <Image
+                  src="/assets/x.svg"
+                  alt="twitter"
+                  width={30}
+                  height={30}
+                />
                 <input
                   type="url"
                   id="tiitter"
+                  defaultValue={myLinks?.[0]?.twitter_x}
                   {...register("twitter_x")}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5"
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5"
                 />
               </div>
               <p className="text-sm text-red-500">
@@ -100,21 +111,31 @@ export default function SocialProfile() {
               </p>
 
               <div className="relative mb-4 flex w-full flex-wrap items-stretch justify-between">
-                <FaLinkedin className="text-4xl" />
+                <Image
+                  src="/assets/linkedin.svg"
+                  alt="twitter"
+                  width={30}
+                  height={30}
+                />
                 <input
                   type="url"
                   id="linkedin"
-                  {...register("linkedIn")}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5"
+                  defaultValue={myLinks?.[0]?.linkedin}
+                  {...register("linkedin")}
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg w-[95%] p-2.5"
                 />
               </div>
-              <p className="text-sm text-red-500">{errors.linkedIn?.message}</p>
+              <p className="text-sm text-red-500">{errors.linkedin?.message}</p>
             </div>
 
             {/* form input */}
 
             <div className="">
-              <AppButton type="submit" isLoading={isLoading}>
+              <AppButton
+              className="!w-[200px]"
+                type="submit"
+                isLoading={mutation.status === "pending"}
+              >
                 Save & Update
               </AppButton>
             </div>

@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { cultureLancerAxios } from "@/app/ui-services/axios";
 
 export default function JobDetails() {
   const { id } = useParams<{ id: string }>();
@@ -35,23 +36,8 @@ function GetJobDetails({ id }: { id: string }) {
   //  delete job
   const deletejob = async (id: string) => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/job/${id}/`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("item")}`,
-          },
-        }
-      );
-
-      if (response.status == 204) {
-        router.push(`/employer/dashboard/jobs/${Cookies.get("user_id_item")}`);
-        console.log("job deleted");
-      } else {
-        console.error("Failed to delete job:", data.error);
-      }
+      const response = await cultureLancerAxios.delete(`/job/${id}/`);
+      router.push(`/employer/dashboard/jobs/`);
     } catch (error) {
       console.error("Error deleting job:", error);
     }
@@ -59,26 +45,10 @@ function GetJobDetails({ id }: { id: string }) {
 
   const closejob = async (id: string) => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/job/${id}/`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("item")}`,
-          },
-          body: JSON.stringify({ status: "closed" }),
-        }
-      );
+      const response = await cultureLancerAxios.patch(`/job/${id}/`, data);
 
-      if (response.ok) {
-        closedJobnotify();
-        mutate(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/job/${id}/`
-        );
-      } else {
-        console.error("Failed to closed job:", data.error);
-      }
+      closedJobnotify();
+      // mutate(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/job/${id}/`);
     } catch (error) {
       console.error("Error closed job:", error);
     }
@@ -98,7 +68,6 @@ function GetJobDetails({ id }: { id: string }) {
     `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/job/${id}/`,
     fetcher
   );
-  console.log("result:", data);
 
   if (isLoading) {
     return (
@@ -324,7 +293,7 @@ function GetJobDetails({ id }: { id: string }) {
               <div className="w-full">
                 <p className="text-sm">Total Applications</p>
                 <h1 className="text-xl font-bold">
-                  {data?.applications.length}
+                  {data?.applications?.length}
                 </h1>
               </div>
 

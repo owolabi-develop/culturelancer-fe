@@ -4,6 +4,8 @@ import React, { useState, FormEvent } from "react";
 // import { AijobDescription } from "../../modals";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import { cultureLancerAxios } from "@/app/ui-services/axios";
+import AppButton from "../../AppButton";
 
 export function EmployerPostJobs() {
   const notifySuccess = () => {
@@ -96,23 +98,12 @@ export function EmployerPostJobs() {
       status: "active",
     };
 
-    console.log("form", formData);
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/job/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("item")}`,
-        },
-        body: JSON.stringify(formData),
-      }
-    );
-    const error = await response.json();
-    console.log(error);
-    if (response.ok) {
+    try {
+      const response = await cultureLancerAxios.post(`/job/`, formData);
       notifySuccess();
       console.log("job added");
+    } catch (error) {
+      console.error("Error adding job:", error);
     }
   };
 
@@ -139,7 +130,7 @@ export function EmployerPostJobs() {
                   type="text"
                   id="Title"
                   name="job_title"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
                   onChange={(e) => setJobTitle(e.target.value)}
                   required
                 />
@@ -232,7 +223,7 @@ export function EmployerPostJobs() {
                     type="text"
                     id="job_category"
                     name="job_category"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-4"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-4"
                     onChange={(e) => setJobCategory(e.target.value)}
                     required
                   />
@@ -327,7 +318,7 @@ export function EmployerPostJobs() {
                     type="number"
                     id="MinimumBudget"
                     name="minimum_budget"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
                     onChange={(e) => setMinimumBudget(e.target.value)}
                     required
                   />
@@ -344,7 +335,7 @@ export function EmployerPostJobs() {
                     type="number"
                     id="MaximumBudget"
                     name="maximum_budget"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
                     onChange={(e) => setMaximumBudget(e.target.value)}
                     required
                   />
@@ -469,9 +460,9 @@ export function EmployerPostJobs() {
               </div>
 
               <div className="text-right">
-                <button className="py-1 px-4 bg-[#3c3c3c] rounded text-gray-100">
+                <AppButton className="py-1 px-4 bg-[#3c3c3c] rounded text-gray-100">
                   Submit Job
-                </button>
+                </AppButton>
               </div>
             </div>
             {/* submit button  */}

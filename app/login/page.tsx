@@ -47,6 +47,8 @@ export default function Login() {
       const responseData = await LoginUser(data);
 
       const { role, is_active, token, user_id } = responseData.data;
+      console.log({ role, is_active, token, user_id });
+
       setUser(responseData.data);
       cultureLancerAxios.defaults.headers.common[
         "Authorization"
@@ -56,15 +58,18 @@ export default function Login() {
       localStorage.setItem("user_id_item", user_id);
       Cookies.set("user_id_item", user_id);
       if (is_active && role === "employer") {
-        router.push(`/employer/dashboard/`);
+        console.log("employer dashboard");
+        router.push(`/employer/dashboard/${user_id}`);
       } else if (is_active && role === "applicant") {
+        console.log("applicant dashboard");
         router.push(`/applicant/dashboard/home/`);
       } else {
+        console.log("account not active");
         setStatus("Account not active. Please contact support.");
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("An error occurred");
+    } catch (error: any) {
+      console.error(error.response.data);
+      toast.error(error.response.data.detail || "An error occurred");
       // setStatus(error.response || "Invalid login credentials");
       // setStatus("Server error. Please try again later.");
     } finally {
@@ -90,7 +95,7 @@ export default function Login() {
           <Link href="/" className="text-[#525252]">
             FAQ
           </Link>
-          <Link href="/signup">
+          <Link href="/signup/options">
             <AppButton>Signup</AppButton>
           </Link>
         </div>
@@ -118,7 +123,7 @@ export default function Login() {
                       type="email"
                       {...register("email")}
                       id="email"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                      className="border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                       placeholder="Enter your Email "
                     />
                     <p className="text-sm text-red-500">
@@ -135,7 +140,7 @@ export default function Login() {
                       {...register("password")}
                       id="password"
                       placeholder="Enter your password"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                      className="border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                     />
                     <span
                       className="absolute bottom-5 right-9"

@@ -11,7 +11,7 @@ export const useApplicantWorkExperience = () => {
       );
       return response.data;
     } catch (error) {
-      return {error};
+      return []
     }
   };
 

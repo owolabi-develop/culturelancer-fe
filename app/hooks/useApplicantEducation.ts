@@ -9,7 +9,7 @@ export const useApplicantEducation = () => {
       const response = await cultureLancerAxios.get(`/applicant-education/`);
       return response.data;
     } catch (error) {
-      return {};
+      return [];
     }
   };
 

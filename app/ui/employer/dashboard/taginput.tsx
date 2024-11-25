@@ -9,24 +9,23 @@ export interface IRequiredSkills {
 
 const RequireSkills = (props: IRequiredSkills) => {
   const { setskills } = props;
-  const [selected, setSelected] = useState(["javascript"]);
+  const [selected, setSelected] = useState<string[]>([]);
 
-  console.log(selected, "selected");
-  
- useEffect(() => {
-  setskills(selected)
- }, );
- 
+  useEffect(() => {
+    setskills(selected);
+  });
+
   return (
     <>
       <TagsInput
         value={selected}
-        onChange={setSelected}
+        onChange={(e) => setSelected(e)}
         name="skills"
         placeHolder="e.g Javascript, Graphic Design"
         classNames={{
           tag: "bg-[#2f2f2f] rounded-full px-4 py-1 mr-1 mb-2 inline-flex items-center", // Tailwind styles for tags
-          input: "border-0 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 w-full", // Tailwind styles for input
+          input:
+            "border-0 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 w-full", // Tailwind styles for input
         }}
       />
     </>

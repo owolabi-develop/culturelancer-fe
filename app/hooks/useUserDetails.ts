@@ -12,12 +12,19 @@ export const useUserDetals = () => {
     const userID = localStorage.getItem("user_id_item");
     try {
       const response = await cultureLancerAxios.get(
-        `/account/${user?.user_id || userID}/`
+        `/${
+          user?.role === "employer"
+            ? "create-employer-account"
+            : "create-applicant-account"
+        }/${user?.user_id || userID}/`
       );
-      setUser(response.data);
+      setUser({
+        ...user,
+        ...response.data,
+      });
       return response.data;
     } catch (error) {
-      return {error};
+      return null;
     }
   };
 

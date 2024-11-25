@@ -14,6 +14,7 @@ import { useApplicantProfileDetails } from "@/app/hooks/useApplicantProfileDetai
 import { useApplicantVideos } from "@/app/hooks/useApplicantVideos";
 import { cultureLancerAxios } from "@/app/ui-services/axios";
 import { ProfilePercent } from "../../progressBar";
+import ReactPlayer from "react-player";
 
 type Inputs = z.infer<typeof profileVideo>;
 interface IVideo {
@@ -44,14 +45,27 @@ export default function ProfileVideo() {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       setIsLoading(true);
-      const response = await cultureLancerAxios.post(`/applicant-video/`, data);
-      console.log("Profile Video  Added!");
+      const response = await cultureLancerAxios.post(`/applicant-video/`, {
+        video_url: data.videoUrl,
+      });
       reset();
       setIsLoading(false);
       refetch();
       notify();
     } catch (error) {
       console.log("server Error: ", error);
+    }
+  };
+
+  const deleteVideo = async (id: string) => {
+    try {
+      const response = await cultureLancerAxios.delete(
+        `/applicant-video/${id}/`
+      );
+      refetch();
+      toast.success("Video Deleted");
+    } catch (error) {
+      console.error("Error deleting certificate:", error);
     }
   };
 
@@ -128,23 +142,33 @@ export default function ProfileVideo() {
         {/* profile videos  */}
         {!isLoadingVideos &&
           myVideos.map((video: IVideo, index: number) => (
-            <div key={index} className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-5 flex">
-              <div className="bg-[lightgray] py-20 px-20">
-                <h1>Video Thumbnail</h1>
+            <div
+              key={index}
+              className="w-full rounded px-5 py-5 bg-white drop-shadow-lg my-5 flex"
+            >
+              <div className="bg-[lightgray] h-[220px] overflow-hidden">
+                <ReactPlayer
+                  url={video.video_url || ""}
+                  width={220}
+                  height={220}
+                />
               </div>
 
               <div className="px-3">
                 <h1 className="font-semibold">Video Title</h1>
-                <p>https://www.example.com/video1</p>
+                <p>{video.video_url}</p>
 
                 <div className="flex w-full my-4">
                   <div className="border rounded py-1 px-1">
                     <MdEdit className="text-2xl cursor-pointer" />
                   </div>
 
-                  <div className="border rounded py-1 px-1 mx-2">
+                  <button
+                    className="border rounded py-1 px-1 mx-2"
+                    onClick={() => deleteVideo(video.id)}
+                  >
                     <RiDeleteBin6Line className="text-2xl cursor-pointer" />
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>

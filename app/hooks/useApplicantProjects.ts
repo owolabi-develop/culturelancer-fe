@@ -9,7 +9,7 @@ export const useApplicantProjects = () => {
       const response = await cultureLancerAxios.get(`/applicant-project/`);
       return response.data;
     } catch (error) {
-      return {error};
+      return [];
     }
   };
 

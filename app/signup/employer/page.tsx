@@ -14,6 +14,8 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 import axios from "axios";
 import Image from "next/image";
 import AppButton from "@/app/ui/AppButton";
+import { bareAxios, cultureLancerAxios } from "@/app/ui-services/axios";
+import { toast } from "react-toastify";
 
 type Inputs = z.infer<typeof createAccount>;
 
@@ -31,28 +33,13 @@ export default function EmployerSignUp() {
 
   //  submit from to server
   const processForm: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/account/`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status == 201) {
-        console.log(response.status);
-        // console.log( await response.json())
-        router.push("/account-created-successfull");
-      } else if (response.status === 400) {
-      }
-    } catch (error) {
-      console.error("account creation fail", error);
+      await bareAxios.post(`/create-employer-account/`, data);
+      router.push("/account-created-successfull");
+    } catch (error: any) {
+      toast.error(error.response.data.detail || "Account creation fail");
       setIsLoading(false);
-      setError("Account already exists with this email");
     }
   };
 
@@ -95,9 +82,9 @@ export default function EmployerSignUp() {
               <FaApple className="text-xl text-[#ffffff]" />
               <span className="ml-2">Continue with Apple</span>
             </AppButton>
-            <button className="bg-white rounded py-2 px-7 drop-shadow-lg text-center cursor-pointer border flex place-content-center items-center space-x-2 h-10 w-full">
+            {/* <button className="bg-white rounded py-2 px-7 drop-shadow-lg text-center cursor-pointer border flex place-content-center items-center space-x-2 h-10 w-full">
               <span>Continue with Owolabi Akintan</span>
-            </button>
+            </button> */}
 
             {/* divider */}
             <div className="py-2 px-7  text-center  flex place-content-center items-center space-x-2 h-10 w-full">

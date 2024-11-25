@@ -45,18 +45,14 @@ export const passwordReset = z
 //  create account shema
 
 export const createAccount = z.object({
-  first_name: z
-    .string({
-      required_error: "First Name is required",
-      invalid_type_error: "invalid type input for first Name",
-    })
-    .min(4, "First Name must be 4 character long"),
-  last_name: z
-    .string({
-      required_error: "Last Name is required",
-      invalid_type_error: "invalid type input for Last Name",
-    })
-    .min(4, "Last Name must be 4 character long"),
+  first_name: z.string({
+    required_error: "First Name is required",
+    invalid_type_error: "invalid type input for first Name",
+  }),
+  last_name: z.string({
+    required_error: "Last Name is required",
+    invalid_type_error: "invalid type input for Last Name",
+  }),
   email: emailSchema,
   password: passwordShema,
   role: z.enum(["employer", "applicant", "admin"]),
@@ -171,7 +167,7 @@ export const profileVideo = z.object({
 
 export const socialProfile = z.object({
   facebook: urlSchema,
-  linkedIn: urlSchema,
+  linkedin: urlSchema,
   twitter_x: urlSchema,
 });
 

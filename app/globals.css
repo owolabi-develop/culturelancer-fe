@@ -17,6 +17,13 @@
 body {
   color: var(--foreground);
   background: var(--background);
+
+  font-feature-settings: "salt";
+  -moz-font-feature-settings: "salt";
+  -webkit-font-feature-settings: "salt";
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
@@ -46,4 +53,9 @@ body {
 
 .text-primary {
   color: #cb2224;
+}
+
+.react-international-phone-country-selector-button {
+  height: 100% !important;
+  padding: 0 10px !important;
 }

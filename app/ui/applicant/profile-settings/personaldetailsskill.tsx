@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, FormEvent, useContext } from "react";
+import React, {
+  useState,
+  FormEvent,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import { PhoneInput } from "react-international-phone";
@@ -13,6 +19,7 @@ import AppButton from "../../AppButton";
 import { cultureLancerAxios } from "@/app/ui-services/axios";
 import { MyContext } from "@/app/context";
 import { useUserDetals } from "@/app/hooks/useUserDetails";
+import useCountries, { IState } from "@/app/hooks/useCountries";
 
 export default function PersonalDetailAndSkills() {
   return (
@@ -34,15 +41,23 @@ export default function PersonalDetailAndSkills() {
 }
 
 function ProfildetailsContainer() {
-  const { user } = useContext(MyContext);
+  const { countries, getCountryStates } = useCountries();
+  const [country, setCountry] = useState<string>("");
+
+  const { data, error, isLoading, refetch } = useApplicantProfileDetails();
   const { data: userInfo } = useUserDetals();
   const [phone, setPhone] = useState("");
   const [isloading, setIsLoading] = useState<boolean>(false);
-  const { id } = useParams<{ id: string }>();
 
-  const { data, error, isLoading, refetch } = useApplicantProfileDetails();
-  console.log("new profile:", data);
-  console.log("me", userInfo);
+  const states = useMemo(() => {
+    return getCountryStates(country || data?.country) || [];
+  }, [country, data?.country]);
+
+  useEffect(() => {
+    if (userInfo) {
+      setPhone(data?.phone_number || "");
+    }
+  }, [userInfo]);
 
   if (isLoading) {
     return (
@@ -130,12 +145,11 @@ function ProfildetailsContainer() {
                   Phone Number
                 </label>
                 <PhoneInput
-                  defaultCountry="ua"
+                  defaultCountry="us"
                   value={phone}
                   onChange={(phone) => setPhone(phone)}
                   inputProps={{
                     required: true,
-                    defaultValue: data?.phone_number,
                     className:
                       "bg-white border border-gray-300 text-gray-900 text-sm rounded-r-lg  block w-full",
                   }}
@@ -199,6 +213,7 @@ function ProfildetailsContainer() {
                   Country
                 </label>
                 <select
+                  onChange={(e) => setCountry(e.target.value)}
                   id="country"
                   defaultValue={data?.country}
                   name="country"
@@ -207,7 +222,15 @@ function ProfildetailsContainer() {
                   <option disabled value="">
                     Select Country
                   </option>
-                  <option value="nigeria">nigeria</option>
+                  {countries.map((country, index) => (
+                    <option
+                      key={index}
+                      className="capitalize"
+                      value={country.name}
+                    >
+                      {country.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -227,7 +250,15 @@ function ProfildetailsContainer() {
                   <option disabled value="">
                     Select State
                   </option>
-                  <option value="lagos">lagos</option>
+                  {states?.map((state: IState, index) => (
+                    <option
+                      key={index}
+                      className="capitalize"
+                      value={state.name}
+                    >
+                      {state.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -281,6 +312,7 @@ function ProfildetailsContainer() {
                       type="radio"
                       value="male"
                       name="gender"
+                      defaultChecked={data?.gender === "male"}
                       className="w-4 h-4  bg-gray-100 border-gray-300 "
                     />
                     <label
@@ -298,6 +330,7 @@ function ProfildetailsContainer() {
                       type="radio"
                       value="female"
                       name="gender"
+                      defaultChecked={data?.gender === "female"}
                       className="w-4 h-4 bg-gray-100 border-gray-300 "
                     />
                     <label

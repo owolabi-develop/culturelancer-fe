@@ -4,9 +4,12 @@ import { IoLocationSharp } from "react-icons/io5";
 import { BsExclamationCircle } from "react-icons/bs";
 import Link from "next/link";
 import useSWR, { useSWRConfig } from "swr";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { cultureLancerAxios } from "@/app/ui-services/axios";
+import dayjs from "dayjs";
+import Image from "next/image";
 
 export interface IJob {
   posted_date: string;
@@ -29,19 +32,54 @@ export interface IJob {
 
 export function Jobs() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const closedJobnotify = () => {
+    toast.info("Job closed");
+  };
+
+  const apiUrl = searchTerm ? `job/?search=${searchTerm}/` : "/job/";
+
+  const closejob = async (id: string) => {
+    try {
+      const data = { status: "closed" };
+      const response = await cultureLancerAxios.patch(`/job/${id}/`, data);
+      closedJobnotify();
+      // mutate(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/${apiUrl}`);
+      // mutate(
+      //   `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/get-employer-job-status/`
+      // );
+    } catch (error) {
+      console.error("Error closed job:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetcher = async () => {
+      try {
+        const response = await cultureLancerAxios.get(apiUrl);
+        setData(response.data);
+      } catch (error) {
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetcher();
+  }, [searchTerm]);
 
   return (
     <section className="md:grid grid-cols-1 p-20 w-full justify-around">
-      <div className=" [&>*]:my-4">
-        <h1 className="text-4xl font-bold w-full">Manage Posted Projected</h1>
-        <p>Dashboard / Posted Project</p>
-        <p className="text-sm">
-          Review the best candidate who match your job postings. Sort,filter,
-          and take action to shortlist or message candidates
-        </p>
+      <div className="">
+        <h1 className="text-3xl font-semibold w-full">
+          Manage Posted Projects
+        </h1>
+        <p className="mb-6 text-[#525252] text-sm mt-2">Dashboard {">"} Posted Project</p>
 
         {/* search input */}
-        <div className="">
+        <div className="mb-4">
           <form>
             <div>
               <div className="flex">
@@ -49,7 +87,7 @@ export function Jobs() {
                   type="search"
                   id="CurrentMayor"
                   name="Quote"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 w-[90%] focus:border-gray-50"
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 w-[90%] focus:border-gray-50"
                   required
                   placeholder="Search jobs by title, Location, Experience, Skills"
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -73,8 +111,8 @@ export function Jobs() {
 
       {/* overall job performance  */}
 
-      <div className="w-full bg-white drop-shadow-lg px-4 rounded-lg">
-        <h1 className="my-1"> Overall Performance</h1>
+      <div className="w-full bg-white drop-shadow p-4 rounded-lg">
+        <h1 className="mb-4 text-[#171717]"> Overall Performance</h1>
 
         <div className="w-full md:grid md:grid-cols-4 gap-3 ">
           {/* total application */}
@@ -83,250 +121,214 @@ export function Jobs() {
 
           <GetJobStatus />
 
-          <div className="bg-gray-100 rounded py-5 px-5 my-2">
-            <h1 className="font-bold text-sm">Avg Candidate Match</h1>
+          <div className="bg-[#F9F9F9] rounded py-5 px-5 my-2">
+            <h1 className="font-medium text-[#737373] text-sm">
+              Avg Candidate Match
+            </h1>
             <h1 className="font-bold text-xl">78%</h1>
           </div>
         </div>
       </div>
 
-      {/* overall job performance  */}
-
-      <PerFormJobSearch searchTerm={searchTerm} />
-
-      <div className="w-full my-5">
-        <div>
-          <h1> Showing 1 of 1 entries</h1>
+      {isLoading ? (
+        <div className="bg-slate-50 drop-shadow rounded-md animate-pulse py-1 px-4 my-5">
+          <div className="w-full bg-slate-300 py-1 rounded-full my-3"></div>
+          <div className="w-full bg-slate-300 py-1 rounded-full my-3"></div>
+          <div className="w-full bg-slate-300 py-1 rounded-full my-3"></div>
+          <div className="w-full bg-slate-300 py-1 rounded-full my-3"></div>
+          <div className="w-full bg-slate-300 py-1 rounded-full my-3"></div>
         </div>
-
-        <div className="flex"></div>
-      </div>
-    </section>
-  );
-}
-
-// persom job search
-function PerFormJobSearch({ searchTerm }: { searchTerm: string }) {
-  const { mutate } = useSWRConfig();
-
-  const closedJobnotify = () => {
-    toast.info("Job closed");
-  };
-
-  const apiUrl = searchTerm ? `job/?search=${searchTerm}` : "job/";
-
-  //  get employer jobs
-  const fetcher = (url: string) =>
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("item")}`,
-      },
-    }).then((r) => r.json());
-  const { data, error, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/${apiUrl}`,
-    fetcher
-  );
-  console.log("result:", data);
-
-  if (isLoading) {
-    return (
-      <div className="bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4 my-5">
-        <div className="w-full bg-slate-300 py-1 rounded-full my-3"></div>
-        <div className="w-full bg-slate-300 py-1 rounded-full my-3"></div>
-        <div className="w-full bg-slate-300 py-1 rounded-full my-3"></div>
-        <div className="w-full bg-slate-300 py-1 rounded-full my-3"></div>
-        <div className="w-full bg-slate-300 py-1 rounded-full my-3"></div>
-      </div>
-    );
-  }
-  if (error) {
-    return <div>fail to fetch data</div>;
-  }
-
-  //  handle close jobs
-
-  const closejob = async (id: string) => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/job/${id}/`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("item")}`,
-          },
-          body: JSON.stringify({ status: "closed" }),
-        }
-      );
-
-      if (response.ok) {
-        closedJobnotify();
-        mutate(`${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/${apiUrl}`);
-        mutate(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/get-employer-job-status/`
-        );
-      } else {
-        console.error("Failed to closed job:", data.error);
-      }
-    } catch (error) {
-      console.error("Error closed job:", error);
-    }
-  };
-
-  // handle close job
-
-  return (
-    <>
-      {/* sample jobs */}
-      {data && data.length > 0 ? (
-        data?.map((jobs: IJob) => (
-          <div
-            key={jobs.id}
-            className="w-full  bg-white drop-shadow-lg rounded-lg my-3"
-          >
-            {/* top header */}
-            <div className="md:grid grid-cols-2  w-full p-4 pt-3">
-              <div className="w-[88%]">
-                <h1 className="font-bold">{jobs?.job_title}</h1>
-                {/* dates posted and location */}
-                <div className="flex [&>*]:mr-1 my-2 items-center">
-                  <FaRegCalendarMinus className="text-xl" />{" "}
-                  <p>{jobs?.posted_date}</p>
-                  <div className="flex items-center">
-                    <IoLocationSharp className="text-xl ml-3" />{" "}
-                    <p>
-                      {jobs?.location_type.map((loca) => (
-                        <>{loca} </>
-                      ))}
-                    </p>
-                  </div>
-                </div>
-                {/* dates posted and location */}
-
-                {/* control btn */}
-
-                <div className="[&>*]:my-2 [&>*]:mr-2 md:[&>*]:my-0">
-                  <button className="border py-1 px-3 rounded">
-                    <Link href={`/employer/dashboard/job-details/${jobs.id}`}>
-                      View Job
-                    </Link>
-                  </button>
-                  <button className="border py-1 px-3 rounded hover:cursor-pointer">
-                    <Link href={`/employer/dashboard/job-details/${jobs.id}`}>
-                      View Applications
-                    </Link>
-                  </button>
-                  {jobs.status === "active" && (
-                    <>
-                      <button
-                        className="bg-slate-100 rounded py-1 px-3 hover:bg-slate-200"
-                        onClick={async () => closejob(jobs.id)}
-                      >
-                        Close Job
-                      </button>
-                    </>
-                  )}
-                </div>
-                {/* control btn */}
-              </div>
-
-              {/* left control */}
-              <div className="md:text-right my-2 md:my-0">
-                {jobs.status === "active" ? (
-                  <>
-                    <span className="font-bold bg-green-400 rounded-full py-1 px-1 text-white">
-                      {jobs.status}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <span className="font-bold bg-red-500 rounded-full py-1 px-1 text-white">
-                      {jobs.status}
-                    </span>
-                  </>
-                )}
-
-                <div className="flex md:justify-end my-4">
-                  <BsExclamationCircle className="text-xl mr-2" />
-                  <p>{jobs?.applications.length} candidate applied</p>
-                </div>
-              </div>
-
-              {/* left control */}
-            </div>
-            {/* top header */}
-
-            {/* bottom container */}
-            {/* 
-            <div className="w-full bg-slate-50 rounded-b-lg py-3 mt-5 px-2">
-              <h1>Top Candidates Matches</h1>
-
-              <div className="md:grid grid-cols-2 mt-3 ">
-                <div className="w-full md:w-[80%] flex">
-                  <div className="bg-gray-200 rounded-full w-14 h-14 mr-2"></div>
-
-                  <div>
-                    <h1 className="font-bold">James Bond</h1>
-                    <p>8 year Experience | New York, NY</p>
-                  </div>
-                </div>
-                <div className="w-full">
-                  <div className="flex justify-end">
-                    <p className="font-bold mr-3 leading-9">95% Match</p>
-                    <button className="bg-white border rounded py-1 px-2 mr-3 ">View Profile</button>
-                    <button className="bg-gray-200 rounded py-1 px-2">message</button>
-                  </div>
-                </div>
-              </div>
-
-            </div> */}
-          </div>
-        ))
       ) : (
-        <div className="w-full text-center py-5">
-          <p className="text-gray-500 font-semibold">No jobs found</p>
-        </div>
-      )}
+        <>
+          {/* sample jobs */}
+          {data && data.length > 0 ? (
+            <>
+              {data?.map((jobs: IJob) => (
+                <div
+                  key={jobs.id}
+                  className="w-full  bg-white drop-shadow rounded-lg my-3"
+                >
+                  {/* top header */}
+                  <div className="md:grid grid-cols-2  w-full p-4 pt-3 bg-white">
+                    <div className="w-[88%]">
+                      <h1 className="font-medium text-[#525252] capitalize text-[20px]">
+                        {jobs?.job_title}
+                      </h1>
+                      {/* dates posted and location */}
+                      <div className="flex text-[14px] text-[#525252] my-2 items-center">
+                        <Image
+                          src="/assets/calendar.svg"
+                          width={20}
+                          height={20}
+                          alt="calendar"
+                          className="mr-2 w-[16px]"
+                        />
+                        <p className="">
+                          {dayjs(jobs?.posted_date).format("DD MMM, YYYY")}
+                        </p>
+                        <div className="flex items-center ml-4">
+                          <Image
+                            src="/assets/pin.svg"
+                            width={20}
+                            height={20}
+                            alt="calendar"
+                            className="mr-2 w-[16px]"
+                          />
+                          <p>
+                            {jobs?.location_type.map((loca) => (
+                              <>{loca} </>
+                            ))}
+                          </p>
+                        </div>
+                      </div>
+                      {/* dates posted and location */}
 
-      {/* sample jobs */}
-    </>
+                      {/* control btn */}
+
+                      <div className="flex items-center space-x-2 text-sm mt-4">
+                        <button className="border py-1 px-3 rounded">
+                          <Link
+                            href={`/employer/dashboard/job-details/${jobs.id}`}
+                          >
+                            View Job
+                          </Link>
+                        </button>
+                        <button className="border py-1 px-3 rounded hover:cursor-pointer">
+                          <Link
+                            href={`/employer/dashboard/job-details/${jobs.id}`}
+                          >
+                            View Applications
+                          </Link>
+                        </button>
+                        {jobs.status === "active" && (
+                          <>
+                            <button
+                              className="bg-[#F5F5F5] rounded py-1 px-3 hover:bg-slate-200"
+                              onClick={async () => closejob(jobs.id)}
+                            >
+                              Close Job
+                            </button>
+                          </>
+                        )}
+                      </div>
+                      {/* control btn */}
+                    </div>
+
+                    {/* left control */}
+                    <div className="md:text-right my-2 md:my-0">
+                      <>
+                        <span
+                          className={`font-medium bg-[#F5F5F5] rounded-full py-1 px-2 text-[#262626] text-xs`}
+                        >
+                          {jobs.status}
+                        </span>
+                      </>
+
+                      <div className="flex items-center md:justify-end my-4 text-sm text-[#737373]">
+                        <Image
+                          src="/assets/info.svg"
+                          width={20}
+                          height={20}
+                          alt="calendar"
+                          className="mr-1 w-[16px]"
+                        />
+                        <p>
+                          {jobs?.applications?.length} candidate
+                          {jobs?.applications?.length > 1 && "s"} applied
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* left control */}
+                  </div>
+                  <div className="w-full bg-[#F9F9F9] p-4">
+                    <p className="text-sm text-[#737373] mb-6">
+                      Top Candidate Matches
+                    </p>
+
+                    <div className="flex justify-between">
+                      <div className="flex items-center">
+                        <Image
+                          src="/assets/avatar-1.svg"
+                          width={50}
+                          height={50}
+                          alt="user avatar"
+                          className="w-10 h-10 rounded-full"
+                        />
+                        <div className="ml-2">
+                          <p className="text-medium text-[#171717] text-sm">
+                            Alice Johnson
+                          </p>
+                          <p className="text-sm text-[#737373]">
+                            5 years experience | New York, NY
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-end items-center text-sm space-x-2">
+                        <div>95% Match</div>
+                        <button className="rounded-sm px-2 py-1 border border-[#D4D4D4] text-[#404040] bg-white">
+                          View Profile
+                        </button>
+                        <button className="rounded-sm px-2 py-1 border border-[#F5F5F5] text-[#404040] bg-[#F5F5F5]">
+                          Message
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <div className="w-full my-5">
+                <div>
+                  <h1>
+                    {" "}
+                    Showing {data.length} of {data.length} entries
+                  </h1>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="w-full text-center py-5">
+              <p className="text-gray-500 font-semibold">No jobs found</p>
+            </div>
+          )}
+
+          {/* sample jobs */}
+        </>
+      )}
+    </section>
   );
 }
 
 // close and active jobs
 
 function GetJobStatus() {
-  //  get employer jobs status
-  const { mutate } = useSWRConfig();
+  const [jobStatus, setJobStatus] = useState<Record<string, any> | null>(null);
+  const error = false;
+  const isLoading = false;
 
-  const fetcher = (url: string) =>
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("item")}`,
-      },
-    }).then((r) => r.json());
-  const { data, error, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/get-employer-job-status/`,
-    fetcher
-  );
-  console.log("status:", data);
-  mutate(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/get-employer-job-status/`
-  );
+  useEffect(() => {
+    const fetcher = async () => {
+      const response = await cultureLancerAxios.get(
+        `/get-employer-job-status/`
+      );
+      setJobStatus(response.data);
+    };
+    fetcher();
+  }, []);
 
   if (isLoading) {
     return (
       <>
-        <div className="bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4 my-5">
+        <div className="bg-slate-50 drop-shadow rounded-md animate-pulse py-1 px-4 my-5">
           <div className="w-full bg-slate-300 py-1 rounded-full my-2"></div>
           <div className="w-full bg-slate-300 py-1 rounded-full my-2"></div>
           <div className="w-full bg-slate-300 py-1 rounded-full my-2"></div>
           <div className="w-full bg-slate-300 py-1 rounded-full my-2"></div>
         </div>
 
-        <div className="bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4 my-5">
+        <div className="bg-slate-50 drop-shadow rounded-md animate-pulse py-1 px-4 my-5">
           <div className="w-full bg-slate-300 py-1 rounded-full my-2"></div>
           <div className="w-full bg-slate-300 py-1 rounded-full my-2"></div>
           <div className="w-full bg-slate-300 py-1 rounded-full my-2"></div>
@@ -341,39 +343,42 @@ function GetJobStatus() {
 
   return (
     <>
-      <div className="bg-gray-100 rounded py-5 px-5 my-2">
-        <h1 className="font-bold text-sm">Active Jobs</h1>
-        <h1 className="font-bold text-xl">{data?.active}</h1>
+      <div className="bg-[#F9F9F9] rounded py-5 px-5 my-2">
+        <h1 className="font-medium text-[#737373] text-sm">Active Jobs</h1>
+        <h1 className="font-bold text-xl">{jobStatus?.active || 0}</h1>
       </div>
 
-      <div className="bg-gray-100 rounded py-5 px-5 my-2">
-        <h1 className="font-bold text-sm">Closed Jobs</h1>
-        <h1 className="font-bold text-xl">{data?.closed}</h1>
+      <div className="bg-[#F9F9F9] rounded py-5 px-5 my-2">
+        <h1 className="font-medium text-[#737373] text-sm">Closed Jobs</h1>
+        <h1 className="font-bold text-xl">{jobStatus?.closed || 0}</h1>
       </div>
     </>
   );
 }
 
-//  get total applications
 function GetTotalApplication() {
-  //  get employer jobs status
-  const fetcher = (url: string) =>
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("item")}`,
-      },
-    }).then((r) => r.json());
-  const { data, error, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/job/`,
-    fetcher
-  );
-  console.log("status:", data);
+  const [data, setGetTotalApplication] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetcher = async () => {
+      try {
+        const response = await cultureLancerAxios.get(`/job/`);
+        setGetTotalApplication(response.data);
+      } catch (error: any) {
+        setError(error.response.data.detail || "Failed to fetch data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetcher();
+  }, []);
 
   if (isLoading) {
     return (
       <>
-        <div className="bg-slate-50 drop-shadow-lg rounded-md animate-pulse py-1 px-4 my-5">
+        <div className="bg-slate-50 drop-shadow rounded-md animate-pulse py-1 px-4 my-5">
           <div className="w-full bg-slate-300 py-1 rounded-full my-2"></div>
           <div className="w-full bg-slate-300 py-1 rounded-full my-2"></div>
           <div className="w-full bg-slate-300 py-1 rounded-full my-2"></div>
@@ -382,14 +387,17 @@ function GetTotalApplication() {
       </>
     );
   }
+
   if (error) {
     return <div>fail to fetch data</div>;
   }
 
   return (
     <>
-      <div className="bg-gray-100 rounded py-5 px-5 my-2">
-        <h1 className="font-bold text-sm">Total Applications</h1>
+      <div className="bg-[#F9F9F9] rounded py-5 px-5 my-2">
+        <h1 className="font-medium text-[#737373] text-sm">
+          Total Applications
+        </h1>
         <h1 className="font-bold text-xl">
           {data &&
             data?.reduce(

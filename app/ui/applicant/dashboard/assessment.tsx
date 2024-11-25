@@ -1,4 +1,5 @@
 "use client";
+import { cultureLancerAxios } from "@/app/ui-services/axios";
 import Link from "next/link";
 // import { http_endpoints } from "@/app/libs/definations";
 import { useState, useEffect } from "react";
@@ -8,35 +9,16 @@ export function AssesmentResult() {
 
   useEffect(() => {
     const get_assessment_result_details = async () => {
-      const response_token = await fetch(`/api/getToken/`, {
-        method: "GET",
-      });
-      if (response_token.ok) {
-        const token = await response_token.json();
-        console.log("the token", token);
+      //  get assessment dateila
+      const response = await cultureLancerAxios(`/get-user-assessment-score/`);
 
-        //  get assessment dateila
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}careerportal/get-user-assessment-score/`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      console.log(response.data);
+      setassessemtScore(response.data.assessment_score);
 
-        if (response.ok) {
-          const { assessment_score } = await response.json();
-          console.log(assessment_score);
-          setassessemtScore(assessment_score);
-        }
-        //  get assessment dateil
-      }
+      //  get assessment dateil
     };
     get_assessment_result_details();
-  });
+  }, []);
 
   return (
     <section className="md:grid grid-cols-1 p-20 w-full justify-around">

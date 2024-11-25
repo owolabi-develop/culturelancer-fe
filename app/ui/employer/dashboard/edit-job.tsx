@@ -161,7 +161,7 @@ export function EmployerEditJobs() {
                         type="text"
                         id="Title"
                         name="job_title"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                        className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
                         onChange={(e) => setJobTitle(e.target.value)}
                         required
                         defaultValue={data?.job_title}
@@ -256,7 +256,7 @@ export function EmployerEditJobs() {
                           type="text"
                           id="job_category"
                           name="job_category"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-4"
+                          className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-4"
                           onChange={(e) => setJobCategory(e.target.value)}
                           required
                           defaultValue={data?.job_category}
@@ -358,7 +358,7 @@ export function EmployerEditJobs() {
                           type="number"
                           id="MinimumBudget"
                           name="minimum_budget"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                          className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
                           onChange={(e) => setMinimumBudget(e.target.value)}
                           required
                           defaultValue={data?.minimum_budget}
@@ -376,7 +376,7 @@ export function EmployerEditJobs() {
                           type="number"
                           id="MaximumBudget"
                           name="maximum_budget"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
+                          className="border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
                           onChange={(e) => setMaximumBudget(e.target.value)}
                           required
                           defaultValue={data?.maximum_budget}
@@ -556,7 +556,7 @@ export function EmployerEditJobs() {
                   type="text"
                   id="Title"
                   name="job_title"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
                   onChange={(e) => setJobTitle(e.target.value)}
                   required
                   defaultValue={data?.job_title}
@@ -651,7 +651,7 @@ export function EmployerEditJobs() {
                     type="text"
                     id="job_category"
                     name="job_category"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-4"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-4"
                     onChange={(e) => setJobCategory(e.target.value)}
                     required
                     defaultValue={data?.job_category}
@@ -749,7 +749,7 @@ export function EmployerEditJobs() {
                     type="number"
                     id="MinimumBudget"
                     name="minimum_budget"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
                     onChange={(e) => setMinimumBudget(e.target.value)}
                     required
                     defaultValue={data?.minimum_budget}
@@ -767,7 +767,7 @@ export function EmployerEditJobs() {
                     type="number"
                     id="MaximumBudget"
                     name="maximum_budget"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
+                    className="border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
                     onChange={(e) => setMaximumBudget(e.target.value)}
                     required
                     defaultValue={data?.maximum_budget}

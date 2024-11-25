@@ -20,6 +20,7 @@ import { useApplicantSkills } from "@/app/hooks/useApplicantSkills";
 import { cultureLancerAxios } from "@/app/ui-services/axios";
 import { toast } from "react-toastify";
 import { useMemo } from "react";
+import dayjs from "dayjs";
 
 export function ApplicantUserProfile() {
   return (
@@ -251,7 +252,8 @@ function EducationContainer() {
                     {edu.field_of_study}
                   </p>
                   <p className="text-base font-normal text-gray-500 dark:text-gray-400">
-                    {edu.start_date} - {edu.end_date}
+                    {dayjs(edu.start_date).format("YYYY-MM-DD")} -{" "}
+                    {dayjs(edu.end_date).format("YYYY-MM-DD")}
                   </p>
 
                   <p className="text-base font-normal text-gray-500 dark:text-gray-400">
@@ -524,7 +526,9 @@ function ProfileDetailsContainer() {
   const { data, error, isLoading, refetch } = useApplicantProfileDetails();
 
   const profileImageUrl = useMemo(() => {
-    return `${process.env.NEXT_PUBLIC_API_PROFILE_URL}${data?.profile_image}`;
+    return data?.profile_image
+      ? `${process.env.NEXT_PUBLIC_API_PROFILE_URL}${data?.profile_image}`
+      : "";
   }, [data?.profile_image]);
 
   console.log("profileImageUrl", profileImageUrl);

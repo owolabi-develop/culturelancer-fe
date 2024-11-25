@@ -1,11 +1,7 @@
-
-
 export default function SignUp() {
-    return (
-      <>
+  return (
+    <>
       <h1>login</h1>
-      </>
-    
-    );
-  }
-  
+    </>
+  );
+}

@@ -7,7 +7,47 @@ import { MyContext } from "@/app/context";
 
 function DashboardNavbar() {
   const { user } = useContext(MyContext);
-  
+
+  const menu = !user
+    ? []
+    : user?.role === "employer"
+    ? [
+        {
+          title: "Dashboard",
+          link: `/employer/dashboard/`,
+        },
+        {
+          title: "Post Job",
+          link: `/employer/dashboard/post-job/`,
+        },
+        {
+          title: "My Jobs",
+          link: `/employer/dashboard/jobs/`,
+        },
+        {
+          title: "Candidate",
+          link: `/employer/dashboard/candidates/`,
+        },
+        {
+          title: "Membership",
+          link: `/employer/dashboard/membership/`,
+        },
+      ]
+    : [
+        {
+          title: "Dashboard",
+          link: `/applicant/dashboard/home`,
+        },
+        {
+          title: "Jobs",
+          link: `/applicant/dashboard/jobs`,
+        },
+        {
+          title: "Assesement Results",
+          link: `/applicant/dashboard/assessment-result`,
+        },
+      ];
+
   return (
     <div className="relative h-[70px]">
       <nav className="h-full px-20 items-center w-full flex justify-between">
@@ -26,32 +66,16 @@ function DashboardNavbar() {
         <div className="navtext order-1 p-2 md:flex h-full items-center">
           {/* nav text */}
           <ul className="list-none m-0 sm:flex hidden cursor-pointer">
-            <li className="mr-5">
-              <Link
-                href={`/applicant/dashboard/home`}
-                className="rounded-lg px-4 py-3 text-[#525252] hover:text-[#CB2224] font-medium "
-              >
-                Dashboard
-              </Link>
-            </li>
-
-            <li className="mr-5">
-              <Link
-                href={`/applicant/dashboard/jobs`}
-                className="rounded-lg px-4 py-3 text-[#525252] hover:text-[#CB2224] font-medium"
-              >
-                Jobs
-              </Link>
-            </li>
-
-            <li className="mr-5">
-              <Link
-                href={`/applicant/dashboard/assessment-result`}
-                className="rounded-lg px-4 py-3 text-[#525252] hover:text-[#CB2224] font-medium "
-              >
-                Assesement Results
-              </Link>
-            </li>
+            {menu.map((item, index) => (
+              <li key={index} className="">
+                <Link
+                  href={item.link}
+                  className="text-sm px-6 py-3 text-slate-700 font-medium hover:text-primary"
+                >
+                  {item.title}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 

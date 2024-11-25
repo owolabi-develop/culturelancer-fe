@@ -9,7 +9,7 @@ export const useApplicantVideos = () => {
       const response = await cultureLancerAxios.get(`/applicant-video/`);
       return response.data;
     } catch (error) {
-      return {};
+      return []
     }
   };
 

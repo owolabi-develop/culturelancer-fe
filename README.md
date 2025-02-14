@@ -19,7 +19,7 @@ cd culturelancer-frontend
 
 ### 3 install dependencies
 ```bash
-pnpm i
+pnpm install
 
 ```
 
